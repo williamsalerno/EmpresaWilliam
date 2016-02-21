@@ -12,9 +12,23 @@ public class Endereco {
 	public String getCep() {
 		return cep;
 	}
-
+	
 	public void setCep(String cep) {
+		this.verificaSeCepNulo(cep);
+		this.verificaSeCepVazio(cep);
 		this.cep = cep;
+	}
+	
+	public void verificaSeCepNulo(String cep){
+		if (cep == null) {
+			throw new NullPointerException("O CEP deve ser preenchido.");
+		}
+	}
+	
+	public void verificaSeCepVazio(String cep) {
+		if (cep == "") {
+			throw new IllegalArgumentException("O CEP não pode ficar vazio.");
+		}
 	}
 
 	public Integer getNumeroEndereco() {
@@ -24,7 +38,7 @@ public class Endereco {
 	public void setNumeroEndereco(Integer numeroEndereco) {
 		this.verificaSeNumeroEnderecoNulo(numeroEndereco);
 		this.verificaSeNumeroEnderecoVazio(numeroEndereco);
-		this.verificaNumeroEnderecoMaximo(numeroEndereco);
+		this.verificaNumeroEnderecoValido(numeroEndereco);
 		this.numeroEndereco = numeroEndereco;
 	}
 	
@@ -43,7 +57,7 @@ public class Endereco {
 		}
 	}
 	
-	public boolean verificaNumeroEnderecoMaximo(Integer numeroEndereco){
+	public boolean verificaNumeroEnderecoValido(Integer numeroEndereco){
 		if (numeroEndereco > LIMITE_TAMANHO_NUMERO_DE_ENDERECO) {
 			throw new IllegalArgumentException("O número de endereço excede o tamanho limite.");
 		}
@@ -58,6 +72,7 @@ public class Endereco {
 
 	public void setNomeLogradouro(String nomeLogradouro) {
 		this.verificaSeNomeLogradouroNulo(nomeLogradouro);
+		this.verificaSeNomeLogradouroVazio(nomeLogradouro);
 		this.nomeLogradouro = nomeLogradouro;
 	}
 	

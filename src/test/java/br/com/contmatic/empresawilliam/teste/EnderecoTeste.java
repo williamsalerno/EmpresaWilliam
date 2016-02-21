@@ -31,7 +31,36 @@ public class EnderecoTeste {
 	public void zeraTeste() {
 		endereco = null;
 	}
+	
+	@Test
+	public void deve_ter_cep_valido() {
+		String cep = "12345678";
+		endereco.setCep(cep);
+		assertTrue(endereco.getCep().equals(cep));
+	}
 
+	@Test
+	public void nao_deve_ter_cep_nulo() {
+		thrown.expect(NullPointerException.class);
+		thrown.expectMessage("O CEP deve ser preenchido.");
+		endereco.setCep(null);
+		assertTrue(endereco.getCep().equals(null));
+	}
+	
+	@Test
+	public void nao_deve_ter_cep_vazio() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("O nome de logradouro não pode ficar vazio.");
+		endereco.setCep("");
+		assertTrue(endereco.getCep().isEmpty());
+	}
+	
+	@Test
+	public void deve_ter_numeroEndereco_valido() {
+		endereco.setNumeroEndereco(9999);
+		assertTrue(endereco.verificaNumeroEnderecoValido(endereco.getNumeroEndereco()));
+	}
+	
 	@Test
 	public void nao_deve_ter_numeroEndereco_nulo() {
 		thrown.expect(NullPointerException.class);
@@ -40,6 +69,7 @@ public class EnderecoTeste {
 		assertTrue(endereco.getNumeroEndereco().equals(null));
 	}
 
+	@Ignore
 	@Test
 	public void nao_deve_ter_numeroEndereco_vazio() {
 		thrown.expect(NumberFormatException.class);
@@ -59,13 +89,20 @@ public class EnderecoTeste {
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("O número de endereço excede o tamanho limite.");
 		endereco.setNumeroEndereco(10000);
-		assertFalse(endereco.verificaNumeroEnderecoMaximo(endereco.getNumeroEndereco()));
+		assertFalse(endereco.verificaNumeroEnderecoValido(endereco.getNumeroEndereco()));
+	}
+	
+	@Test
+	public void deve_ter_nomeLogradouro_valido() {
+		String nomeLogradouro = "Exemplo";
+		endereco.setNomeLogradouro(nomeLogradouro);
+		assertTrue(endereco.getNomeLogradouro().equals(nomeLogradouro));
 	}
 
 	@Test
 	public void nao_deve_ter_nomeLogradouro_nulo() {
 		thrown.expect(NullPointerException.class);
-		thrown.expectMessage("O tipo de logradouro deve ser preenchido.");
+		thrown.expectMessage("O nome de logradouro deve ser preenchido.");
 		endereco.setNomeLogradouro(null);
 		assertTrue(endereco.getNomeLogradouro().equals(null));
 	}
@@ -78,6 +115,14 @@ public class EnderecoTeste {
 		assertTrue(endereco.getNomeLogradouro().isEmpty());
 	}
 
+	@Test
+	public void deve_ter_tipoLogradouro_valido() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("O tipo de logradouro deve ser válido.");
+		endereco.setTipoLogradouro("123");
+		assertFalse("Deve ser falso", endereco.verificaSeTipoLogradouroValido(endereco.getTipoLogradouro()));
+	}
+	
 	@Test
 	public void nao_deve_ter_tipoLogradouro_nulo() {
 		thrown.expect(NullPointerException.class);
@@ -93,13 +138,4 @@ public class EnderecoTeste {
 		endereco.setTipoLogradouro("");
 		assertTrue(endereco.getTipoLogradouro().isEmpty());
 	}
-
-	@Test
-	public void deve_ter_tipoLogradouro_valido() {
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("O tipo de logradouro deve ser válido.");
-		endereco.setTipoLogradouro("123");
-		assertFalse("Deve ser falso", endereco.verificaSeTipoLogradouroValido(endereco.getTipoLogradouro()));
-	}
-
 }
