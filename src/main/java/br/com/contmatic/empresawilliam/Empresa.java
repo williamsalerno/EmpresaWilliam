@@ -4,6 +4,54 @@ public class Empresa {
 
 	private final static int TAMANHO_CNPJ = 14;
 	private String cnpj;
+	private String proprietario;
+	private String razaoSocial;
+	private Endereco endereco;
+
+	public String getRazaoSocial() {
+		return razaoSocial;
+	}
+
+	public void setRazaoSocial(String razaoSocial) {
+		this.verificaSeRazaoSocialNulo(razaoSocial);
+		this.verificaSeRazaoSocialVazio(razaoSocial);
+		this.razaoSocial = razaoSocial;
+	}
+	
+	public void verificaSeRazaoSocialNulo(String razaoSocial) {
+		if (razaoSocial == null) {
+			throw new NullPointerException("A razão social deve ser preenchida.");
+		}
+	}
+	
+	public void verificaSeRazaoSocialVazio(String razaoSocial) {
+		if (razaoSocial == "") {
+			throw new IllegalArgumentException("A razão social não pode ficar vazia.");
+		}
+	}
+
+	public String getProprietario() {
+		return proprietario;
+	}
+
+	public void setProprietario(String proprietario) {
+		this.verificaSeProprietarioNulo(proprietario);
+		this.verificaSeProprietarioVazio(proprietario);
+		this.proprietario = proprietario;
+	}
+
+	
+	public void verificaSeProprietarioNulo(String proprietario) {
+		if (proprietario == null) {
+			throw new NullPointerException("O nome de proprietário deve ser preenchido.");
+		}
+	}
+	
+	public void verificaSeProprietarioVazio(String proprietario) {
+		if (proprietario == "") {
+			throw new IllegalArgumentException("O nome de proprietário não pode ficar vazio.");
+		}
+	}
 
 	public String getCnpj() {
 		return cnpj;
