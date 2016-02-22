@@ -8,7 +8,6 @@ public class Empresa {
 	private String cnpj;
 	private String proprietario;
 	// private Endereco endereco;
-	// private Funcionario[] funcionario; // implementação pendente.
 
 	// getters e setters
 	public String getRazaoSocial() {
