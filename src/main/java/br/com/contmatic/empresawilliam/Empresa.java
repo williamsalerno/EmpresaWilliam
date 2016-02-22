@@ -5,15 +5,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Arrays;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-
 public class Empresa {
 
 	//Constantes
 	
 	/**
-	 * Define um valor mínimo e máximo para o cnpj.
+	 * Define um valor mínimo e máximo para o CNPJ.
 	 */
 	private final static int TAMANHO_CNPJ = 14;
 	
@@ -64,15 +61,33 @@ public class Empresa {
 	 */
 	private String razaoSocial;
 	
+	/**
+	 * CNPJ.
+	 */
 	private String cnpj;
+	
+	/**
+	 * Proprietario.
+	 */
 	private String proprietario;
+	
+	/**
+	 * Email.
+	 */
 	private String email;
+	
+	/**
+	 * Lista de endere;os.
+	 */
 	private Endereco[] enderecos;
+	
+	/**
+	 * Lista de telefones.
+	 */
 	private Telefone[] telefones;
+	
 
 	// getters e setters
-	
-	
 	/**
 	 * Obtém a razão social.
 	 *
@@ -83,23 +98,28 @@ public class Empresa {
 	}
 
 	/**
-	 * Determina um valor para razão social.
+	 * Determina um valor para a razão social e executa validações de valor.
 	 * @param razaoSocial
 	 */
 	public void setRazaoSocial(String razaoSocial) {
-		this.verificaSeRazaoSocial(razaoSocial);
+		this.validaRazaoSocial(razaoSocial);
 		this.razaoSocial = razaoSocial;
 	}
 
+	/**
+	 * Obtém o CNPJ.
+	 * @return
+	 */
 	public String getCnpj() {
 		return cnpj;
 	}
 
+	/**
+	 * Determina um valor para o CNPJ e executa validações de valor.
+	 * @param cnpj
+	 */
 	public void setCnpj(String cnpj) {
-		this.verificaSeCnpjNulo(cnpj);
-		this.verificaSeCnpjVazio(cnpj);
-		this.verificaSeCnpjSoNumeros(cnpj);
-		this.verificaSeCnpjValido(cnpj);
+		this.validaCnpj(cnpj);
 		this.cnpj = cnpj;
 	}
 
@@ -144,11 +164,19 @@ public class Empresa {
 
 	// verificações
 
-	public void verificaSeRazaoSocial(String razaoSocial){
+	public void validaRazaoSocial(String razaoSocial){
 		this.verificaSeRazaoSocialNulo(razaoSocial);
 		this.verificaSeRazaoSocialVazio(razaoSocial);
 		this.verificaTamanhoRazaoSocial(razaoSocial);
 	}
+	
+	public void validaCnpj(String cnpj){
+		this.verificaSeCnpjNulo(cnpj);
+		this.verificaSeCnpjVazio(cnpj);
+		this.verificaSeCnpjSoNumeros(cnpj);
+		this.verificaSeCnpjValido(cnpj);
+	}
+	
 	public void verificaSeRazaoSocialNulo(String razaoSocial) {
 		checkNotNull(razaoSocial, "A razão social deve ser preenchida.");
 	}
