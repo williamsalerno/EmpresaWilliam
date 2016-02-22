@@ -12,7 +12,8 @@ public class Endereco {
 	private String tipoLogradouro;
 	private String nomeLogradouro;
 	private String cep;
-	private String[] tipoEndereco = { "Residencial", "Comercial" };
+	private String[] tiposEndereco = { "Residencial", "Comercial" };
+	private String tipoEnderecoSelecionado;
 
 	// getters e setters
 	public String getTipoLogradouro() {
@@ -56,6 +57,14 @@ public class Endereco {
 		this.verificaSeCepValido(cep);
 		this.verificaCepTamanho(cep);
 		this.cep = cep;
+	}
+	
+	public String[] getTipoEndereco(){
+		return tiposEndereco;
+	}
+	
+	public void setTipoEndereco(String[] tipoEndereco){
+		this.tipoEnderecoSelecionado = tipoEndereco[1];
 	}
 
 	// verificações
