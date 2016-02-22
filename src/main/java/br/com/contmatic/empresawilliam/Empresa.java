@@ -7,10 +7,10 @@ public class Empresa {
 	private String razaoSocial;
 	private String cnpj;
 	private String proprietario;
-	//private Endereco endereco;
-	//private Funcionario[] funcionario; // implementação pendente.
+	// private Endereco endereco;
+	// private Funcionario[] funcionario; // implementação pendente.
 
-	// razaoSocial
+	// getters e setters
 	public String getRazaoSocial() {
 		return razaoSocial;
 	}
@@ -21,9 +21,32 @@ public class Empresa {
 		this.verificaSeRazaoSocialValido(razaoSocial);
 		this.razaoSocial = razaoSocial;
 	}
-	
-	public void verificaSeRazaoSocialValido(String razaoSocial){
-		if(razaoSocial.length() < TAMANHO_MINIMO_RAZAOSOCIAL){
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.verificaSeCnpjNulo(cnpj);
+		this.verificaSeCnpjVazio(cnpj);
+		this.verificaSeCnpjSoNumeros(cnpj);
+		this.verificaSeCnpjValido(cnpj);
+		this.cnpj = cnpj;
+	}
+
+	public String getProprietario() {
+		return proprietario;
+	}
+
+	public void setProprietario(String proprietario) {
+		this.verificaSeProprietarioNulo(proprietario);
+		this.verificaSeProprietarioVazio(proprietario);
+		this.proprietario = proprietario;
+	}
+
+	// verificações
+	public void verificaSeRazaoSocialValido(String razaoSocial) {
+		if (razaoSocial.length() < TAMANHO_MINIMO_RAZAOSOCIAL) {
 			throw new IllegalArgumentException("A razão social deve ter pelo menos 4 dígitos.");
 		}
 	}
@@ -38,19 +61,6 @@ public class Empresa {
 		if (razaoSocial.equals("")) {
 			throw new IllegalArgumentException("A razão social não pode ficar vazia.");
 		}
-	}
-
-	// cnpj
-	public String getCnpj() {
-		return cnpj;
-	}
-
-	public void setCnpj(String cnpj) {
-		this.verificaSeCnpjNulo(cnpj);
-		this.verificaSeCnpjVazio(cnpj);
-		this.verificaSeCnpjSoNumeros(cnpj);
-		this.verificaSeCnpjValido(cnpj);
-		this.cnpj = cnpj;
 	}
 
 	public void verificaSeCnpjValido(String cnpj) {
@@ -79,17 +89,6 @@ public class Empresa {
 		if (cnpj.equals("")) {
 			throw new IllegalArgumentException("O cnpj não pode ficar vazio.");
 		}
-	}
-
-	// proprietario
-	public String getProprietario() {
-		return proprietario;
-	}
-
-	public void setProprietario(String proprietario) {
-		this.verificaSeProprietarioNulo(proprietario);
-		this.verificaSeProprietarioVazio(proprietario);
-		this.proprietario = proprietario;
 	}
 
 	public void verificaSeProprietarioNulo(String proprietario) {

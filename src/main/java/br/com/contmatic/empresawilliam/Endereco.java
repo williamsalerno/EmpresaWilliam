@@ -10,7 +10,7 @@ public class Endereco {
 	private Integer numeroEndereco;
 	private String cep;
 
-	// tipoLogradouro
+	// getters e setters
 	public String getTipoLogradouro() {
 		return tipoLogradouro;
 	}
@@ -22,6 +22,40 @@ public class Endereco {
 		this.tipoLogradouro = tipoLogradouro;
 	}
 
+	public String getNomeLogradouro() {
+		return nomeLogradouro;
+	}
+
+	public void setNomeLogradouro(String nomeLogradouro) {
+		this.verificaSeNomeLogradouroNulo(nomeLogradouro);
+		this.verificaSeNomeLogradouroVazio(nomeLogradouro);
+		this.nomeLogradouro = nomeLogradouro;
+	}
+
+	public Integer getNumeroEndereco() {
+		return numeroEndereco;
+	}
+
+	public void setNumeroEndereco(Integer numeroEndereco) {
+		this.verificaSeNumeroEnderecoNulo(numeroEndereco);
+		this.verificaSeNumeroEnderecoVazio(numeroEndereco);
+		this.verificaNumeroEnderecoValido(numeroEndereco);
+		this.numeroEndereco = numeroEndereco;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.verificaSeCepNulo(cep);
+		this.verificaSeCepVazio(cep);
+		this.verificaSeCepValido(cep);
+		this.verificaSeCepContemLetras(cep);
+		this.cep = cep;
+	}
+
+	// verificações
 	public void verificaSeTipoLogradouroNulo(String tipoLogradouro) {
 		if (tipoLogradouro == null) {
 			throw new NullPointerException("O tipo de logradouro deve ser preenchido.");
@@ -36,24 +70,14 @@ public class Endereco {
 
 	public boolean verificaSeTipoLogradouroValido(String tipoLogradouro) {
 		for (int i = 0; i < tipoLogradouro.length();) {
-			if (Character.isDigit(tipoLogradouro.charAt(i)) || tipoLogradouro.length() < TAMANHO_TIPO_DE_LOGRADOURO_MINIMO) {
+			if (Character.isDigit(tipoLogradouro.charAt(i))
+					|| tipoLogradouro.length() < TAMANHO_TIPO_DE_LOGRADOURO_MINIMO) {
 				throw new IllegalArgumentException("O tipo de logradouro deve ser válido.");
 			} else
 				i += 1;
 			return true;
 		}
 		return false;
-	}
-
-	// nomeLogradouro
-	public String getNomeLogradouro() {
-		return nomeLogradouro;
-	}
-
-	public void setNomeLogradouro(String nomeLogradouro) {
-		this.verificaSeNomeLogradouroNulo(nomeLogradouro);
-		this.verificaSeNomeLogradouroVazio(nomeLogradouro);
-		this.nomeLogradouro = nomeLogradouro;
 	}
 
 	public void verificaSeNomeLogradouroNulo(String nomeLogradouro) {
@@ -68,18 +92,6 @@ public class Endereco {
 		}
 	}
 
-	// numeroEndereco
-	public Integer getNumeroEndereco() {
-		return numeroEndereco;
-	}
-
-	public void setNumeroEndereco(Integer numeroEndereco) {
-		this.verificaSeNumeroEnderecoNulo(numeroEndereco);
-		this.verificaSeNumeroEnderecoVazio(numeroEndereco);
-		this.verificaNumeroEnderecoValido(numeroEndereco);
-		this.numeroEndereco = numeroEndereco;
-	}
-
 	public void verificaSeNumeroEnderecoNulo(Integer numeroEndereco) {
 		if (numeroEndereco == null) {
 			throw new NullPointerException(
@@ -89,7 +101,8 @@ public class Endereco {
 
 	public void verificaSeNumeroEnderecoVazio(Integer numeroEndereco) {
 		if (numeroEndereco.equals("")) {
-			throw new NumberFormatException("O número de endereço não pode ficar vazio. Preencha com 0 se o seu endereço for s/n.");
+			throw new NumberFormatException(
+					"O número de endereço não pode ficar vazio. Preencha com 0 se o seu endereço for s/n.");
 		}
 		if (numeroEndereco == 0) {
 			this.setNomeLogradouro(this.nomeLogradouro + ", s/n");
@@ -104,25 +117,12 @@ public class Endereco {
 		}
 	}
 
-	// cep
-	public String getCep() {
-		return cep;
-	}
-
-	public void setCep(String cep) {
-		this.verificaSeCepNulo(cep);
-		this.verificaSeCepVazio(cep);
-		this.verificaSeCepValido(cep);
-		this.verificaSeCepContemLetras(cep);
-		this.cep = cep;
-	}
-
 	public void verificaSeCepNulo(String cep) {
 		if (cep == null) {
 			throw new NullPointerException("O CEP deve ser preenchido.");
 		}
 	}
-	
+
 	public void verificaSeCepVazio(String cep) {
 		if (cep.equals("")) {
 			throw new IllegalArgumentException("O CEP não pode ficar vazio.");
