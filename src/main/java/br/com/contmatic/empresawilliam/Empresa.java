@@ -7,8 +7,8 @@ public class Empresa {
 	private String razaoSocial;
 	private String cnpj;
 	private String proprietario;
-	//private Endereco endereco;
-	//private Funcionario[] funcionario; // implementação pendente.
+	// private Endereco endereco;
+	// private Funcionario[] funcionario; // implementação pendente.
 
 	// razaoSocial
 	public String getRazaoSocial() {
@@ -21,9 +21,9 @@ public class Empresa {
 		this.verificaSeRazaoSocialValido(razaoSocial);
 		this.razaoSocial = razaoSocial;
 	}
-	
-	public void verificaSeRazaoSocialValido(String razaoSocial){
-		if(razaoSocial.length() < TAMANHO_MINIMO_RAZAOSOCIAL){
+
+	public void verificaSeRazaoSocialValido(String razaoSocial) {
+		if (razaoSocial.length() < TAMANHO_MINIMO_RAZAOSOCIAL) {
 			throw new IllegalArgumentException("A razão social deve ter pelo menos 4 dígitos.");
 		}
 	}

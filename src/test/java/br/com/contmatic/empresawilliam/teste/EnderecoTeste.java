@@ -12,7 +12,7 @@ import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EnderecoTeste {
-	
+
 	private Endereco endereco;
 	private final String testeTipoLogradouro = "rua";
 	private final String testeCep = "12345678";
@@ -38,7 +38,7 @@ public class EnderecoTeste {
 		endereco = null;
 		contadorTeste += 1;
 	}
-	
+
 	@AfterClass
 	public static void resultado() {
 		System.out.println("Total de testes: " + contadorTeste);
@@ -65,7 +65,7 @@ public class EnderecoTeste {
 		endereco.setCep("");
 		assertTrue(endereco.getCep().isEmpty());
 	}
-	
+
 	@Test
 	public void nao_deve_ter_cep_menor_que_oito() {
 		thrown.expect(IllegalArgumentException.class);
@@ -73,7 +73,7 @@ public class EnderecoTeste {
 		endereco.setCep("1234567");
 		assertThat(endereco.getCep(), is(not(testeCep)));
 	}
-	
+
 	@Test
 	public void nao_deve_ter_cep_maior_que_oito() {
 		thrown.expect(IllegalArgumentException.class);
@@ -164,7 +164,7 @@ public class EnderecoTeste {
 		endereco.setTipoLogradouro("");
 		assertTrue(endereco.getTipoLogradouro().isEmpty());
 	}
-	
+
 	@Test
 	public void nao_deve_ter_tipoLogradouro_menor_que_minimo() {
 		thrown.expect(IllegalArgumentException.class);

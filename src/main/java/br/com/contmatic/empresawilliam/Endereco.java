@@ -36,7 +36,8 @@ public class Endereco {
 
 	public boolean verificaSeTipoLogradouroValido(String tipoLogradouro) {
 		for (int i = 0; i < tipoLogradouro.length();) {
-			if (Character.isDigit(tipoLogradouro.charAt(i)) || tipoLogradouro.length() < TAMANHO_TIPO_DE_LOGRADOURO_MINIMO) {
+			if (Character.isDigit(tipoLogradouro.charAt(i))
+					|| tipoLogradouro.length() < TAMANHO_TIPO_DE_LOGRADOURO_MINIMO) {
 				throw new IllegalArgumentException("O tipo de logradouro deve ser válido.");
 			} else
 				i += 1;
@@ -89,7 +90,8 @@ public class Endereco {
 
 	public void verificaSeNumeroEnderecoVazio(Integer numeroEndereco) {
 		if (numeroEndereco.equals("")) {
-			throw new NumberFormatException("O número de endereço não pode ficar vazio. Preencha com 0 se o seu endereço for s/n.");
+			throw new NumberFormatException(
+					"O número de endereço não pode ficar vazio. Preencha com 0 se o seu endereço for s/n.");
 		}
 		if (numeroEndereco == 0) {
 			this.setNomeLogradouro(this.nomeLogradouro + ", s/n");
@@ -122,7 +124,7 @@ public class Endereco {
 			throw new NullPointerException("O CEP deve ser preenchido.");
 		}
 	}
-	
+
 	public void verificaSeCepVazio(String cep) {
 		if (cep.equals("")) {
 			throw new IllegalArgumentException("O CEP não pode ficar vazio.");

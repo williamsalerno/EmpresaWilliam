@@ -16,7 +16,7 @@ public class EmpresaTeste {
 	private final String testeCnpj = "12345678912345";
 	private final String testeRazaoSocial = "teste";
 	private static int contadorTeste = 0;
-	
+
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 	public Timeout globalTimeout = Timeout.seconds(1);
@@ -36,7 +36,7 @@ public class EmpresaTeste {
 		empresa = null;
 		contadorTeste += 1;
 	}
-	
+
 	@AfterClass
 	public static void resultado() {
 		System.out.println("Total de testes: " + contadorTeste);
@@ -101,7 +101,7 @@ public class EmpresaTeste {
 		empresa.setRazaoSocial("teste");
 		assertThat(empresa.getRazaoSocial(), is(testeRazaoSocial));
 	}
-	
+
 	@Test(timeout = 1)
 	public void nao_deve_ter_razaoSocial_nulo() {
 		thrown.expect(NullPointerException.class);
@@ -117,7 +117,7 @@ public class EmpresaTeste {
 		empresa.setRazaoSocial("");
 		assertTrue(empresa.getRazaoSocial().isEmpty());
 	}
-	
+
 	@Test(timeout = 1)
 	public void nao_deve_ter_razaoSocial_valido() {
 		thrown.expect(IllegalArgumentException.class);
