@@ -50,6 +50,7 @@ public class EmpresaTeste {
 	@Test
 	public void deve_ter_cnpj_valido() {
 		empresa.setCnpj("12345678912345");
+		System.out.println(empresa);
 		assertThat(empresa.getCnpj(), is(TESTE_CNPJ));
 	}
 
@@ -121,7 +122,8 @@ public class EmpresaTeste {
 		thrown.expectMessage("O nome de proprietário deve ter no mínimo 2 caracteres e no máximo 50 caracteres.");
 		empresa.setProprietario("123456789112345678921234567893123456789412345678951");
 	}
-
+	
+	//razão social
 	@Test
 	public void deve_ter_razaoSocial_valido() {
 		empresa.setRazaoSocial("Teste");
