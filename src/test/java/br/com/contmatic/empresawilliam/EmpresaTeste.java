@@ -14,10 +14,10 @@ public class EmpresaTeste {
 	private Empresa empresa;
 	private Endereco[] enderecos;
 	private Telefone[] telefones;
-	private final String testeCnpj = "12345678912345";
-	private final String testeRazaoSocial = "Teste";
-	private final String testeProprietario = "Exemplo";
-	private final String testeEmail = "a@b.com";
+	private final String TESTE_CNPJ = "12345678912345";
+	private final String TESTE_RAZAO_SOCIAL = "Teste";
+	private final String TESTE_PROPRIETARIO = "Exemplo";
+	private final String TESTE_EMAIL = "a@b.com";
 	private static int contadorTeste = 0;
 
 	@Rule
@@ -50,7 +50,7 @@ public class EmpresaTeste {
 	@Test
 	public void deve_ter_cnpj_valido() {
 		empresa.setCnpj("12345678912345");
-		assertThat(empresa.getCnpj(), is(testeCnpj));
+		assertThat(empresa.getCnpj(), is(TESTE_CNPJ));
 	}
 
 	@Test
@@ -91,7 +91,7 @@ public class EmpresaTeste {
 	@Test
 	public void deve_ter_proprietario_valido() {
 		empresa.setProprietario("Exemplo");
-		assertThat(empresa.getProprietario(), is(testeProprietario));
+		assertThat(empresa.getProprietario(), is(TESTE_PROPRIETARIO));
 	}
 	
 	@Test
@@ -125,7 +125,7 @@ public class EmpresaTeste {
 	@Test
 	public void deve_ter_razaoSocial_valido() {
 		empresa.setRazaoSocial("Teste");
-		assertThat(empresa.getRazaoSocial(), is(testeRazaoSocial));
+		assertThat(empresa.getRazaoSocial(), is(TESTE_RAZAO_SOCIAL));
 	}
 
 	@Test
@@ -158,8 +158,8 @@ public class EmpresaTeste {
 	
 	@Test
 	public void deve_ter_email_valido() {
-		empresa.setEmail("a@b.com");
-		assertThat(empresa.getEmail(), is(testeEmail));
+		empresa.setEmail(TESTE_EMAIL);
+		assertThat(empresa.getEmail(), containsString("@"));
 	}
 	
 	@Test
@@ -180,7 +180,21 @@ public class EmpresaTeste {
 	public void nao_deve_ter_email_email_menor_que_limite() {
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("O email deve ter no mínimo 7 caracteres e no máximo 50 caracteres.");
-		empresa.setEmail("a@a.com");
+		empresa.setEmail("a@a.co");
+	}
+	
+	@Test
+	public void nao_deve_ter_email_maior_que_limite() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("O email deve ter no mínimo 7 caracteres e no máximo 50 caracteres.");
+		empresa.setEmail("123456789112345678921234567893123456789412345678951@");
+	}
+	
+	@Test
+	public void nao_deve_ter_email_invalido() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("O email informado é inválido.");
+		empresa.setEmail("abcdefgh");
 	}
 
 }

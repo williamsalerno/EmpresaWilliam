@@ -2,14 +2,17 @@ package br.com.contmatic.empresawilliam;
 
 public class Endereco {
 
+	private final static int TAMANHO_NUMERO_DE_ENDERECO_MINIMO = 1;
 	private final static int TAMANHO_NUMERO_DE_ENDERECO_MAXIMO = 9999;
 	private final static int TAMANHO_TIPO_DE_LOGRADOURO_MINIMO = 3;
+	private final static int TAMANHO_TIPO_DE_LOGRADOURO_MAXIMO = 10;
+	private final static int TAMANHO_NOME_DE_LOGRADOURO_MAXIMO = 30;
 	private final static int TAMANHO_CEP = 8;
 	private int numeroEndereco;
 	private String tipoLogradouro;
 	private String nomeLogradouro;
 	private String cep;
-	private String tipoEndereco;
+	private String[] tipoEndereco = { "Residencial", "Comercial" };
 
 	// getters e setters
 	public String getTipoLogradouro() {
@@ -20,6 +23,7 @@ public class Endereco {
 		this.verificaSeTipoLogradouroNulo(tipoLogradouro);
 		this.verificaSeTipoLogradouroVazio(tipoLogradouro);
 		this.verificaSeTipoLogradouroValido(tipoLogradouro);
+		this.verificaTamanhoTipoLogradouro(tipoLogradouro);
 		this.tipoLogradouro = tipoLogradouro;
 	}
 
@@ -29,7 +33,7 @@ public class Endereco {
 
 	public void setNomeLogradouro(String nomeLogradouro) {
 		this.verificaSeNomeLogradouroNulo(nomeLogradouro);
-		this.verificaSeNomeLogradouroVazio(nomeLogradouro);
+		this.verificaTamanhoNomeLogradouro(nomeLogradouro);
 		this.nomeLogradouro = nomeLogradouro;
 	}
 
@@ -38,8 +42,7 @@ public class Endereco {
 	}
 
 	public void setNumeroEndereco(int numeroEndereco) {
-		this.verificaSeNumeroEnderecoVazio(numeroEndereco);
-		this.verificaNumeroEnderecoValido(numeroEndereco);
+		this.verificaSeNumeroEnderecoValido(numeroEndereco);
 		this.numeroEndereco = numeroEndereco;
 	}
 
@@ -51,7 +54,7 @@ public class Endereco {
 		this.verificaSeCepNulo(cep);
 		this.verificaSeCepVazio(cep);
 		this.verificaSeCepValido(cep);
-		this.verificaSeCepContemLetras(cep);
+		this.verificaCepTamanho(cep);
 		this.cep = cep;
 	}
 
@@ -68,16 +71,25 @@ public class Endereco {
 		}
 	}
 
+	public void verificaTamanhoTipoLogradouro(String tipoLogradouro) {
+		if (tipoLogradouro.length() < TAMANHO_TIPO_DE_LOGRADOURO_MINIMO
+				|| tipoLogradouro.length() > TAMANHO_TIPO_DE_LOGRADOURO_MAXIMO) {
+			throw new IllegalArgumentException(
+					"O tipo de logradouro deve ter no mínimo 3 caracteres e no máximo 10 caracteres.");
+		}
+	}
+
 	public boolean verificaSeTipoLogradouroValido(String tipoLogradouro) {
 		for (int i = 0; i < tipoLogradouro.length();) {
-			if (Character.isDigit(tipoLogradouro.charAt(i))
-					|| tipoLogradouro.length() < TAMANHO_TIPO_DE_LOGRADOURO_MINIMO) {
+			if (Character.isDigit(tipoLogradouro.charAt(i))) {
 				throw new IllegalArgumentException("O tipo de logradouro deve ser válido.");
 			} else
 				i += 1;
 			return true;
+
 		}
 		return false;
+
 	}
 
 	public void verificaSeNomeLogradouroNulo(String nomeLogradouro) {
@@ -86,23 +98,15 @@ public class Endereco {
 		}
 	}
 
-	public void verificaSeNomeLogradouroVazio(String nomeLogradouro) {
-		if (nomeLogradouro.equals("")) {
-			throw new IllegalArgumentException("O nome de logradouro não pode ficar vazio.");
+	public void verificaTamanhoNomeLogradouro(String nomeLogradouro) {
+		if (nomeLogradouro.equals("") || nomeLogradouro.length() > TAMANHO_NOME_DE_LOGRADOURO_MAXIMO) {
+			throw new IllegalArgumentException(
+					"O nome de logradouro deve ter no mínimo 1 caracter e no máximo 30 caracteres.");
 		}
 	}
 
-	public boolean verificaSeNumeroEnderecoVazio(int numeroEndereco) {
-		if (numeroEndereco == 0) {
-			throw new IllegalArgumentException("Informe um número de endereço válido");
-		}
-		else{
-			return false;
-		}
-	}
-
-	public boolean verificaNumeroEnderecoValido(int numeroEndereco) {
-		if (numeroEndereco < 0 || numeroEndereco > TAMANHO_NUMERO_DE_ENDERECO_MAXIMO) {
+	public boolean verificaSeNumeroEnderecoValido(int numeroEndereco) {
+		if (numeroEndereco < TAMANHO_NUMERO_DE_ENDERECO_MINIMO || numeroEndereco > TAMANHO_NUMERO_DE_ENDERECO_MAXIMO) {
 			throw new IllegalArgumentException("O número de endereço é inválido.");
 		} else {
 			return true;
@@ -121,13 +125,13 @@ public class Endereco {
 		}
 	}
 
-	public void verificaSeCepValido(String cep) {
-		if (cep.length() < TAMANHO_CEP || cep.length() > TAMANHO_CEP) {
+	public void verificaCepTamanho(String cep) {
+		if (cep.length() != TAMANHO_CEP) {
 			throw new IllegalArgumentException("O CEP deve ter 8 dígitos.");
 		}
 	}
 
-	public boolean verificaSeCepContemLetras(String cep) {
+	public boolean verificaSeCepValido(String cep) {
 		for (int i = 0; i < cep.length();) {
 			if (Character.isLetter(cep.charAt(i))) {
 				throw new IllegalArgumentException("O CEP só pode conter números.");

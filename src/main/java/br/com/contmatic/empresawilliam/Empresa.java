@@ -37,8 +37,8 @@ public class Empresa {
 	public void setCnpj(String cnpj) {
 		this.verificaSeCnpjNulo(cnpj);
 		this.verificaSeCnpjVazio(cnpj);
-		this.verificaSeCnpjSoNumeros(cnpj);
 		this.verificaSeCnpjValido(cnpj);
+		this.verificaSeCnpjSoNumeros(cnpj);
 		this.cnpj = cnpj;
 	}
 
@@ -60,8 +60,8 @@ public class Empresa {
 	public void setEmail(String email) {
 		this.verificaSeEmailNulo(email);
 		this.verificaSeEmailVazio(email);
-		this.verificaTamanhoEmail(email);
 		this.verificaSeEmailValido(email);
+		this.verificaTamanhoEmail(email);
 		this.email = email;
 	}
 
@@ -169,7 +169,7 @@ public class Empresa {
 	}
 
 	public void verificaSeEmailValido(String email) {
-		if (!proprietario.contains("@")) {
+		if (!email.contains("@")) {
 			throw new IllegalArgumentException("O email informado é inválido.");
 		}
 	}
