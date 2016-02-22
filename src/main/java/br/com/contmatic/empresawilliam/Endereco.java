@@ -5,10 +5,11 @@ public class Endereco {
 	private final static int TAMANHO_NUMERO_DE_ENDERECO_MAXIMO = 9999;
 	private final static int TAMANHO_TIPO_DE_LOGRADOURO_MINIMO = 3;
 	private final static int TAMANHO_CEP = 8;
+	private int numeroEndereco;
 	private String tipoLogradouro;
 	private String nomeLogradouro;
-	private Integer numeroEndereco;
 	private String cep;
+	private String tipoEndereco;
 
 	// getters e setters
 	public String getTipoLogradouro() {
@@ -32,12 +33,11 @@ public class Endereco {
 		this.nomeLogradouro = nomeLogradouro;
 	}
 
-	public Integer getNumeroEndereco() {
+	public int getNumeroEndereco() {
 		return numeroEndereco;
 	}
 
-	public void setNumeroEndereco(Integer numeroEndereco) {
-		this.verificaSeNumeroEnderecoNulo(numeroEndereco);
+	public void setNumeroEndereco(int numeroEndereco) {
 		this.verificaSeNumeroEnderecoVazio(numeroEndereco);
 		this.verificaNumeroEnderecoValido(numeroEndereco);
 		this.numeroEndereco = numeroEndereco;
@@ -92,24 +92,16 @@ public class Endereco {
 		}
 	}
 
-	public void verificaSeNumeroEnderecoNulo(Integer numeroEndereco) {
-		if (numeroEndereco == null) {
-			throw new NullPointerException(
-					"O número de endereço deve ser preenchido. Preencha com 0 se o seu endereço for s/n.");
-		}
-	}
-
-	public void verificaSeNumeroEnderecoVazio(Integer numeroEndereco) {
-		if (numeroEndereco.equals("")) {
-			throw new NumberFormatException(
-					"O número de endereço não pode ficar vazio. Preencha com 0 se o seu endereço for s/n.");
-		}
+	public boolean verificaSeNumeroEnderecoVazio(int numeroEndereco) {
 		if (numeroEndereco == 0) {
-			this.setNomeLogradouro(this.nomeLogradouro + ", s/n");
+			throw new IllegalArgumentException("Informe um número de endereço válido");
+		}
+		else{
+			return false;
 		}
 	}
 
-	public boolean verificaNumeroEnderecoValido(Integer numeroEndereco) {
+	public boolean verificaNumeroEnderecoValido(int numeroEndereco) {
 		if (numeroEndereco < 0 || numeroEndereco > TAMANHO_NUMERO_DE_ENDERECO_MAXIMO) {
 			throw new IllegalArgumentException("O número de endereço é inválido.");
 		} else {

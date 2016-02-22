@@ -1,11 +1,10 @@
-package br.com.contmatic.empresawilliam.teste;
-
-import br.com.contmatic.empresawilliam.Empresa;
+package br.com.contmatic.empresawilliam;
 
 import static org.hamcrest.CoreMatchers.*;
 
 import org.junit.*;
 import static org.junit.Assert.*;
+
 import org.junit.rules.*;
 import org.junit.runners.MethodSorters;
 
@@ -13,8 +12,12 @@ import org.junit.runners.MethodSorters;
 public class EmpresaTeste {
 
 	private Empresa empresa;
+	private Endereco[] enderecos;
+	private Telefone[] telefones;
 	private final String testeCnpj = "12345678912345";
-	private final String testeRazaoSocial = "teste";
+	private final String testeRazaoSocial = "Teste";
+	private final String testeProprietario = "Exemplo";
+	private final String testeEmail = "a@b.com";
 	private static int contadorTeste = 0;
 
 	@Rule
@@ -29,6 +32,8 @@ public class EmpresaTeste {
 	@Before
 	public void gerarEmpresa() {
 		this.empresa = new Empresa();
+		this.enderecos = new Endereco[2];
+		this.telefones = new Telefone[2];
 	}
 
 	@After
@@ -61,12 +66,19 @@ public class EmpresaTeste {
 		thrown.expectMessage("O cnpj não pode ficar vazio.");
 		empresa.setCnpj("");
 	}
-
+	
 	@Test
-	public void nao_deve_ter_cnpj_valido() {
+	public void nao_deve_ter_cnpj_maior_que_limite() {
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("Esse cnpj é inválido.");
-		empresa.setCnpj("12345678");
+		empresa.setCnpj("12345678910123456");
+	}
+
+	@Test
+	public void nao_deve_ter_cnpj_menor_que_limite() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("Esse cnpj é inválido.");
+		empresa.setCnpj("123456789101234");
 	}
 
 	@Test(timeout = 100)
@@ -76,6 +88,12 @@ public class EmpresaTeste {
 		empresa.setCnpj("a");
 	}
 
+	@Test
+	public void deve_ter_proprietario_valido() {
+		empresa.setProprietario("Exemplo");
+		assertThat(empresa.getProprietario(), is(testeProprietario));
+	}
+	
 	@Test
 	public void nao_deve_ter_proprietario_nulo() {
 		thrown.expect(NullPointerException.class);
@@ -89,10 +107,24 @@ public class EmpresaTeste {
 		thrown.expectMessage("O nome de proprietário não pode ficar vazio.");
 		empresa.setProprietario("");
 	}
+	
+	@Test
+	public void nao_deve_ter_proprietario_menor_que_limite() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("O nome de proprietário deve ter no mínimo 2 caracteres e no máximo 50 caracteres.");
+		empresa.setProprietario("a");
+	}
+	
+	@Test
+	public void nao_deve_ter_proprietario_maior_que_limite() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("O nome de proprietário deve ter no mínimo 2 caracteres e no máximo 50 caracteres.");
+		empresa.setProprietario("123456789112345678921234567893123456789412345678951");
+	}
 
 	@Test
 	public void deve_ter_razaoSocial_valido() {
-		empresa.setRazaoSocial("teste");
+		empresa.setRazaoSocial("Teste");
 		assertThat(empresa.getRazaoSocial(), is(testeRazaoSocial));
 	}
 
@@ -111,9 +143,44 @@ public class EmpresaTeste {
 	}
 
 	@Test
-	public void nao_deve_ter_razaoSocial_valido() {
+	public void nao_deve_ter_razaoSocial_menor_que_limite() {
 		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("A razão social deve ter pelo menos 4 dígitos.");
+		thrown.expectMessage("A razão social deve ter no mínimo 4 caracteres e no máximo 50 caracteres.");
 		empresa.setRazaoSocial("ex");
 	}
+	
+	@Test
+	public void nao_deve_ter_razaoSocial_maior_que_limite() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("A razão social deve ter no mínimo 4 caracteres e no máximo 50 caracteres.");
+		empresa.setRazaoSocial("123456789112345678921234567893123456789412345678951");
+	}
+	
+	@Test
+	public void deve_ter_email_valido() {
+		empresa.setEmail("a@b.com");
+		assertThat(empresa.getEmail(), is(testeEmail));
+	}
+	
+	@Test
+	public void nao_deve_ter_email_nulo() {
+		thrown.expect(NullPointerException.class);
+		thrown.expectMessage("O email deve ser preenchido.");
+		empresa.setEmail(null);
+	}
+	
+	@Test
+	public void nao_deve_ter_email_vazio() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("O email não pode ficar vazio.");
+		empresa.setEmail("");
+	}
+	
+	@Test
+	public void nao_deve_ter_email_email_menor_que_limite() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("O email deve ter no mínimo 7 caracteres e no máximo 50 caracteres.");
+		empresa.setEmail("a@a.com");
+	}
+
 }

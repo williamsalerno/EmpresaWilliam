@@ -1,8 +1,12 @@
-package br.com.contmatic.empresawilliam.teste;
+package br.com.contmatic.empresawilliam;
 
 import br.com.contmatic.empresawilliam.Endereco;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.*;
@@ -13,11 +17,13 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EnderecoTeste {
 
-	private Endereco endereco;
+
 	private final String testeTipoLogradouro = "rua";
 	private final String testeCep = "12345678";
 	private final int testeNumero = 9999;
 	private static int contadorTeste = 0;
+	private Endereco endereco;
+	private List<Endereco> enderecos;
 
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
@@ -31,6 +37,11 @@ public class EnderecoTeste {
 	@Before
 	public void gerarEmpresa() {
 		this.endereco = new Endereco();
+		this.enderecos = new ArrayList<Endereco>();
+	}
+	
+	public void addEnderecos(){
+		enderecos.add(endereco);
 	}
 
 	@After
@@ -82,13 +93,6 @@ public class EnderecoTeste {
 	public void deve_ter_numeroEndereco_valido() {
 		endereco.setNumeroEndereco(9999);
 		assertThat(endereco.getNumeroEndereco(), is(testeNumero));
-	}
-
-	@Test
-	public void nao_deve_ter_numeroEndereco_nulo() {
-		thrown.expect(NullPointerException.class);
-		thrown.expectMessage("O número de endereço deve ser preenchido. Preencha com 0 se o seu endereço for s/n.");
-		endereco.setNumeroEndereco(null);
 	}
 
 	@Ignore
