@@ -1,5 +1,7 @@
 package br.com.contmatic.empresawilliam;
 
+import java.util.Arrays;
+
 public class Endereco {
 
 	private final static int TAMANHO_NUMERO_DE_ENDERECO_MINIMO = 1;
@@ -150,4 +152,44 @@ public class Endereco {
 		}
 		return true;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cep == null) ? 0 : cep.hashCode());
+		result = prime * result + ((nomeLogradouro == null) ? 0 : nomeLogradouro.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Endereco other = (Endereco) obj;
+		if (cep == null) {
+			if (other.cep != null)
+				return false;
+		} else if (!cep.equals(other.cep))
+			return false;
+		if (nomeLogradouro == null) {
+			if (other.nomeLogradouro != null)
+				return false;
+		} else if (!nomeLogradouro.equals(other.nomeLogradouro))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Endereco [numeroEndereco=" + numeroEndereco + ", tipoLogradouro=" + tipoLogradouro + ", nomeLogradouro="
+				+ nomeLogradouro + ", cep=" + cep + ", tiposEndereco=" + Arrays.toString(tiposEndereco)
+				+ ", tipoEnderecoSelecionado=" + tipoEnderecoSelecionado + "]";
+	}
+	
+	
 }

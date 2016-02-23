@@ -7,8 +7,8 @@ import java.util.Arrays;
 
 public class Empresa {
 
-	//Constantes
 	
+	//Constantes
 	/**
 	 * Define um valor mínimo e máximo para o CNPJ.
 	 */
@@ -54,8 +54,8 @@ public class Empresa {
 	 */
 	private final static int TAMANHO_MINIMO_TELEFONE = 1;
 	
-	// Variáveis
 	
+	// Variáveis
 	/**
 	 * Razão social.
 	 */
@@ -98,7 +98,7 @@ public class Empresa {
 	}
 
 	/**
-	 * Determina um valor para a razão social e executa validações de valor.
+	 * Determina um valor para a razão social e chama um método de validação.
 	 * @param razaoSocial
 	 */
 	public void setRazaoSocial(String razaoSocial) {
@@ -115,7 +115,7 @@ public class Empresa {
 	}
 
 	/**
-	 * Determina um valor para o CNPJ e executa validações de valor.
+	 * Determina um valor para o CNPJ e chama um método de validação.
 	 * @param cnpj
 	 */
 	public void setCnpj(String cnpj) {
@@ -123,26 +123,37 @@ public class Empresa {
 		this.cnpj = cnpj;
 	}
 
+	/**
+	 * Obtém o proprietário.
+	 * @return
+	 */
 	public String getProprietario() {
 		return proprietario;
 	}
 
+	/**
+	 * Determina um valor para proprietário e chama um método de validação.
+	 * @param proprietario
+	 */
 	public void setProprietario(String proprietario) {
-		this.verificaSeProprietarioNulo(proprietario);
-		this.verificaSeProprietarioVazio(proprietario);
-		this.verificaTamanhoProprietario(proprietario);
+		this.validaProprietario(proprietario);
 		this.proprietario = proprietario;
 	}
 
+	/**
+	 * Obtém email.
+	 * @return
+	 */
 	public String getEmail() {
 		return email;
 	}
 
+	/**
+	 * Determina um valor para email e chama um método de validação.
+	 * @param email
+	 */
 	public void setEmail(String email) {
-		this.verificaSeEmailNulo(email);
-		this.verificaSeEmailVazio(email);
-		this.verificaSeEmailValido(email);
-		this.verificaTamanhoEmail(email);
+		this.validaEmail(email);
 		this.email = email;
 	}
 
@@ -163,13 +174,20 @@ public class Empresa {
 	}
 
 	// verificações
-
+	/**
+	 * Verifica se razão social possui um valor válido.
+	 * @param razaoSocial
+	 */
 	public void validaRazaoSocial(String razaoSocial){
 		this.verificaSeRazaoSocialNulo(razaoSocial);
 		this.verificaSeRazaoSocialVazio(razaoSocial);
 		this.verificaTamanhoRazaoSocial(razaoSocial);
 	}
 	
+	/**
+	 * Verifica se CNPJ possui um valor válido.
+	 * @param cnpj
+	 */
 	public void validaCnpj(String cnpj){
 		this.verificaSeCnpjNulo(cnpj);
 		this.verificaSeCnpjVazio(cnpj);
@@ -177,97 +195,145 @@ public class Empresa {
 		this.verificaSeCnpjValido(cnpj);
 	}
 	
+	/**
+	 * Verifica se proprietário possui um valor válido.
+	 * @param proprietario
+	 */
+	public void validaProprietario(String proprietario){
+		this.verificaSeProprietarioNulo(proprietario);
+		this.verificaSeProprietarioVazio(proprietario);
+		this.verificaTamanhoProprietario(proprietario);
+	}
+	
+	/**
+	 * Verifica se email possui um valor válido.
+	 * @param email
+	 */
+	public void validaEmail(String email){
+		this.verificaSeEmailNulo(email);
+		this.verificaSeEmailVazio(email);
+		this.verificaSeEmailValido(email);
+		this.verificaTamanhoEmail(email);
+	}
+	
+	/**
+	 * Checa se razão social é nulo.
+	 * @param razaoSocial
+	 */
 	public void verificaSeRazaoSocialNulo(String razaoSocial) {
 		checkNotNull(razaoSocial, "A razão social deve ser preenchida.");
 	}
 
 	/**
-	 * 
+	 * Checa se razão social está vazio.
 	 * @param razaoSocial
 	 */
 	public void verificaSeRazaoSocialVazio(String razaoSocial) {
 		checkArgument(!razaoSocial.equals(""), "A razão social não pode ficar vazia.");
 	}
 	
+	/**
+	 * Checa se razão social está dentro do limite máximo e/ou mínimo de caracteres.
+	 * @param razaoSocial
+	 */
 	public void verificaTamanhoRazaoSocial(String razaoSocial) {
-		if (razaoSocial.length() < TAMANHO_MINIMO_RAZAOSOCIAL || razaoSocial.length() > TAMANHO_MAXIMO_RAZAOSOCIAL) {
-			throw new IllegalArgumentException(
-					"A razão social deve ter no mínimo 4 caracteres e no máximo 50 caracteres.");
-		}
+		checkArgument(!(razaoSocial.length() < TAMANHO_MINIMO_RAZAOSOCIAL) || !(razaoSocial.length() > TAMANHO_MAXIMO_RAZAOSOCIAL), "A razão social deve ter no mínimo 4 caracteres e no máximo 50 caracteres.");
 	}
 
+	/**
+	 * Checa se CNPJ é nulo.
+	 * @param cnpj
+	 */
 	public void verificaSeCnpjNulo(String cnpj) {
-		if (cnpj == null) {
-			throw new NullPointerException("O cnpj deve ser preenchido.");
-		}
+		checkNotNull(cnpj, "O cnpj deve ser preenchido.");
 	}
 
+	/**
+	 * Checa se CNPJ está vazio.
+	 * @param cnpj
+	 */
 	public void verificaSeCnpjVazio(String cnpj) {
-		if (cnpj.equals("")) {
-			throw new IllegalArgumentException("O cnpj não pode ficar vazio.");
-		}
+		checkArgument(!cnpj.equals(""), "O cnpj não pode ficar vazio.");
 	}
-
+	
+	/**
+	 * Checa se CNPJ possui o número de caracteres determinado pela regra.
+	 * @param cnpj
+	 */
 	public void verificaSeCnpjValido(String cnpj) {
-		if (cnpj.length() != TAMANHO_CNPJ) {
-			throw new IllegalArgumentException("Esse cnpj é inválido.");
+		checkArgument(cnpj.length() == TAMANHO_CNPJ, "Esse cnpj é inválido.");
+	}
+
+	/**
+	 * Utiliza um laço para checar cada caracter do CNPJ para assegurar que só há números.
+	 * @param cnpj
+	 */
+	public void verificaSeCnpjSoNumeros(String cnpj) {
+		for (int i = 0; i < cnpj.length(); i++) {
+			checkArgument(!Character.isLetter(cnpj.charAt(i)), "O cnpj só pode conter números.");
 		}
 	}
 
-	public boolean verificaSeCnpjSoNumeros(String cnpj) {
-		for (int i = 0; i < cnpj.length();) {
-			if (Character.isLetter(cnpj.charAt(i))) {
-				throw new IllegalArgumentException("O cnpj só pode conter números.");
-			} else
-				i += 1;
-		}
-		return false;
-	}
-
+	/**
+	 * Checa se proprietário é nulo.
+	 * @param proprietario
+	 */
 	public void verificaSeProprietarioNulo(String proprietario) {
-		if (proprietario == null) {
-			throw new NullPointerException("O nome de proprietário deve ser preenchido.");
-		}
+		checkNotNull(proprietario, "O nome de proprietário deve ser preenchido.");
 	}
 
+	/**
+	 * Checa se proprietário está vazio.
+	 * @param proprietario
+	 */
 	public void verificaSeProprietarioVazio(String proprietario) {
-		if (proprietario.equals("")) {
-			throw new IllegalArgumentException("O nome de proprietário não pode ficar vazio.");
-		}
+		checkArgument(!proprietario.equals(""), "O nome de proprietário não pode ficar vazio.");
 	}
 
+	/**
+	 * Checa se proprietário está dentro do limite mínimo e/ou máximo de caracteres.
+	 * @param proprietario
+	 */
 	public void verificaTamanhoProprietario(String proprietario) {
-		if (proprietario.length() < TAMANHO_MINIMO_PROPRIETARIO
-				|| proprietario.length() > TAMANHO_MAXIMO_PROPRIETARIO) {
-			throw new IllegalArgumentException(
-					"O nome de proprietário deve ter no mínimo 2 caracteres e no máximo 50 caracteres.");
-		}
+		checkArgument(!(proprietario.length() < TAMANHO_MINIMO_PROPRIETARIO)
+				|| !(proprietario.length() > TAMANHO_MAXIMO_PROPRIETARIO), "O nome de proprietário deve ter no mínimo 2 caracteres e no máximo 50 caracteres.");
 	}
 
+	/**
+	 * Checa se email é nulo.
+	 * @param email
+	 */
 	public void verificaSeEmailNulo(String email) {
-		if (email == null) {
-			throw new NullPointerException("O email deve ser preenchido.");
-		}
+		checkNotNull(email, "O email deve ser preenchido.");
 	}
 
+	/**
+	 * Checa se email está vazio.
+	 * @param email
+	 */
 	public void verificaSeEmailVazio(String email) {
-		if (email.equals("")) {
-			throw new IllegalArgumentException("O email não pode ficar vazio.");
-		}
+		checkArgument(!email.equals(""), "O email não pode ficar vazio.");
 	}
 
+	/**
+	 * Checa se tamanho está dentro do limite mínimo e/ou máximo de caracteres.
+	 * @param email
+	 */
 	public void verificaTamanhoEmail(String email) {
-		if (email.length() < TAMANHO_MINIMO_EMAIL || email.length() > TAMANHO_MAXIMO_EMAIL) {
-			throw new IllegalArgumentException("O email deve ter no mínimo 7 caracteres e no máximo 50 caracteres.");
-		}
+		checkArgument(!(email.length() < TAMANHO_MINIMO_EMAIL) || !(email.length() > TAMANHO_MAXIMO_EMAIL), "O email deve ter no mínimo 7 caracteres e no máximo 50 caracteres.");
 	}
 
+	/**
+	 * Checa se email possui um "@".
+	 * @param email
+	 */
 	public void verificaSeEmailValido(String email) {
-		if (!email.contains("@")) {
-			throw new IllegalArgumentException("O email informado é inválido.");
-		}
+		checkArgument(email.contains("@"), "O email informado é inválido.");
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -276,6 +342,9 @@ public class Empresa {
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -293,6 +362,9 @@ public class Empresa {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Empresa1 [razaoSocial=" + razaoSocial + ", cnpj=" + cnpj
