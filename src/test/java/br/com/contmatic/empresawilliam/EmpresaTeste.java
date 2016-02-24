@@ -50,7 +50,6 @@ public class EmpresaTeste {
 	@Test
 	public void deve_ter_cnpj_valido() {
 		empresa.setCnpj("12345678912345");
-		System.out.println(empresa);
 		assertThat(empresa.getCnpj(), is(TESTE_CNPJ));
 	}
 

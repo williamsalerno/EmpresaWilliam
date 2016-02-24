@@ -3,7 +3,7 @@ package br.com.contmatic.empresawilliam;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class Empresa {
 
@@ -77,7 +77,7 @@ public class Empresa {
 	private String email;
 	
 	/**
-	 * Lista de endere;os.
+	 * Lista de endereços.
 	 */
 	private Endereco[] enderecos;
 	
@@ -86,6 +86,10 @@ public class Empresa {
 	 */
 	private Telefone[] telefones;
 	
+	/**
+	 * Data de criação.
+	 */
+	private Date dataDeCriacao;
 
 	// getters e setters
 	/**
@@ -173,7 +177,16 @@ public class Empresa {
 		this.telefones = telefones;
 	}
 
-	// verificações
+	public Date getDataDeCriacao() {
+		return dataDeCriacao;
+	}
+
+	public void setDataDeCriacao(Date dataDeCriacao) {
+		dataDeCriacao.getTime();
+		this.dataDeCriacao = dataDeCriacao;
+	}
+
+	// validações
 	/**
 	 * Verifica se razão social possui um valor válido.
 	 * @param razaoSocial
@@ -216,6 +229,7 @@ public class Empresa {
 		this.verificaTamanhoEmail(email);
 	}
 	
+	// verificações
 	/**
 	 * Checa se razão social é nulo.
 	 * @param razaoSocial
@@ -237,7 +251,7 @@ public class Empresa {
 	 * @param razaoSocial
 	 */
 	public void verificaTamanhoRazaoSocial(String razaoSocial) {
-		checkArgument(!(razaoSocial.length() < TAMANHO_MINIMO_RAZAOSOCIAL) || !(razaoSocial.length() > TAMANHO_MAXIMO_RAZAOSOCIAL), "A razão social deve ter no mínimo 4 caracteres e no máximo 50 caracteres.");
+		checkArgument(!(razaoSocial.length() < TAMANHO_MINIMO_RAZAOSOCIAL || razaoSocial.length() > TAMANHO_MAXIMO_RAZAOSOCIAL), "A razão social deve ter no mínimo 4 caracteres e no máximo 50 caracteres.");
 	}
 
 	/**
@@ -295,8 +309,8 @@ public class Empresa {
 	 * @param proprietario
 	 */
 	public void verificaTamanhoProprietario(String proprietario) {
-		checkArgument(!(proprietario.length() < TAMANHO_MINIMO_PROPRIETARIO)
-				|| !(proprietario.length() > TAMANHO_MAXIMO_PROPRIETARIO), "O nome de proprietário deve ter no mínimo 2 caracteres e no máximo 50 caracteres.");
+		checkArgument(!(proprietario.length() < TAMANHO_MINIMO_PROPRIETARIO
+				|| proprietario.length() > TAMANHO_MAXIMO_PROPRIETARIO), "O nome de proprietário deve ter no mínimo 2 caracteres e no máximo 50 caracteres.");
 	}
 
 	/**
@@ -316,11 +330,11 @@ public class Empresa {
 	}
 
 	/**
-	 * Checa se tamanho está dentro do limite mínimo e/ou máximo de caracteres.
+	 * Checa se email está dentro do limite mínimo e/ou máximo de caracteres.
 	 * @param email
 	 */
 	public void verificaTamanhoEmail(String email) {
-		checkArgument(!(email.length() < TAMANHO_MINIMO_EMAIL) || !(email.length() > TAMANHO_MAXIMO_EMAIL), "O email deve ter no mínimo 7 caracteres e no máximo 50 caracteres.");
+		checkArgument(!(email.length() < TAMANHO_MINIMO_EMAIL || email.length() > TAMANHO_MAXIMO_EMAIL), "O email deve ter no mínimo 7 caracteres e no máximo 50 caracteres.");
 	}
 
 	/**
