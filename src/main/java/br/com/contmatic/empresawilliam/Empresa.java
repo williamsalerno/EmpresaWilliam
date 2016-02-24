@@ -90,6 +90,8 @@ public class Empresa {
 	 * Data de criação.
 	 */
 	private Date dataDeCriacao;
+	
+	private String site;
 
 	// getters e setters
 	/**
@@ -176,13 +178,22 @@ public class Empresa {
 	public void setTelefones(Telefone[] telefones) {
 		this.telefones = telefones;
 	}
-
+	
+	public String getSite(){
+		return site;
+	}
+	
+	public void setSite(String site){
+		this.validaSite(site);
+		this.site = site;
+	}
+	
 	public Date getDataDeCriacao() {
 		return dataDeCriacao;
 	}
 
 	public void setDataDeCriacao(Date dataDeCriacao) {
-		dataDeCriacao.getTime();
+		this.validaData(dataDeCriacao);
 		this.dataDeCriacao = dataDeCriacao;
 	}
 
@@ -227,6 +238,16 @@ public class Empresa {
 		this.verificaSeEmailVazio(email);
 		this.verificaSeEmailValido(email);
 		this.verificaTamanhoEmail(email);
+	}
+	
+	public void validaSite(String site){
+		this.verificaSeSiteValido(site);
+	}
+	
+	public void validaData(Date dataDeCriacao){
+		this.verificaSeDataNulo(dataDeCriacao);
+		this.zerarData(dataDeCriacao);
+		this.verificaSeDataValida(dataDeCriacao);
 	}
 	
 	// verificações
@@ -344,6 +365,32 @@ public class Empresa {
 	public void verificaSeEmailValido(String email) {
 		checkArgument(email.contains("@"), "O email informado é inválido.");
 	}
+	
+	public void verificaSeSiteValido(String site){
+		checkArgument(site.contains("."), "Site inválido.");
+	}
+	
+	public void verificaSeDataNulo(Date dataDeCriacao){
+		checkNotNull(dataDeCriacao, "Por gentileza informar uma data.");
+	}
+	
+	public static Date zerarData(Date dataDeCriacao){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		return calendar.getTime();
+	}
+	
+	public void verificaSeDataValida(Date dataDeCriacao){
+		Date dataAtual = new Date();
+		Date dataAtualZerada = zerarData(dataAtual);
+		Date dataDeCriacaoZerado = zerarData(dataDeCriacao);
+		checkArgument(!dataDeCriacaoZerado.before(dataAtualZerada), "Data informada não pode ser posterior.");
+		checkArgument(!dataDeCriacaoZerado.after(dataAtualZerada), "Data informada nao pode ser anterior.");
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -376,16 +423,10 @@ public class Empresa {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-		return "Empresa1 [razaoSocial=" + razaoSocial + ", cnpj=" + cnpj
-				+ ", proprietario=" + proprietario + ", email=" + email
-				+ ", enderecos=" + Arrays.toString(enderecos) + ", telefones="
-				+ Arrays.toString(telefones) + "]";
+		return "Empresa [razaoSocial=" + razaoSocial + ", cnpj=" + cnpj + ", proprietario=" + proprietario + ", email="
+				+ email + ", enderecos=" + Arrays.toString(enderecos) + ", telefones=" + Arrays.toString(telefones)
+				+ ", dataDeCriacao=" + dataDeCriacao + ", site=" + site + "]";
 	}
-	
-	
 }

@@ -5,6 +5,8 @@ import static org.hamcrest.CoreMatchers.*;
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import java.util.Date;
+
 import org.junit.rules.*;
 import org.junit.runners.MethodSorters;
 
@@ -34,6 +36,35 @@ public class EmpresaTeste {
 		this.empresa = new Empresa();
 		this.enderecos = new Endereco[2];
 		this.telefones = new Telefone[2];
+		
+		Endereco end1 = new Endereco();
+		end1.setTipoLogradouro("Rua");
+		end1.setNomeLogradouro("Exemplo");
+		end1.setNumeroEndereco(123);
+		end1.setCep("12345678");
+		this.enderecos[0] = end1;
+		
+		Endereco end2 = new Endereco();
+		end2.setTipoLogradouro("Avenida");
+		end2.setNomeLogradouro("Exemplo2");
+		end2.setNumeroEndereco(345);
+		end2.setCep("00012345");
+		this.enderecos[1] = end2;
+		
+		Telefone tel1 = new Telefone();
+		tel1.setTipoTelefone("Fixo");
+		tel1.setDdd(1);
+		tel1.setNumeroTelefone("12345678");
+		this.telefones[0] = tel1;
+		
+		Telefone tel2 = new Telefone();
+		tel2.setTipoTelefone("Celular");
+		tel2.setDdd(1);
+		tel2.setNumeroTelefone("123456789");
+		this.telefones[1] = tel2;
+
+		this.empresa.setTelefones(telefones);
+		this.empresa.setEnderecos(enderecos);
 	}
 
 	@After
@@ -196,6 +227,17 @@ public class EmpresaTeste {
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("O email informado é inválido.");
 		empresa.setEmail("abcdefgh");
+	}
+	
+	@Test
+	public void deve_ter_endereco_valido() {
+		empresa.setEnderecos(enderecos);
+		assertThat(empresa.getEnderecos(), is(enderecos));
+	}
+	
+	@Test
+	public void deve_ter_data_valido() {
+		empresa.setDataDeCriacao(new Date());
 	}
 
 }

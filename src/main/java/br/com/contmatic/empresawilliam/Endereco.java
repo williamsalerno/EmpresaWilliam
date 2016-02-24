@@ -1,9 +1,6 @@
 package br.com.contmatic.empresawilliam;
 
-import java.util.Arrays;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.*;
 
 public class Endereco {
 
@@ -17,8 +14,7 @@ public class Endereco {
 	private String tipoLogradouro;
 	private String nomeLogradouro;
 	private String cep;
-	private String[] tiposEndereco = { "Residencial", "Comercial" };
-	private String tipoEnderecoSelecionado;
+	private String tipoEndereco;
 
 	// getters e setters
 	public String getTipoLogradouro() {
@@ -57,12 +53,12 @@ public class Endereco {
 		this.cep = cep;
 	}
 
-	public String[] getTipoEndereco() {
-		return tiposEndereco;
+	public String getTipoEndereco() {
+		return tipoEndereco;
 	}
 
-	public void setTipoEndereco(String[] tipoEndereco) {
-		this.tipoEnderecoSelecionado = tipoEndereco[1];
+	public void setTipoEndereco(String tipoEndereco) {
+		this.tipoEndereco = tipoEndereco;
 	}
 	
 	// validações
@@ -163,12 +159,4 @@ public class Endereco {
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "Endereco [numeroEndereco=" + numeroEndereco + ", tipoLogradouro=" + tipoLogradouro + ", nomeLogradouro="
-				+ nomeLogradouro + ", cep=" + cep + ", tiposEndereco=" + Arrays.toString(tiposEndereco)
-				+ ", tipoEnderecoSelecionado=" + tipoEnderecoSelecionado + "]";
-	}
-
 }

@@ -1,11 +1,6 @@
 package br.com.contmatic.empresawilliam;
 
-import br.com.contmatic.empresawilliam.Endereco;
-
 import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -120,7 +115,7 @@ public class EnderecoTeste {
 
 	public void deve_ter_nomeLogradouro_valido() {
 		endereco.setNomeLogradouro("Exemplo");
-		assertThat(endereco.getNumeroEndereco(), is(TESTE_NOME_LOGRADOURO));
+		assertThat(endereco.getNomeLogradouro(), is(TESTE_NOME_LOGRADOURO));
 	}
 
 	@Test
@@ -176,5 +171,12 @@ public class EnderecoTeste {
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("O tipo de logradouro deve ter no mínimo 3 caracteres e no máximo 10 caracteres.");
 		endereco.setTipoLogradouro("exemploexemplo");
+	}
+	
+	@Test
+	public void nao_deve_ter_tipoLogradouro_invalido() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("O tipo de logradouro deve ser válido.");
+		endereco.setTipoLogradouro("Ru12");
 	}
 }
