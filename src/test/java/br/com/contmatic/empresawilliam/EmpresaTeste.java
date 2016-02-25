@@ -23,7 +23,7 @@ public class EmpresaTeste {
 	private Empresa empresa;
 	private Endereco[] enderecos, enderecoVazio, temUmEndereco;
 	private Telefone[] telefones, telefoneVazio, temUmTelefone;
-	private Date dataTesteAtual;
+	private Date dataTesteAtual, dataTesteAlteracao;
 	private final String TESTE_CNPJ = "12345678912345";
 	private final String TESTE_RAZAO_SOCIAL = "Teste";
 	private final String TESTE_PROPRIETARIO = "Exemplo";
@@ -40,6 +40,7 @@ public class EmpresaTeste {
 		System.out.println("Teste de Empresa realizado.");
 	}
 
+	@SuppressWarnings("deprecation")
 	@Before
 	public void gerarEmpresa() {
 		this.empresa = new Empresa();
@@ -50,6 +51,7 @@ public class EmpresaTeste {
 		this.telefoneVazio = new Telefone[1];
 		this.temUmTelefone = new Telefone[1];
 		this.dataTesteAtual = new Date();
+		this.dataTesteAlteracao = new Date(116, 04, 14);
 		
 		Endereco end1 = new Endereco();
 		end1.setTipoLogradouro("Rua");
@@ -364,6 +366,34 @@ public class EmpresaTeste {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void nao_deve_ter_dataCriacao_anterior(){
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("Data informada não pode ser anterior.");
+		empresa.setDataDeCriacao(new Date(116, 01, 22));
+		System.out.println(empresa.getDataDeCriacao());
+	}
+	
+	@Test
+	public void deve_ter_dataAlteracao_valido() {
+		empresa.setDataDeCriacao(dataTesteAlteracao);
+		assertThat(empresa.getDataDeAlteracao(), is(dataTesteAtual));
+	}
+	
+	@Test
+	public void nao_deve_ter_dataAlteracao_nulo(){
+		thrown.expect(NullPointerException.class);
+		thrown.expectMessage("A data de alteração deve ser preenchida.");
+		empresa.setDataDeAlteracao(null);
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Test
+	public void deve_ter_dataAlteracao_posterior_a_criacao(){
+		empresa.setDataDeAlteracao(dataTesteAlteracao);
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Test
+	public void nao_deve_ter_dataAlteracao_anterior_a_criacao(){
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("Data informada não pode ser anterior.");
 		empresa.setDataDeCriacao(new Date(116, 01, 22));

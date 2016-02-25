@@ -211,7 +211,7 @@ public class Empresa {
 	}
 
 	public void setDataDeAlteracao(Date dataDeAlteracao) {
-		this.validaDataDeCriacao(dataDeAlteracao);
+		this.validaDataDeAlteracao(dataDeAlteracao);
 		this.converteDataDeAlteracao(dataDeAlteracao);
 		this.dataDeAlteracao = dataDeAlteracao;
 	}
@@ -473,7 +473,7 @@ public class Empresa {
 	}
 	
 	public void verificaSeDataDeAlteracaoEPosteriorACriacao(Date dataDeAlteracao){
-		checkState(!dataDeAlteracao.after(getDataDeCriacao()), "A data de alteração não pode ser posterior à data de criação.");
+		checkState(dataDeAlteracao.after(getDataDeCriacao()), "A data de alteração deve ser posterior à data de criação.");
 	}
 	
 	public void verificaSeEnderecosNulo(Endereco[] enderecos){
