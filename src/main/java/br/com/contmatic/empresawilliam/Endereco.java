@@ -178,4 +178,12 @@ public class Endereco {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Endereco [numeroEndereco=" + numeroEndereco + ", tipoLogradouro=" + tipoLogradouro + ", nomeLogradouro="
+				+ nomeLogradouro + ", cep=" + cep + ", tipoEndereco=" + tipoEndereco + "]";
+	}
+	
+	
 }

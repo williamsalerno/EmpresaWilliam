@@ -3,7 +3,9 @@ package br.com.contmatic.empresawilliam;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.*;
+import java.text.*;
+import java.util.Arrays;
+import java.util.Date;
 
 public class Empresa {
 
@@ -27,7 +29,7 @@ public class Empresa {
 	/**
 	 * Define um tamanho mínimo para os endereços.
 	 */
-	private final static int TAMANHO_MINIMO_ENDERECOS = 1;
+	private final static int TAMANHO_MINIMO_ENDERECOS = 2;
 	
 	/**
 	 * Define um tamanho mínimo para o nome de proprietário.
@@ -52,7 +54,9 @@ public class Empresa {
 	/**
 	 * Define um tamanho mínimo para os telefones.
 	 */
-	private final static int TAMANHO_MINIMO_TELEFONE = 1;
+	private final static int TAMANHO_MINIMO_TELEFONE = 2;
+	private final static int TAMANHO_MINIMO_SITE = 6;
+	private final static int TAMANHO_MAXIMO_SITE = 50;
 	
 	
 	// Variáveis
@@ -90,12 +94,19 @@ public class Empresa {
 	 * Data de criação.
 	 */
 	private Date dataDeCriacao;
-	
+	private Date dataDeAlteracao;
 	private String site;
 	
-	Date dataAtual = new Date();
-	Date dataAtualZerada = zerarData(dataAtual);
-	Date dataDeCriacaoZerado = zerarData(dataDeCriacao);
+	private Date dataAtual = new Date();
+	
+
+	public Date getDataDeAlteracao() {
+		return dataDeAlteracao;
+	}
+
+	public void setDataDeAlteracao(Date dataDeAlteracao) {
+		this.dataDeAlteracao = dataDeAlteracao;
+	}
 
 	// getters e setters
 	/**
@@ -172,6 +183,7 @@ public class Empresa {
 	}
 
 	public void setEnderecos(Endereco[] enderecos) {
+		this.validaEnderecos(enderecos);
 		this.enderecos = enderecos;
 	}
 
@@ -180,6 +192,7 @@ public class Empresa {
 	}
 
 	public void setTelefones(Telefone[] telefones) {
+		this.validaTelefones(telefones);
 		this.telefones = telefones;
 	}
 	
@@ -198,6 +211,7 @@ public class Empresa {
 
 	public void setDataDeCriacao(Date dataDeCriacao) {
 		this.validaData(dataDeCriacao);
+		this.converteData(dataDeCriacao);
 		this.dataDeCriacao = dataDeCriacao;
 	}
 
@@ -245,13 +259,45 @@ public class Empresa {
 	}
 	
 	public void validaSite(String site){
+		this.verificaSeSiteNulo(site);
+		this.verificaSeSiteVazio(site);
+		this.verificaTamanhoSite(site);
 		this.verificaSeSiteValido(site);
 	}
 	
 	public void validaData(Date dataDeCriacao){
-		this.verificaSeDataNulo(dataDeCriacao);
-		Empresa.zerarData(dataDeCriacao);
-		this.verificaSeDataValida(dataDeCriacao);
+		this.verificaSeDataDeCriacaoNulo(dataDeCriacao);
+		this.verificaSeDataDeCriacaoEAnterior(dataDeCriacao);
+		this.verificaSeDataDeCriacaoEPosterior(dataDeCriacao);
+	}
+	
+	public String converteData(Date dataDeCriacao){
+		this.capturaData(dataDeCriacao);
+		String dataFormatada;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		dataFormatada = sdf.format(dataDeCriacao);
+		return dataFormatada;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public Date capturaData(Date dataDeCriacao){
+		dataDeCriacao.getDate();
+		dataDeCriacao.getMonth();
+		dataDeCriacao.getYear();
+		Date data = dataDeCriacao;
+		return data;
+	}
+	
+	public void validaEnderecos(Endereco[] enderecos){
+		this.verificaSeEnderecosNulo(enderecos);
+		this.verificaSeEnderecosVazio(enderecos);
+		this.verificaSeEnderecosValido(enderecos);
+	}
+	
+	public void validaTelefones(Telefone[] telefones){
+		this.verificaSeTelefonesNulo(telefones);
+		this.verificaSeTelefonesVazio(telefones);
+		this.verificaSeTelefonesValido(telefones);
 	}
 	
 	// verificações
@@ -374,28 +420,66 @@ public class Empresa {
 		checkArgument(site.contains("."), "Site inválido.");
 	}
 	
-	public void verificaSeDataNulo(Date dataDeCriacao){
+	public void verificaSeSiteNulo(String site){
+		checkNotNull(site, "O site deve ser preenchido.");
+	}
+	
+	public void verificaSeSiteVazio(String site){
+		checkArgument(!site.equals(""), "O site não pode ficar vazio.");
+	}
+	
+	public void verificaTamanhoSite(String site){
+		checkArgument(site.length() >= TAMANHO_MINIMO_SITE && site.length() <= TAMANHO_MAXIMO_SITE, "O site deve ter entre 6 e 50 caracteres.");
+	}
+	
+	public void verificaSeDataDeCriacaoNulo(Date dataDeCriacao){
 		checkNotNull(dataDeCriacao, "Por gentileza informar uma data.");
 	}
 	
-	public static Date zerarData(Date dataDeCriacao){
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(new Date());
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.set(Calendar.MILLISECOND, 0);
-		return calendar.getTime();
+	public void verificaSeDataDeCriacaoEAnterior(Date dataDeCriacao){
+		checkArgument(!dataDeCriacao.before(dataAtual), "Data informada não pode ser anterior.");
 	}
 	
-	public void verificaSeDataValida(Date dataDeCriacao){
-		checkArgument(!dataDeCriacaoZerado.before(dataAtualZerada), "Data informada não pode ser posterior.");
-		checkArgument(!dataDeCriacaoZerado.after(dataAtualZerada), "Data informada nao pode ser anterior.");
+	public void verificaSeDataDeCriacaoEPosterior(Date dataDeCriacao){
+		checkArgument(!dataDeCriacao.after(dataAtual), "Data informada não pode ser posterior.");
+	}
+	
+	public void verificaSeEnderecosNulo(Endereco[] enderecos){
+		checkNotNull(enderecos, "O endereço deve ser preenchido.");
+	}
+	
+	public void verificaSeEnderecosVazio(Endereco[] enderecos){
+		boolean naoVazio = false;
+		for(int i = 0; i < enderecos.length; i++){
+			if(enderecos[i] != null){
+				naoVazio = true;
+			}
+		}
+		checkArgument(naoVazio, "A empresa deve ter no mínimo 2 endereços.");
+	}
+	
+	public void verificaSeEnderecosValido(Endereco[] enderecos){
+		checkArgument(enderecos.length >= TAMANHO_MINIMO_ENDERECOS, "A empresa deve ter no mínimo 2 endereços.");
+	}
+	
+	public void verificaSeTelefonesNulo(Telefone[] telefones){
+		checkNotNull(telefones, "O telefone deve ser preenchido.");
+	}
+	
+	public void verificaSeTelefonesVazio(Telefone[] telefones){
+		boolean naoVazio = false;
+		for(int i = 0; i < telefones.length; i++){
+			if(telefones[i] != null){
+				naoVazio = true;
+			}
+		}
+		checkArgument(naoVazio, "A empresa deve ter no mínimo 2 telefones.");
+	}
+	
+	public void verificaSeTelefonesValido(Telefone[] telefones){
+		checkArgument(telefones.length >= TAMANHO_MINIMO_TELEFONE, "A empresa deve ter no mínimo 2 telefones.");
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -404,9 +488,6 @@ public class Empresa {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -426,8 +507,10 @@ public class Empresa {
 
 	@Override
 	public String toString() {
-		return "Empresa [razaoSocial=" + razaoSocial + ", cnpj=" + cnpj + ", proprietario=" + proprietario + ", email="
-				+ email + ", enderecos=" + Arrays.toString(enderecos) + ", telefones=" + Arrays.toString(telefones)
-				+ ", dataDeCriacao=" + dataDeCriacao + ", site=" + site + "]";
+		return "Empresa [razaoSocial=" + razaoSocial + ", \ncnpj=" + cnpj + ", \nproprietario=" + proprietario + ", \nemail="
+				+ email + ", \nenderecos=" + Arrays.toString(enderecos) + ", \ntelefones=" + Arrays.toString(telefones)
+				+ ", \ndataDeCriacao=" + converteData(getDataDeCriacao()) + ", \ndataDeAlteracao=" + dataDeAlteracao + ", \nsite=" + site + "]";
 	}
+	
+	
 }

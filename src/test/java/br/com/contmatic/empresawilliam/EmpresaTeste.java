@@ -1,26 +1,34 @@
 package br.com.contmatic.empresawilliam;
 
-import static org.hamcrest.CoreMatchers.*;
-
-import org.junit.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.util.Date;
 
-import org.junit.rules.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.rules.Timeout;
 import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EmpresaTeste {
 
 	private Empresa empresa;
-	private Endereco[] enderecos;
-	private Telefone[] telefones;
-	private Date dataTeste;
+	private Endereco[] enderecos, enderecoVazio, temUmEndereco;
+	private Telefone[] telefones, telefoneVazio, temUmTelefone;
+	private Date dataTesteAtual;
 	private final String TESTE_CNPJ = "12345678912345";
 	private final String TESTE_RAZAO_SOCIAL = "Teste";
 	private final String TESTE_PROPRIETARIO = "Exemplo";
 	private final String TESTE_EMAIL = "a@b.com";
+	private final String TESTE_SITE = "ex.com";
 	private static int contadorTeste = 0;
 
 	@Rule
@@ -37,7 +45,11 @@ public class EmpresaTeste {
 		this.empresa = new Empresa();
 		this.enderecos = new Endereco[2];
 		this.telefones = new Telefone[2];
-		this.dataTeste = new Date();
+		this.enderecoVazio = new Endereco[1];
+		this.temUmEndereco = new Endereco[1];
+		this.telefoneVazio = new Telefone[1];
+		this.temUmTelefone = new Telefone[1];
+		this.dataTesteAtual = new Date();
 		
 		Endereco end1 = new Endereco();
 		end1.setTipoLogradouro("Rua");
@@ -64,9 +76,9 @@ public class EmpresaTeste {
 		tel2.setDdd(1);
 		tel2.setNumeroTelefone("123456789");
 		this.telefones[1] = tel2;
-
-		this.empresa.setTelefones(telefones);
-		this.empresa.setEnderecos(enderecos);
+		
+		this.temUmEndereco[0] = end1;
+		this.temUmTelefone[0] = tel1;
 	}
 
 	@After
@@ -78,6 +90,7 @@ public class EmpresaTeste {
 	@AfterClass
 	public static void resultado() {
 		System.out.println("Total de testes: " + contadorTeste);
+		
 	}
 
 	@Test
@@ -238,7 +251,167 @@ public class EmpresaTeste {
 	}
 	
 	@Test
+	public void nao_deve_ter_endereco_nulo() {
+		thrown.expect(NullPointerException.class);
+		thrown.expectMessage("O endereço deve ser preenchido.");
+		empresa.setEnderecos(null);
+	}
+	
+	@Test
+	public void nao_deve_ter_endereco_vazio() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("A empresa deve ter no mínimo 2 endereços.");
+		empresa.setEnderecos(enderecoVazio);
+	}
+	
+	@Test
+	public void nao_deve_ter_endereco_invalido() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("A empresa deve ter no mínimo 2 endereços.");
+		empresa.setEnderecos(temUmEndereco);
+	}
+	
+	@Test
+	public void deve_ter_telefone_valido() {
+		empresa.setTelefones(telefones);
+		assertThat(empresa.getTelefones(), is(telefones));
+	}
+	
+	@Test
+	public void nao_deve_ter_telefone_nulo() {
+		thrown.expect(NullPointerException.class);
+		thrown.expectMessage("O telefone deve ser preenchido.");
+		empresa.setTelefones(null);
+	}
+	
+	@Test
+	public void nao_deve_ter_telefone_vazio() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("A empresa deve ter no mínimo 2 telefones.");
+		empresa.setTelefones(telefoneVazio);
+	}
+	
+	@Test
+	public void nao_deve_ter_telefone_invalido() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("A empresa deve ter no mínimo 2 telefones.");
+		empresa.setTelefones(temUmTelefone);
+	}
+	
+	@Test
+	public void deve_ter_site_valido(){
+		empresa.setSite("ex.com");
+		assertThat(empresa.getSite(), is(TESTE_SITE));
+	}
+	
+	@Test
+	public void nao_deve_ter_site_nulo(){
+		thrown.expect(NullPointerException.class);
+		thrown.expectMessage("O site deve ser preenchido.");
+		empresa.setSite(null);
+	}
+	
+	@Test
+	public void nao_deve_ter_site_vazio(){
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("O site não pode ficar vazio.");
+		empresa.setSite("");
+	}
+	
+	@Test
+	public void nao_deve_ter_site_invalido(){
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("Site inválido.");
+		empresa.setSite("exemplo");
+	}
+	
+	@Test
+	public void nao_deve_ter_site_menor_que_limite(){
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("O site deve ter entre 6 e 50 caracteres.");
+		empresa.setSite("a.com");
+	}
+	
+	@Test
+	public void nao_deve_ter_site_maior_que_limite(){
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("O site deve ter entre 6 e 50 caracteres.");
+		empresa.setSite("exemplotesteexemplotesteexemplotesteexemploteste.com");
+	}
+	
+	@Test
 	public void deve_ter_data_valido() {
+		empresa.setDataDeCriacao(dataTesteAtual);
+		assertThat(empresa.getDataDeCriacao(), is(dataTesteAtual));
+	}
+	
+	@Test
+	public void nao_deve_ter_data_nulo(){
+		thrown.expect(NullPointerException.class);
+		thrown.expectMessage("Por gentileza informar uma data.");
+		empresa.setDataDeCriacao(null);
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Test
+	public void nao_deve_ter_dataCriacao_posterior(){
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("Data informada não pode ser posterior.");
+		empresa.setDataDeCriacao(new Date(120, 01, 26));
+		System.out.println(empresa.getDataDeCriacao());
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Test
+	public void nao_deve_ter_dataCriacao_anterior(){
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("Data informada não pode ser anterior.");
+		empresa.setDataDeCriacao(new Date(100, 01, 26));
+		System.out.println(empresa.getDataDeCriacao());
+	}
+	
+	@Test
+	public void testeMain(){
+		Empresa empresa = new Empresa();
+		
+		Endereco end1 = new Endereco();
+		end1.setTipoLogradouro("Rua");
+		end1.setNomeLogradouro("Exemplo");
+		end1.setNumeroEndereco(1213);
+		end1.setCep("12345678");
+		end1.setTipoEndereco("Comercial");
+		this.enderecos[0] = end1;
+		
+		Endereco end2 = new Endereco();
+		end2.setTipoLogradouro("Rua");
+		end2.setNomeLogradouro("Exemplo");
+		end2.setNumeroEndereco(1213);
+		end2.setCep("12345678");
+		end2.setTipoEndereco("Comercial");
+		this.enderecos[1] = end2;
+		
+		Telefone tel1 = new Telefone();
+		tel1.setDdd(11);
+		tel1.setTipoTelefone("Fixo");
+		tel1.setNumeroTelefone("12345678");
+		this.telefones[0] = tel1;
+		
+		Telefone tel2 = new Telefone();
+		tel2.setDdd(11);
+		tel2.setTipoTelefone("Fixo");
+		tel2.setNumeroTelefone("12345678");
+		this.telefones[1] = tel2;
+		
+		empresa.setRazaoSocial("Teste Exemplo ltda.");
+		empresa.setCnpj("12345678912345");
+		empresa.setProprietario("Eu");
+		empresa.setEnderecos(this.enderecos);
+		empresa.setTelefones(this.telefones);
+		empresa.setEmail("teste@exemplo.com");
+		empresa.setSite("exemplo.teste.com");
 		empresa.setDataDeCriacao(new Date());
+		empresa.converteData(empresa.getDataDeCriacao());
+		
+		System.out.println(empresa.toString());
 	}
 }
