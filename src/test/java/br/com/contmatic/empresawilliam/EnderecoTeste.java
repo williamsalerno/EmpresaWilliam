@@ -17,6 +17,8 @@ public class EnderecoTeste {
 	private final String TESTE_NOME_LOGRADOURO = "Exemplo";
 	private final String TESTE_CEP = "12345678";
 	private final int TESTE_NUMERO = 9999;
+	private final String TESTE_ENDERECO_RESIDENCIAL = "Residencial";
+	private final String TESTE_ENDERECO_COMERCIAL = "Comercial";
 	private static int contadorTeste = 0;
 
 	@Rule
@@ -113,6 +115,7 @@ public class EnderecoTeste {
 		endereco.setNumeroEndereco(-1);
 	}
 
+	@Test
 	public void deve_ter_nomeLogradouro_valido() {
 		endereco.setNomeLogradouro("Exemplo");
 		assertThat(endereco.getNomeLogradouro(), is(TESTE_NOME_LOGRADOURO));
@@ -178,5 +181,38 @@ public class EnderecoTeste {
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("O tipo de logradouro deve ser válido.");
 		endereco.setTipoLogradouro("Ru12");
+	}
+	
+	@Test
+	public void deve_ter_tipoEndereco_residencial_valido() {
+		endereco.setTipoEndereco("Residencial");
+		assertThat(endereco.getTipoEndereco(), is(TESTE_ENDERECO_RESIDENCIAL));
+	}
+	
+	@Test
+	public void deve_ter_tipoEndereco_comercial_valido() {
+		endereco.setTipoEndereco("Comercial");
+		assertThat(endereco.getTipoEndereco(), is(TESTE_ENDERECO_COMERCIAL));
+	}
+	
+	@Test
+	public void nao_deve_ter_tipoEndereco_nulo() {
+		thrown.expect(NullPointerException.class);
+		thrown.expectMessage("O tipo de endereço deve ser preenchido.");
+		endereco.setTipoEndereco(null);
+	}
+	
+	@Test
+	public void nao_deve_ter_tipoEndereco_vazio() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("O tipo de endereço não pode ficar vazio.");
+		endereco.setTipoEndereco("");
+	}
+	
+	@Test
+	public void nao_deve_ter_tipoEndereco_invalido() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("O tipo de endereço deve ser ou residencial, ou comercial.");
+		endereco.setTipoEndereco("exemplo");
 	}
 }

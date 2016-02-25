@@ -58,6 +58,7 @@ public class Endereco {
 	}
 
 	public void setTipoEndereco(String tipoEndereco) {
+		this.validaTipoEndereco(tipoEndereco);
 		this.tipoEndereco = tipoEndereco;
 	}
 	
@@ -79,6 +80,12 @@ public class Endereco {
 		this.verificaSeCepVazio(cep);
 		this.verificaSeCepValido(cep);
 		this.verificaCepTamanho(cep);
+	}
+	
+	public void validaTipoEndereco(String tipoEndereco){
+		this.verificaSeTipoEnderecoNulo(tipoEndereco);
+		this.verificaSeTipoEnderecoVazio(tipoEndereco);
+		this.verificaSeTipoEnderecoValido(tipoEndereco);
 	}
 
 	// verificações
@@ -133,6 +140,18 @@ public class Endereco {
 		for (int i = 0; i < cep.length(); i++) {
 			checkArgument(!Character.isLetter(cep.charAt(i)), "O CEP só pode conter números.");
 		}
+	}
+	
+	public void verificaSeTipoEnderecoNulo(String tipoEndereco){
+		checkNotNull(tipoEndereco, "O tipo de endereço deve ser preenchido.");
+	}
+	
+	public void verificaSeTipoEnderecoVazio(String tipoEndereco){
+		checkArgument(!tipoEndereco.equals(""), "O tipo de endereço não pode ficar vazio.");
+	}
+	
+	public void verificaSeTipoEnderecoValido(String tipoEndereco){
+		checkArgument(tipoEndereco.equals("Residencial") || tipoEndereco.equals("Comercial"), "O tipo de endereço deve ser ou residencial, ou comercial.");
 	}
 
 	@Override

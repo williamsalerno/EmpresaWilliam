@@ -92,6 +92,10 @@ public class Empresa {
 	private Date dataDeCriacao;
 	
 	private String site;
+	
+	Date dataAtual = new Date();
+	Date dataAtualZerada = zerarData(dataAtual);
+	Date dataDeCriacaoZerado = zerarData(dataDeCriacao);
 
 	// getters e setters
 	/**
@@ -246,7 +250,7 @@ public class Empresa {
 	
 	public void validaData(Date dataDeCriacao){
 		this.verificaSeDataNulo(dataDeCriacao);
-		this.zerarData(dataDeCriacao);
+		Empresa.zerarData(dataDeCriacao);
 		this.verificaSeDataValida(dataDeCriacao);
 	}
 	
@@ -385,9 +389,6 @@ public class Empresa {
 	}
 	
 	public void verificaSeDataValida(Date dataDeCriacao){
-		Date dataAtual = new Date();
-		Date dataAtualZerada = zerarData(dataAtual);
-		Date dataDeCriacaoZerado = zerarData(dataDeCriacao);
 		checkArgument(!dataDeCriacaoZerado.before(dataAtualZerada), "Data informada não pode ser posterior.");
 		checkArgument(!dataDeCriacaoZerado.after(dataAtualZerada), "Data informada nao pode ser anterior.");
 	}

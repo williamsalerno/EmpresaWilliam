@@ -16,6 +16,7 @@ public class EmpresaTeste {
 	private Empresa empresa;
 	private Endereco[] enderecos;
 	private Telefone[] telefones;
+	private Date dataTeste;
 	private final String TESTE_CNPJ = "12345678912345";
 	private final String TESTE_RAZAO_SOCIAL = "Teste";
 	private final String TESTE_PROPRIETARIO = "Exemplo";
@@ -36,6 +37,7 @@ public class EmpresaTeste {
 		this.empresa = new Empresa();
 		this.enderecos = new Endereco[2];
 		this.telefones = new Telefone[2];
+		this.dataTeste = new Date();
 		
 		Endereco end1 = new Endereco();
 		end1.setTipoLogradouro("Rua");
@@ -239,5 +241,4 @@ public class EmpresaTeste {
 	public void deve_ter_data_valido() {
 		empresa.setDataDeCriacao(new Date());
 	}
-
 }
