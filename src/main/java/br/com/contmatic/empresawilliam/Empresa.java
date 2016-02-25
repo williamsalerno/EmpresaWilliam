@@ -1,10 +1,10 @@
 package br.com.contmatic.empresawilliam;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.text.*;
-import java.util.Arrays;
 import java.util.Date;
 
 public class Empresa {
@@ -98,15 +98,6 @@ public class Empresa {
 	private String site;
 	
 	private Date dataAtual = new Date();
-	
-
-	public Date getDataDeAlteracao() {
-		return dataDeAlteracao;
-	}
-
-	public void setDataDeAlteracao(Date dataDeAlteracao) {
-		this.dataDeAlteracao = dataDeAlteracao;
-	}
 
 	// getters e setters
 	/**
@@ -210,9 +201,19 @@ public class Empresa {
 	}
 
 	public void setDataDeCriacao(Date dataDeCriacao) {
-		this.validaData(dataDeCriacao);
-		this.converteData(dataDeCriacao);
+		this.validaDataDeCriacao(dataDeCriacao);
+		this.converteDataDeCriacao(dataDeCriacao);
 		this.dataDeCriacao = dataDeCriacao;
+	}
+	
+	public Date getDataDeAlteracao() {
+		return dataDeAlteracao;
+	}
+
+	public void setDataDeAlteracao(Date dataDeAlteracao) {
+		this.validaDataDeCriacao(dataDeAlteracao);
+		this.converteDataDeAlteracao(dataDeAlteracao);
+		this.dataDeAlteracao = dataDeAlteracao;
 	}
 
 	// validações
@@ -265,26 +266,45 @@ public class Empresa {
 		this.verificaSeSiteValido(site);
 	}
 	
-	public void validaData(Date dataDeCriacao){
+	public void validaDataDeCriacao(Date dataDeCriacao){
 		this.verificaSeDataDeCriacaoNulo(dataDeCriacao);
 		this.verificaSeDataDeCriacaoEAnterior(dataDeCriacao);
 		this.verificaSeDataDeCriacaoEPosterior(dataDeCriacao);
 	}
 	
-	public String converteData(Date dataDeCriacao){
-		this.capturaData(dataDeCriacao);
-		String dataFormatada;
+	public void validaDataDeAlteracao(Date dataDeAlteracao){
+		this.verificaSeDataDeAlteracaoNulo(dataDeAlteracao);
+		this.verificaSeDataDeAlteracaoEAnteriorACriacao(dataDeAlteracao);
+		this.verificaSeDataDeAlteracaoEPosteriorACriacao(dataDeAlteracao);
+	}
+	
+	public String converteDataDeAlteracao(Date dataDeAlteracao){
+		this.capturaDataDeCriacao(dataDeAlteracao);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		dataFormatada = sdf.format(dataDeCriacao);
-		return dataFormatada;
+		return sdf.format(dataDeAlteracao);
+	}
+	
+	public String converteDataDeCriacao(Date dataDeCriacao){
+		this.capturaDataDeCriacao(dataDeCriacao);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		return sdf.format(dataDeCriacao);
 	}
 	
 	@SuppressWarnings("deprecation")
-	public Date capturaData(Date dataDeCriacao){
+	public Date capturaDataDeCriacao(Date dataDeCriacao){
 		dataDeCriacao.getDate();
 		dataDeCriacao.getMonth();
 		dataDeCriacao.getYear();
 		Date data = dataDeCriacao;
+		return data;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public Date capturaDataDeAlteracao(Date dataDeAlteracao){
+		dataDeAlteracao.getDate();
+		dataDeAlteracao.getMonth();
+		dataDeAlteracao.getYear();
+		Date data = dataDeAlteracao;
 		return data;
 	}
 	
@@ -444,6 +464,18 @@ public class Empresa {
 		checkArgument(!dataDeCriacao.after(dataAtual), "Data informada não pode ser posterior.");
 	}
 	
+	public void verificaSeDataDeAlteracaoNulo(Date dataDeAlteracao){
+		checkNotNull(dataDeAlteracao, "A data de alteração deve ser preenchida.");
+	}
+	
+	public void verificaSeDataDeAlteracaoEAnteriorACriacao(Date dataDeAlteracao){
+		checkState(!dataDeAlteracao.before(getDataDeCriacao()), "A data de alteração não pode ser anterior à data de criação.");
+	}
+	
+	public void verificaSeDataDeAlteracaoEPosteriorACriacao(Date dataDeAlteracao){
+		checkState(!dataDeAlteracao.after(getDataDeCriacao()), "A data de alteração não pode ser posterior à data de criação.");
+	}
+	
 	public void verificaSeEnderecosNulo(Endereco[] enderecos){
 		checkNotNull(enderecos, "O endereço deve ser preenchido.");
 	}
@@ -504,13 +536,4 @@ public class Empresa {
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "Empresa [razaoSocial=" + razaoSocial + ", \ncnpj=" + cnpj + ", \nproprietario=" + proprietario + ", \nemail="
-				+ email + ", \nenderecos=" + Arrays.toString(enderecos) + ", \ntelefones=" + Arrays.toString(telefones)
-				+ ", \ndataDeCriacao=" + converteData(getDataDeCriacao()) + ", \ndataDeAlteracao=" + dataDeAlteracao + ", \nsite=" + site + "]";
-	}
-	
-	
 }

@@ -340,13 +340,13 @@ public class EmpresaTeste {
 	}
 	
 	@Test
-	public void deve_ter_data_valido() {
+	public void deve_ter_dataCriacao_valido() {
 		empresa.setDataDeCriacao(dataTesteAtual);
 		assertThat(empresa.getDataDeCriacao(), is(dataTesteAtual));
 	}
 	
 	@Test
-	public void nao_deve_ter_data_nulo(){
+	public void nao_deve_ter_dataCriacao_nulo(){
 		thrown.expect(NullPointerException.class);
 		thrown.expectMessage("Por gentileza informar uma data.");
 		empresa.setDataDeCriacao(null);
@@ -357,7 +357,7 @@ public class EmpresaTeste {
 	public void nao_deve_ter_dataCriacao_posterior(){
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("Data informada não pode ser posterior.");
-		empresa.setDataDeCriacao(new Date(120, 01, 26));
+		empresa.setDataDeCriacao(new Date(116, 01, 26));
 		System.out.println(empresa.getDataDeCriacao());
 	}
 	
@@ -366,7 +366,7 @@ public class EmpresaTeste {
 	public void nao_deve_ter_dataCriacao_anterior(){
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("Data informada não pode ser anterior.");
-		empresa.setDataDeCriacao(new Date(100, 01, 26));
+		empresa.setDataDeCriacao(new Date(116, 01, 22));
 		System.out.println(empresa.getDataDeCriacao());
 	}
 	
@@ -410,7 +410,7 @@ public class EmpresaTeste {
 		empresa.setEmail("teste@exemplo.com");
 		empresa.setSite("exemplo.teste.com");
 		empresa.setDataDeCriacao(new Date());
-		empresa.converteData(empresa.getDataDeCriacao());
+		empresa.converteDataDeCriacao(empresa.getDataDeCriacao());
 		
 		System.out.println(empresa.toString());
 	}
