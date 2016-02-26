@@ -93,7 +93,6 @@ public class EnderecoTeste {
 		assertThat(endereco.getNumeroEndereco(), is(TESTE_NUMERO));
 	}
 
-	@Ignore
 	@Test
 	public void nao_deve_ter_numeroEndereco_menor_que_limite() {
 		thrown.expect(IllegalArgumentException.class);

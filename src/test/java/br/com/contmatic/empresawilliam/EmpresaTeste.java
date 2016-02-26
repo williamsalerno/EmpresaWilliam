@@ -44,7 +44,7 @@ public class EmpresaTeste {
 	@SuppressWarnings("deprecation")
 	@Before
 	public void gerarEmpresa() {
-		this.empresa = new Empresa();
+		empresa = new Empresa();
 		this.enderecos = new Endereco[2];
 		this.telefones = new Telefone[2];
 		this.enderecoVazio = new Endereco[1];
