@@ -386,7 +386,7 @@ public class EmpresaTeste {
 		empresa.setDataDeAlteracao(dataTesteAlteracao);
 		assertTrue(empresa.getDataDeAlteracao().after(dataTesteAtual));
 	}
-	
+
 	@Test
 	public void nao_deve_ter_dataCriacao_posterior_a_alteracao() {
 		thrown.expect(IllegalStateException.class);
@@ -394,7 +394,6 @@ public class EmpresaTeste {
 		empresa.setDataDeAlteracao(dataTesteOntem);
 
 	}
-
 
 	@SuppressWarnings("deprecation")
 	@Test
@@ -451,10 +450,10 @@ public class EmpresaTeste {
 
 		System.out.println(empresa);
 	}
-	
+
 	@Ignore
 	@Test
-	public void imprime_empresa_nulo(){
+	public void imprime_empresa_nulo() {
 		System.out.println(empresa);
 	}
 }

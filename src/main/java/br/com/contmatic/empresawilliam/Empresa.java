@@ -803,10 +803,10 @@ public class Empresa {
 	 */
 	@Override
 	public String toString() {
-		return "Empresa [razaoSocial=" + razaoSocial + ", \ncnpj=" + cnpj + ", \nproprietario=" + proprietario + ", \nemail="
-				+ email + ", \nenderecos=" + Arrays.toString(enderecos) + ", \ntelefones=" + Arrays.toString(telefones)
-				+ ", \ndataDeCriacao=" + converteDataDeCriacao(dataDeCriacao) + ", \ndataDeAlteracao="
-				+ converteDataDeAlteracao(dataDeAlteracao) + ", \nsite=" + site + "]";
+		return "Empresa [razaoSocial=" + razaoSocial + ", \ncnpj=" + cnpj + ", \nproprietario=" + proprietario
+				+ ", \nemail=" + email + ", \nenderecos=" + Arrays.toString(enderecos) + ", \ntelefones="
+				+ Arrays.toString(telefones) + ", \ndataDeCriacao=" + converteDataDeCriacao(dataDeCriacao)
+				+ ", \ndataDeAlteracao=" + converteDataDeAlteracao(dataDeAlteracao) + ", \nsite=" + site + "]";
 	}
 
 }
