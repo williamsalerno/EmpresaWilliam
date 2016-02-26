@@ -354,6 +354,28 @@ public class Empresa {
 	}
 
 	/**
+	 * Verifica se a lista de endereços possui referências válidas.
+	 * 
+	 * @param enderecos
+	 */
+	public void validaEnderecos(Endereco[] enderecos) {
+		this.verificaSeEnderecosNulo(enderecos);
+		this.verificaSeEnderecosVazio(enderecos);
+		this.verificaSeEnderecosValido(enderecos);
+	}
+
+	/**
+	 * Verifica se a lista de telefones possui referências válidas.
+	 * 
+	 * @param telefones
+	 */
+	public void validaTelefones(Telefone[] telefones) {
+		this.verificaSeTelefonesNulo(telefones);
+		this.verificaSeTelefonesVazio(telefones);
+		this.verificaSeTelefonesValido(telefones);
+	}
+
+	/**
 	 * Verifica se data de criação possui um valor válido.
 	 * 
 	 * @param dataDeCriacao
@@ -427,28 +449,6 @@ public class Empresa {
 		dataDeAlteracao.getYear();
 		Date data = dataDeAlteracao;
 		return data;
-	}
-
-	/**
-	 * Verifica se a lista de endereços possui referências válidas.
-	 * 
-	 * @param enderecos
-	 */
-	public void validaEnderecos(Endereco[] enderecos) {
-		this.verificaSeEnderecosNulo(enderecos);
-		this.verificaSeEnderecosVazio(enderecos);
-		this.verificaSeEnderecosValido(enderecos);
-	}
-
-	/**
-	 * Verifica se a lista de telefones possui referências válidas.
-	 * 
-	 * @param telefones
-	 */
-	public void validaTelefones(Telefone[] telefones) {
-		this.verificaSeTelefonesNulo(telefones);
-		this.verificaSeTelefonesVazio(telefones);
-		this.verificaSeTelefonesValido(telefones);
 	}
 
 	// verificações
@@ -730,13 +730,23 @@ public class Empresa {
 	}
 
 	/**
+	 * Verifica se data de criação existe para uma data de alteração ser gerada.
+	 * 
+	 * @param dataDeAlteracao
+	 */
+	public void verificaSeDataDeCriacaoExiste(Date dataDeAlteracao) {
+		verificaSeDataDeCriacaoNulo(dataDeCriacao);
+	}
+
+	/**
 	 * Verifica se a data de alteração da empresa é não é anterior à data de
 	 * criação dela.
 	 * 
 	 * @param dataDeAlteracao
 	 */
 	public void verificaSeDataDeAlteracaoEAnteriorACriacao(Date dataDeAlteracao) {
-		checkState(!dataDeAlteracao.before(getDataDeCriacao()),
+		this.verificaSeDataDeCriacaoExiste(getDataDeCriacao());
+		checkState(dataDeAlteracao.after(getDataDeCriacao()),
 				"A data de alteração não pode ser anterior à data de criação.");
 	}
 

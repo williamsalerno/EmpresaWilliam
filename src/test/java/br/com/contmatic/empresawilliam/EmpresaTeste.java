@@ -24,7 +24,7 @@ public class EmpresaTeste {
 	private Empresa empresa;
 	private Endereco[] enderecos, enderecoVazio, temUmEndereco;
 	private Telefone[] telefones, telefoneVazio, temUmTelefone;
-	private Date dataTesteAtual, dataTesteAlteracao;
+	private Date dataTesteAtual, dataTesteAlteracao, dataTesteOntem;
 	private final String TESTE_CNPJ = "12345678912345";
 	private final String TESTE_RAZAO_SOCIAL = "Teste";
 	private final String TESTE_PROPRIETARIO = "Exemplo";
@@ -53,6 +53,7 @@ public class EmpresaTeste {
 		this.temUmTelefone = new Telefone[1];
 		this.dataTesteAtual = new Date();
 		this.dataTesteAlteracao = new Date(120, 04, 14);
+		this.dataTesteOntem = new Date(116, 01, 20);
 
 		Endereco end1 = new Endereco();
 		end1.setTipoLogradouro("Rua");
@@ -374,12 +375,6 @@ public class EmpresaTeste {
 	}
 
 	@Test
-	public void deve_ter_dataAlteracao_valido() {
-		empresa.setDataDeAlteracao(dataTesteAlteracao);
-		assertTrue(empresa.getDataDeAlteracao().after(dataTesteAtual));
-	}
-
-	@Test
 	public void nao_deve_ter_dataAlteracao_nulo() {
 		thrown.expect(NullPointerException.class);
 		thrown.expectMessage("A data de alteração deve ser preenchida.");
@@ -391,6 +386,15 @@ public class EmpresaTeste {
 		empresa.setDataDeAlteracao(dataTesteAlteracao);
 		assertTrue(empresa.getDataDeAlteracao().after(dataTesteAtual));
 	}
+	
+	@Test
+	public void nao_deve_ter_dataCriacao_posterior_a_alteracao() {
+		thrown.expect(IllegalStateException.class);
+		thrown.expectMessage("A data de alteração não pode ser anterior à data de criação.");
+		empresa.setDataDeAlteracao(dataTesteOntem);
+
+	}
+
 
 	@SuppressWarnings("deprecation")
 	@Test
@@ -445,6 +449,12 @@ public class EmpresaTeste {
 		empresa.setDataDeAlteracao(dataTesteAlteracao);
 		empresa.converteDataDeAlteracao(empresa.getDataDeAlteracao());
 
+		System.out.println(empresa);
+	}
+	
+	@Ignore
+	@Test
+	public void imprime_empresa_nulo(){
 		System.out.println(empresa);
 	}
 }
