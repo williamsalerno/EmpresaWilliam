@@ -175,40 +175,40 @@ public class EnderecoTeste {
 		thrown.expectMessage("O tipo de logradouro deve ter no mínimo 3 caracteres e no máximo 10 caracteres.");
 		endereco.setTipoLogradouro("exemploexemplo");
 	}
-	
+
 	@Test
 	public void nao_deve_ter_tipoLogradouro_invalido() {
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("O tipo de logradouro deve ser válido.");
 		endereco.setTipoLogradouro("Ru12");
 	}
-	
+
 	@Test
 	public void deve_ter_tipoEndereco_residencial_valido() {
 		endereco.setTipoEndereco("Residencial");
 		assertThat(endereco.getTipoEndereco(), is(TESTE_ENDERECO_RESIDENCIAL));
 	}
-	
+
 	@Test
 	public void deve_ter_tipoEndereco_comercial_valido() {
 		endereco.setTipoEndereco("Comercial");
 		assertThat(endereco.getTipoEndereco(), is(TESTE_ENDERECO_COMERCIAL));
 	}
-	
+
 	@Test
 	public void nao_deve_ter_tipoEndereco_nulo() {
 		thrown.expect(NullPointerException.class);
 		thrown.expectMessage("O tipo de endereço deve ser preenchido.");
 		endereco.setTipoEndereco(null);
 	}
-	
+
 	@Test
 	public void nao_deve_ter_tipoEndereco_vazio() {
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("O tipo de endereço não pode ficar vazio.");
 		endereco.setTipoEndereco("");
 	}
-	
+
 	@Test
 	public void nao_deve_ter_tipoEndereco_invalido() {
 		thrown.expect(IllegalArgumentException.class);

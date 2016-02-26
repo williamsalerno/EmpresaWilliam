@@ -16,52 +16,52 @@ public class Endereco {
 	 * Define um tamanho mínimo para número de endereço.
 	 */
 	private final static int TAMANHO_NUMERO_DE_ENDERECO_MINIMO = 1;
-	
+
 	/**
 	 * Define um tamanho máximo para número de endereço.
 	 */
 	private final static int TAMANHO_NUMERO_DE_ENDERECO_MAXIMO = 9999;
-	
+
 	/**
 	 * Define um tamanho mínimo para tipo de logradouro.
 	 */
 	private final static int TAMANHO_TIPO_DE_LOGRADOURO_MINIMO = 3;
-	
+
 	/**
 	 * Define um tamanho máximo para tipo de logradouro.
 	 */
 	private final static int TAMANHO_TIPO_DE_LOGRADOURO_MAXIMO = 10;
-	
+
 	/**
 	 * Define um tamanho máximo para nome de logradouro.
 	 */
 	private final static int TAMANHO_NOME_DE_LOGRADOURO_MAXIMO = 30;
-	
+
 	/**
 	 * Define um tamanho específico para CEP.
 	 */
 	private final static int TAMANHO_CEP = 8;
-	
+
 	/**
 	 * Número de endereço.
 	 */
 	private int numeroEndereco;
-	
+
 	/**
 	 * Tipo de logradouro.
 	 */
 	private String tipoLogradouro;
-	
+
 	/**
 	 * Nome de logradouro.
 	 */
 	private String nomeLogradouro;
-	
+
 	/**
 	 * CEP.
 	 */
 	private String cep;
-	
+
 	/**
 	 * Tipo de endereço.
 	 */
@@ -70,6 +70,7 @@ public class Endereco {
 	// getters e setters
 	/**
 	 * Obtém tipo de logradouro.
+	 * 
 	 * @return
 	 */
 	public String getTipoLogradouro() {
@@ -77,7 +78,9 @@ public class Endereco {
 	}
 
 	/**
-	 * Determina um valor para tipo de logradouro e chama um método de validação.
+	 * Determina um valor para tipo de logradouro e chama um método de
+	 * validação.
+	 * 
 	 * @param tipoLogradouro
 	 */
 	public void setTipoLogradouro(String tipoLogradouro) {
@@ -87,6 +90,7 @@ public class Endereco {
 
 	/**
 	 * Obtém nome de logradouro.
+	 * 
 	 * @return
 	 */
 	public String getNomeLogradouro() {
@@ -94,7 +98,9 @@ public class Endereco {
 	}
 
 	/**
-	 * Determina um valor para nome de logradouro e chama um método de validação.
+	 * Determina um valor para nome de logradouro e chama um método de
+	 * validação.
+	 * 
 	 * @param nomeLogradouro
 	 */
 	public void setNomeLogradouro(String nomeLogradouro) {
@@ -104,6 +110,7 @@ public class Endereco {
 
 	/**
 	 * Obtém número de endereço.
+	 * 
 	 * @return
 	 */
 	public int getNumeroEndereco() {
@@ -111,7 +118,9 @@ public class Endereco {
 	}
 
 	/**
-	 * Determina um valor para número de endereço e chama um método de validação.
+	 * Determina um valor para número de endereço e chama um método de
+	 * validação.
+	 * 
 	 * @param numeroEndereco
 	 */
 	public void setNumeroEndereco(int numeroEndereco) {
@@ -121,14 +130,16 @@ public class Endereco {
 
 	/**
 	 * Obtém CEP.
+	 * 
 	 * @return
 	 */
 	public String getCep() {
 		return cep;
 	}
-	
+
 	/**
 	 * Determina um valor para CEP e chama um método de validação.
+	 * 
 	 * @param cep
 	 */
 	public void setCep(String cep) {
@@ -138,58 +149,64 @@ public class Endereco {
 
 	/**
 	 * Obtém tipo de endereço.
+	 * 
 	 * @return
 	 */
 	public String getTipoEndereco() {
 		return tipoEndereco;
 	}
-	
+
 	/**
 	 * Determina um valor para tipo de endereço e chama um método de validação.
+	 * 
 	 * @param tipoEndereco
 	 */
 	public void setTipoEndereco(String tipoEndereco) {
 		this.validaTipoEndereco(tipoEndereco);
 		this.tipoEndereco = tipoEndereco;
 	}
-	
+
 	// validações
 	/**
 	 * Verifica se tipo de logradouro possui um valor válido.
+	 * 
 	 * @param tipoLogradouro
 	 */
-	public void validaTipoLogradouro(String tipoLogradouro){
+	public void validaTipoLogradouro(String tipoLogradouro) {
 		this.verificaSeTipoLogradouroNulo(tipoLogradouro);
 		this.verificaSeTipoLogradouroVazio(tipoLogradouro);
 		this.verificaSeTipoLogradouroValido(tipoLogradouro);
 		this.verificaTamanhoTipoLogradouro(tipoLogradouro);
 	}
-	
+
 	/**
 	 * Verifica se nome de logradouro possui um valor válido.
+	 * 
 	 * @param nomeLogradouro
 	 */
-	public void validaNomeLogradouro(String nomeLogradouro){
+	public void validaNomeLogradouro(String nomeLogradouro) {
 		this.verificaSeNomeLogradouroNulo(nomeLogradouro);
 		this.verificaTamanhoNomeLogradouro(nomeLogradouro);
 	}
-	
+
 	/**
 	 * Verifica se CEP possui um valor válido.
+	 * 
 	 * @param cep
 	 */
-	public void validaCep(String cep){
+	public void validaCep(String cep) {
 		this.verificaSeCepNulo(cep);
 		this.verificaSeCepVazio(cep);
 		this.verificaSeCepValido(cep);
 		this.verificaCepTamanho(cep);
 	}
-	
+
 	/**
 	 * Verifica se tipo de endereço possui um valor válido.
+	 * 
 	 * @param tipoEndereco
 	 */
-	public void validaTipoEndereco(String tipoEndereco){
+	public void validaTipoEndereco(String tipoEndereco) {
 		this.verificaSeTipoEnderecoNulo(tipoEndereco);
 		this.verificaSeTipoEnderecoVazio(tipoEndereco);
 		this.verificaSeTipoEnderecoValido(tipoEndereco);
@@ -198,6 +215,7 @@ public class Endereco {
 	// verificações
 	/**
 	 * Checa se tipo de logradouro é nulo.
+	 * 
 	 * @param tipoLogradouro
 	 */
 	public void verificaSeTipoLogradouroNulo(String tipoLogradouro) {
@@ -206,6 +224,7 @@ public class Endereco {
 
 	/**
 	 * Checa se tipo de logradouro está vazio.
+	 * 
 	 * @param tipoLogradouro
 	 */
 	public void verificaSeTipoLogradouroVazio(String tipoLogradouro) {
@@ -214,6 +233,7 @@ public class Endereco {
 
 	/**
 	 * Checa se tipo de logradouro está dentro dos limites de caracteres.
+	 * 
 	 * @param tipoLogradouro
 	 */
 	public void verificaTamanhoTipoLogradouro(String tipoLogradouro) {
@@ -225,6 +245,7 @@ public class Endereco {
 
 	/**
 	 * Checa se tipo de logradouro só possui letras.
+	 * 
 	 * @param tipoLogradouro
 	 */
 	public void verificaSeTipoLogradouroValido(String tipoLogradouro) {
@@ -235,6 +256,7 @@ public class Endereco {
 
 	/**
 	 * Checa se nome de logradouro é nulo.
+	 * 
 	 * @param nomeLogradouro
 	 */
 	public void verificaSeNomeLogradouroNulo(String nomeLogradouro) {
@@ -243,6 +265,7 @@ public class Endereco {
 
 	/**
 	 * Checa se nome de logradouro está dentro dos limites de caracteres.
+	 * 
 	 * @param nomeLogradouro
 	 */
 	public void verificaTamanhoNomeLogradouro(String nomeLogradouro) {
@@ -252,6 +275,7 @@ public class Endereco {
 
 	/**
 	 * Checa se número de endereço tem o valor dentro dos limites.
+	 * 
 	 * @param numeroEndereco
 	 */
 	public void verificaSeNumeroEnderecoValido(int numeroEndereco) {
@@ -261,6 +285,7 @@ public class Endereco {
 
 	/**
 	 * Checa se CEP é nulo.
+	 * 
 	 * @param cep
 	 */
 	public void verificaSeCepNulo(String cep) {
@@ -269,6 +294,7 @@ public class Endereco {
 
 	/**
 	 * Checa se CEP está vazio.
+	 * 
 	 * @param cep
 	 */
 	public void verificaSeCepVazio(String cep) {
@@ -277,6 +303,7 @@ public class Endereco {
 
 	/**
 	 * Checa se CEP tem o tamanho de caracteres de acordo com o especificado.
+	 * 
 	 * @param cep
 	 */
 	public void verificaCepTamanho(String cep) {
@@ -285,6 +312,7 @@ public class Endereco {
 
 	/**
 	 * Checa se CEP só contém números.
+	 * 
 	 * @param cep
 	 */
 	public void verificaSeCepValido(String cep) {
@@ -292,29 +320,34 @@ public class Endereco {
 			checkArgument(!Character.isLetter(cep.charAt(i)), "O CEP só pode conter números.");
 		}
 	}
-	
+
 	/**
 	 * Checa se tipo de endereço é nulo.
+	 * 
 	 * @param tipoEndereco
 	 */
-	public void verificaSeTipoEnderecoNulo(String tipoEndereco){
+	public void verificaSeTipoEnderecoNulo(String tipoEndereco) {
 		checkNotNull(tipoEndereco, "O tipo de endereço deve ser preenchido.");
 	}
-	
+
 	/**
 	 * Checa se tipo de endereço está vazio.
+	 * 
 	 * @param tipoEndereco
 	 */
-	public void verificaSeTipoEnderecoVazio(String tipoEndereco){
+	public void verificaSeTipoEnderecoVazio(String tipoEndereco) {
 		checkArgument(!tipoEndereco.equals(""), "O tipo de endereço não pode ficar vazio.");
 	}
-	
+
 	/**
-	 * Checa se tipo de endereço é "Residencial" ou "Comercial" para ser validado.
+	 * Checa se tipo de endereço é "Residencial" ou "Comercial" para ser
+	 * validado.
+	 * 
 	 * @param tipoEndereco
 	 */
-	public void verificaSeTipoEnderecoValido(String tipoEndereco){
-		checkArgument(tipoEndereco.equals("Residencial") || tipoEndereco.equals("Comercial"), "O tipo de endereço deve ser ou residencial, ou comercial.");
+	public void verificaSeTipoEnderecoValido(String tipoEndereco) {
+		checkArgument(tipoEndereco.equals("Residencial") || tipoEndereco.equals("Comercial"),
+				"O tipo de endereço deve ser ou residencial, ou comercial.");
 	}
 
 	@Override
@@ -347,6 +380,5 @@ public class Endereco {
 		return "Endereco [numeroEndereco=" + numeroEndereco + ", tipoLogradouro=" + tipoLogradouro + ", nomeLogradouro="
 				+ nomeLogradouro + ", cep=" + cep + ", tipoEndereco=" + tipoEndereco + "]";
 	}
-	
-	
+
 }

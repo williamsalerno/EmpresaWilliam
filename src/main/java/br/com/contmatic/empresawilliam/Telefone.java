@@ -5,22 +5,22 @@ import static com.google.common.base.Preconditions.*;
 public class Telefone {
 
 	/**
-	 *  Define um tamanho específico para celular.
+	 * Define um tamanho específico para celular.
 	 */
 	private final static int TAMANHO_CELULAR = 9;
-	
+
 	/**
-	 *  Define um tamanho específico para fixo.
+	 * Define um tamanho específico para fixo.
 	 */
 	private final static int TAMANHO_FIXO = 8;
-	
+
 	/**
 	 * Define um tamanho mínimo para ddd.
 	 */
 	private final static int TAMANHO_MINIMO_DDD = 1;
-	
+
 	/**
-	 *  Define um tamanho máximo para ddd.
+	 * Define um tamanho máximo para ddd.
 	 */
 	private final static int TAMANHO_MAXIMO_DDD = 99;
 
@@ -28,12 +28,12 @@ public class Telefone {
 	 * Tipo de telefone.
 	 */
 	private String tipoTelefone;
-	
+
 	/**
 	 * DDD.
 	 */
 	private int ddd;
-	
+
 	/**
 	 * Número de telefone.
 	 */
@@ -41,15 +41,17 @@ public class Telefone {
 
 	/**
 	 * Obtém tipo de telefone.
+	 * 
 	 * @return
 	 */
 	public String getTipoTelefone() {
 		return tipoTelefone;
 	}
 
-	
 	/**
-	 * Determina um valor para tipo de telefone e chama um método de verificação.
+	 * Determina um valor para tipo de telefone e chama um método de
+	 * verificação.
+	 * 
 	 * @param tipoTelefone
 	 */
 	public void setTipoTelefone(String tipoTelefone) {
@@ -59,15 +61,16 @@ public class Telefone {
 
 	/**
 	 * Obtém DDD.
+	 * 
 	 * @return
 	 */
 	public int getDdd() {
 		return ddd;
 	}
 
-	
 	/**
 	 * Determina um valor para DDD e chama um método de verificação.
+	 * 
 	 * @param ddd
 	 */
 	public void setDdd(int ddd) {
@@ -77,15 +80,17 @@ public class Telefone {
 
 	/**
 	 * Obtém número de telefone.
+	 * 
 	 * @return
 	 */
 	public String getNumeroTelefone() {
 		return numeroTelefone;
 	}
 
-	
 	/**
-	 * Determina um valor para número de telefone e chama um método de verificação.
+	 * Determina um valor para número de telefone e chama um método de
+	 * verificação.
+	 * 
 	 * @param numeroTelefone
 	 */
 	public void setNumeroTelefone(String numeroTelefone) {
@@ -96,6 +101,7 @@ public class Telefone {
 	// validações
 	/**
 	 * Verifica se tipo de telefone tem valor válido.
+	 * 
 	 * @param tipoTelefone
 	 */
 	public void validaTipoTelefone(String tipoTelefone) {
@@ -106,6 +112,7 @@ public class Telefone {
 
 	/**
 	 * Verifica se número de telefone tem valor válido.
+	 * 
 	 * @param numeroTelefone
 	 */
 	public void validaNumeroTelefone(String numeroTelefone) {
@@ -117,6 +124,7 @@ public class Telefone {
 	// verificações
 	/**
 	 * Checa se tipo de telefone é nulo.
+	 * 
 	 * @param tipoTelefone
 	 */
 	public void verificaSeTipoTelefoneNulo(String tipoTelefone) {
@@ -125,6 +133,7 @@ public class Telefone {
 
 	/**
 	 * Checa se tipo de telefone está vazio.
+	 * 
 	 * @param tipoTelefone
 	 */
 	public void verificaSeTipoTelefoneVazio(String tipoTelefone) {
@@ -132,7 +141,9 @@ public class Telefone {
 	}
 
 	/**
-	 * Checa se tipo de telefone tem valor "Fixo" ou "Celular" para ser validado.
+	 * Checa se tipo de telefone tem valor "Fixo" ou "Celular" para ser
+	 * validado.
+	 * 
 	 * @param tipoTelefone
 	 */
 	public void verificaSeTipoTelefoneValido(String tipoTelefone) {
@@ -142,6 +153,7 @@ public class Telefone {
 
 	/**
 	 * Checa se DDD está dentro dos limites de valores para ser validado.
+	 * 
 	 * @param ddd
 	 */
 	public void verificaSeDddValido(int ddd) {
@@ -151,6 +163,7 @@ public class Telefone {
 
 	/**
 	 * Checa se número de telefone é nulo.
+	 * 
 	 * @param numeroTelefone
 	 */
 	public void verificaSeNumeroTelefoneNulo(String numeroTelefone) {
@@ -159,6 +172,7 @@ public class Telefone {
 
 	/**
 	 * Checa se número de telefone está nulo.
+	 * 
 	 * @param numeroTelefone
 	 */
 	public void verificaSeNumeroTelefoneVazio(String numeroTelefone) {
@@ -167,14 +181,19 @@ public class Telefone {
 
 	/**
 	 * Checa se tipo "Fixo" tem 8 dígitos ou tipo "Celular" tem 9 dígitos.
+	 * 
 	 * @param numeroTelefone
 	 */
 	public void verificaSeNumeroTelefoneValido(String numeroTelefone) {
-		checkArgument(tipoTelefone.equals("Celular") && numeroTelefone.length() == TAMANHO_CELULAR || (tipoTelefone.equals("Fixo") && numeroTelefone.length() == TAMANHO_FIXO),
+		checkArgument(
+				tipoTelefone.equals("Celular") && numeroTelefone.length() == TAMANHO_CELULAR
+						|| (tipoTelefone.equals("Fixo") && numeroTelefone.length() == TAMANHO_FIXO),
 				"Para telefone fixo, por favor informar 8 dígitos. Para telefone celular, por favor informar 9 dígitos.");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -185,7 +204,9 @@ public class Telefone {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -205,13 +226,14 @@ public class Telefone {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "Telefone [tipoTelefone=" + tipoTelefone + ", ddd=" + ddd + ", numeroTelefone=" + numeroTelefone + "]";
 	}
-	
-	
+
 }
