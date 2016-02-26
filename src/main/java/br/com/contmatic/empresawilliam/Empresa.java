@@ -5,6 +5,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.text.*;
+import java.util.Arrays;
 import java.util.Date;
 
 public class Empresa {
@@ -12,12 +13,12 @@ public class Empresa {
 	
 	//Constantes
 	/**
-	 * Define um valor mínimo e máximo para o CNPJ.
+	 * Define um tamanho mínimo e máximo para o CNPJ.
 	 */
 	private final static int TAMANHO_CNPJ = 14;
 	
 	/**
-	 * Define um valor mínimo para razão social.
+	 * Define um tamanho mínimo para razão social.
 	 */
 	private final static int TAMANHO_MINIMO_RAZAOSOCIAL = 4;
 	
@@ -52,10 +53,18 @@ public class Empresa {
 	private final static int TAMANHO_MAXIMO_EMAIL = 50;
 	
 	/**
-	 * Define um tamanho mínimo para os telefones.
+	 * Define um tamanho mínimo para a lista de telefones.
 	 */
 	private final static int TAMANHO_MINIMO_TELEFONE = 2;
+	
+	/**
+	 * Define um tamanho mínimo para o site.
+	 */
 	private final static int TAMANHO_MINIMO_SITE = 6;
+	
+	/**
+	 * Define um tamanho máximo para o site.
+	 */
 	private final static int TAMANHO_MAXIMO_SITE = 50;
 	
 	
@@ -94,11 +103,23 @@ public class Empresa {
 	 * Data de criação.
 	 */
 	private Date dataDeCriacao;
+	
+	/**
+	 * Data de alteração.
+	 */
 	private Date dataDeAlteracao;
+	
+	/**
+	 * Site.
+	 */
 	private String site;
 	
+	/**
+	 * Data atual.
+	 */
 	private Date dataAtual = new Date();
 
+	
 	// getters e setters
 	/**
 	 * Obtém a razão social.
@@ -169,47 +190,87 @@ public class Empresa {
 		this.email = email;
 	}
 
+	/**
+	 * Obtém uma lista de endereços.
+	 * @return
+	 */
 	public Endereco[] getEnderecos() {
 		return enderecos;
 	}
 
+	/**
+	 * Determina referências de Endereços e chama um método de validação.
+	 * @param enderecos
+	 */
 	public void setEnderecos(Endereco[] enderecos) {
 		this.validaEnderecos(enderecos);
 		this.enderecos = enderecos;
 	}
 
+	/**
+	 * Obtém uma lista de telefones.
+	 * @return
+	 */
 	public Telefone[] getTelefones() {
 		return telefones;
 	}
 
+	/**
+	 * Determina referências de Telefones e chama um método de validação.
+	 * @param telefones
+	 */
 	public void setTelefones(Telefone[] telefones) {
 		this.validaTelefones(telefones);
 		this.telefones = telefones;
 	}
 	
+	/**
+	 * Obtém site.
+	 * @return
+	 */
 	public String getSite(){
 		return site;
 	}
 	
+	/**
+	 * Determina um valor para site e chama um método de validação.
+	 * @param site
+	 */
 	public void setSite(String site){
 		this.validaSite(site);
 		this.site = site;
 	}
 	
+	/**
+	 * Obtém data de criação.
+	 * @return
+	 */
 	public Date getDataDeCriacao() {
 		return dataDeCriacao;
 	}
 
+	/**
+	 * Determina um data de criação, chama um método de validação e depois um método de conversão de leitura da data ao usuário.
+	 * @param dataDeCriacao
+	 */
 	public void setDataDeCriacao(Date dataDeCriacao) {
 		this.validaDataDeCriacao(dataDeCriacao);
 		this.converteDataDeCriacao(dataDeCriacao);
 		this.dataDeCriacao = dataDeCriacao;
 	}
 	
+	/**
+	 * Obtém data de alteração.
+	 * @return
+	 */
 	public Date getDataDeAlteracao() {
 		return dataDeAlteracao;
 	}
 
+	/**
+	 * Determina um data de alteração, chama um método de validação e depois um método de conversão de leitura da data ao usuário.
+	 * @param dataDeAlteracao
+	 */
 	public void setDataDeAlteracao(Date dataDeAlteracao) {
 		this.validaDataDeAlteracao(dataDeAlteracao);
 		this.converteDataDeAlteracao(dataDeAlteracao);
@@ -259,6 +320,10 @@ public class Empresa {
 		this.verificaTamanhoEmail(email);
 	}
 	
+	/**
+	 * Verifica se site possui um valor válido.
+	 * @param site
+	 */
 	public void validaSite(String site){
 		this.verificaSeSiteNulo(site);
 		this.verificaSeSiteVazio(site);
@@ -266,30 +331,53 @@ public class Empresa {
 		this.verificaSeSiteValido(site);
 	}
 	
+	/**
+	 * Verifica se data de criação possui um valor válido.
+	 * @param dataDeCriacao
+	 */
 	public void validaDataDeCriacao(Date dataDeCriacao){
 		this.verificaSeDataDeCriacaoNulo(dataDeCriacao);
 		this.verificaSeDataDeCriacaoEAnterior(dataDeCriacao);
 		this.verificaSeDataDeCriacaoEPosterior(dataDeCriacao);
 	}
 	
+	/**
+	 * Verifica se data de alteração possui um valor válido.
+	 * @param dataDeAlteracao
+	 */
 	public void validaDataDeAlteracao(Date dataDeAlteracao){
 		this.verificaSeDataDeAlteracaoNulo(dataDeAlteracao);
 		this.verificaSeDataDeAlteracaoEAnteriorACriacao(dataDeAlteracao);
 		this.verificaSeDataDeAlteracaoEPosteriorACriacao(dataDeAlteracao);
 	}
 	
+	/**
+	 * Converte a data de alteração para uma leitura apropriada ao usuário.
+	 * @param dataDeAlteracao
+	 * @return
+	 */
 	public String converteDataDeAlteracao(Date dataDeAlteracao){
 		this.capturaDataDeCriacao(dataDeAlteracao);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		return sdf.format(dataDeAlteracao);
 	}
 	
+	/**
+	 * Converte a data de criação para uma leitura apropriada ao usuário.
+	 * @param dataDeCriacao
+	 * @return
+	 */
 	public String converteDataDeCriacao(Date dataDeCriacao){
 		this.capturaDataDeCriacao(dataDeCriacao);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		return sdf.format(dataDeCriacao);
 	}
 	
+	/**
+	 * Determina o dia, mês e ano atuais para a data de criação.
+	 * @param dataDeCriacao
+	 * @return
+	 */
 	@SuppressWarnings("deprecation")
 	public Date capturaDataDeCriacao(Date dataDeCriacao){
 		dataDeCriacao.getDate();
@@ -299,6 +387,11 @@ public class Empresa {
 		return data;
 	}
 	
+	/**
+	 * Determina o dia, mês e ano atuais para a data de alteração.
+	 * @param dataDeAlteracao
+	 * @return
+	 */
 	@SuppressWarnings("deprecation")
 	public Date capturaDataDeAlteracao(Date dataDeAlteracao){
 		dataDeAlteracao.getDate();
@@ -308,12 +401,20 @@ public class Empresa {
 		return data;
 	}
 	
+	/**
+	 * Verifica se a lista de endereços possui referências válidas.
+	 * @param enderecos
+	 */
 	public void validaEnderecos(Endereco[] enderecos){
 		this.verificaSeEnderecosNulo(enderecos);
 		this.verificaSeEnderecosVazio(enderecos);
 		this.verificaSeEnderecosValido(enderecos);
 	}
 	
+	/**
+	 * Verifica se a lista de telefones possui referências válidas.
+	 * @param telefones
+	 */
 	public void validaTelefones(Telefone[] telefones){
 		this.verificaSeTelefonesNulo(telefones);
 		this.verificaSeTelefonesVazio(telefones);
@@ -436,50 +537,98 @@ public class Empresa {
 		checkArgument(email.contains("@"), "O email informado é inválido.");
 	}
 	
+	/**
+	 * Checa se site possui pelo menos um ponto.
+	 * @param site
+	 */
 	public void verificaSeSiteValido(String site){
 		checkArgument(site.contains("."), "Site inválido.");
 	}
 	
+	/**
+	 * Checa se site é nulo.
+	 * @param site
+	 */
 	public void verificaSeSiteNulo(String site){
 		checkNotNull(site, "O site deve ser preenchido.");
 	}
 	
+	/**
+	 * Checa se site é vazio.
+	 * @param site
+	 */
 	public void verificaSeSiteVazio(String site){
 		checkArgument(!site.equals(""), "O site não pode ficar vazio.");
 	}
 	
+	/**
+	 * Checa se site contém caracteres dentro dos limites mínimo e máximo.
+	 * @param site
+	 */
 	public void verificaTamanhoSite(String site){
 		checkArgument(site.length() >= TAMANHO_MINIMO_SITE && site.length() <= TAMANHO_MAXIMO_SITE, "O site deve ter entre 6 e 50 caracteres.");
 	}
 	
+	/**
+	 * Checa se a data de criação da empresa é nula.
+	 * @param dataDeCriacao
+	 */
 	public void verificaSeDataDeCriacaoNulo(Date dataDeCriacao){
-		checkNotNull(dataDeCriacao, "Por gentileza informar uma data.");
+		checkNotNull(dataDeCriacao, "Por gentileza informar uma data de criação.");
 	}
 	
+	/**
+	 * Checa se a data de criação da empresa não é anterior à data atual.
+	 * @param dataDeCriacao
+	 */
 	public void verificaSeDataDeCriacaoEAnterior(Date dataDeCriacao){
-		checkArgument(!dataDeCriacao.before(dataAtual), "Data informada não pode ser anterior.");
+		checkArgument(!dataDeCriacao.before(dataAtual), "Data de criação informada não pode ser anterior.");
 	}
 	
+	/**
+	 * Checa se a data de criação da empresa não é posterior à data atual.
+	 * @param dataDeCriacao
+	 */
 	public void verificaSeDataDeCriacaoEPosterior(Date dataDeCriacao){
-		checkArgument(!dataDeCriacao.after(dataAtual), "Data informada não pode ser posterior.");
+		checkArgument(!dataDeCriacao.after(dataAtual), "Data de criação informada não pode ser posterior.");
 	}
 	
+	/**
+	 * Verifica se a data de alteração da empresa é nula.
+	 * @param dataDeAlteracao
+	 */
 	public void verificaSeDataDeAlteracaoNulo(Date dataDeAlteracao){
 		checkNotNull(dataDeAlteracao, "A data de alteração deve ser preenchida.");
 	}
 	
+	/**
+	 * Verifica se a data de alteração da empresa é não é anterior à data de criação dela.
+	 * @param dataDeAlteracao
+	 */
 	public void verificaSeDataDeAlteracaoEAnteriorACriacao(Date dataDeAlteracao){
 		checkState(!dataDeAlteracao.before(getDataDeCriacao()), "A data de alteração não pode ser anterior à data de criação.");
 	}
 	
+	/**
+	 * Verifica se a data de alteração da empresa é posterior à data de criação dela. Precisa ser verdade para validar.
+	 * @param dataDeAlteracao
+	 */
 	public void verificaSeDataDeAlteracaoEPosteriorACriacao(Date dataDeAlteracao){
 		checkState(dataDeAlteracao.after(getDataDeCriacao()), "A data de alteração deve ser posterior à data de criação.");
 	}
 	
+	/**
+	 * Veirifica se a lista de endereços é nula.
+	 * @param enderecos
+	 */
 	public void verificaSeEnderecosNulo(Endereco[] enderecos){
 		checkNotNull(enderecos, "O endereço deve ser preenchido.");
 	}
 	
+	/**
+	 * Verifica se a lista de endereços está vazia.
+	 * @param enderecos
+	 */
 	public void verificaSeEnderecosVazio(Endereco[] enderecos){
 		boolean naoVazio = false;
 		for(int i = 0; i < enderecos.length; i++){
@@ -490,14 +639,26 @@ public class Empresa {
 		checkArgument(naoVazio, "A empresa deve ter no mínimo 2 endereços.");
 	}
 	
+	/**
+	 * Verifica se a empresa tem o número mínimo de endereços para ser validada.
+	 * @param enderecos
+	 */
 	public void verificaSeEnderecosValido(Endereco[] enderecos){
 		checkArgument(enderecos.length >= TAMANHO_MINIMO_ENDERECOS, "A empresa deve ter no mínimo 2 endereços.");
 	}
 	
+	/**
+	 * Verifica se a lista de telefones é nula.
+	 * @param telefones
+	 */
 	public void verificaSeTelefonesNulo(Telefone[] telefones){
 		checkNotNull(telefones, "O telefone deve ser preenchido.");
 	}
 	
+	/**
+	 * Verifica se a lista de telefones está vazia.
+	 * @param telefones
+	 */
 	public void verificaSeTelefonesVazio(Telefone[] telefones){
 		boolean naoVazio = false;
 		for(int i = 0; i < telefones.length; i++){
@@ -508,10 +669,17 @@ public class Empresa {
 		checkArgument(naoVazio, "A empresa deve ter no mínimo 2 telefones.");
 	}
 	
+	/**
+	 * Verifica se a empresa tem o número mínimo de telefones para ser validada.
+	 * @param telefones
+	 */
 	public void verificaSeTelefonesValido(Telefone[] telefones){
 		checkArgument(telefones.length >= TAMANHO_MINIMO_TELEFONE, "A empresa deve ter no mínimo 2 telefones.");
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -520,6 +688,9 @@ public class Empresa {
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -536,4 +707,14 @@ public class Empresa {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Empresa [razaoSocial=" + razaoSocial + ", cnpj=" + cnpj + ", proprietario=" + proprietario + ", email="
+				+ email + ", enderecos=" + Arrays.toString(enderecos) + ", telefones=" + Arrays.toString(telefones)
+				+ ", dataDeCriacao=" + dataDeCriacao + ", dataDeAlteracao=" + dataDeAlteracao + ", site=" + site
+				+ ", dataAtual=" + dataAtual + "]";
+	}
+	
+	
 }
