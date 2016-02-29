@@ -2,12 +2,21 @@ package br.com.contmatic.empresawilliam;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static org.apache.commons.lang3.builder.ToStringStyle.SIMPLE_STYLE;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.text.*;
-import java.util.Arrays;
+import java.time.Instant;
 import java.util.Date;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+/**
+ * @author williansalerno
+ *
+ */
 public class Empresa {
 
 	// Constantes
@@ -115,7 +124,11 @@ public class Empresa {
 	/**
 	 * Data atual.
 	 */
-	private Date dataAtual = new Date();
+	private Date dataAtual;
+	
+	public Empresa(){
+		dataAtual = new Date();
+	}
 
 	// getters e setters
 	/**
@@ -286,9 +299,11 @@ public class Empresa {
 	 * método de conversão de leitura da data ao usuário.
 	 * 
 	 * @param dataDeAlteracao
+	 * @throws InterruptedException 
 	 */
-	public void setDataDeAlteracao(Date dataDeAlteracao) {
-		this.setDataDeCriacao(new Date());
+	public void setDataDeAlteracao(Date dataDeAlteracao){
+		new Date();
+		this.setDataDeCriacao(Date.from(Instant.now()));
 		this.validaDataDeAlteracao(dataDeAlteracao);
 		this.converteDataDeAlteracao(dataDeAlteracao);
 		this.dataDeAlteracao = dataDeAlteracao;
@@ -404,6 +419,7 @@ public class Empresa {
 	 * @return
 	 */
 	public String converteDataDeAlteracao(Date dataDeAlteracao) {
+		this.verificaSeDataDeAlteracaoNulo(dataDeAlteracao);
 		this.capturaDataDeAlteracao(dataDeAlteracao);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		return sdf.format(dataDeAlteracao);
@@ -416,6 +432,7 @@ public class Empresa {
 	 * @return
 	 */
 	public String converteDataDeCriacao(Date dataDeCriacao) {
+		this.verificaSeDataDeCriacaoNulo(dataDeCriacao);
 		this.capturaDataDeCriacao(dataDeCriacao);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		return sdf.format(dataDeCriacao);
@@ -708,7 +725,7 @@ public class Empresa {
 	 * @param dataDeCriacao
 	 */
 	public void verificaSeDataDeCriacaoEAnterior(Date dataDeCriacao) {
-		checkArgument(!dataDeCriacao.before(dataAtual), "Data de criação informada não pode ser anterior.");
+		checkArgument(!dataDeCriacao.before(Date.from(Instant.now())), "Data de criação informada não pode ser anterior.");
 	}
 
 	/**
@@ -717,7 +734,8 @@ public class Empresa {
 	 * @param dataDeCriacao
 	 */
 	public void verificaSeDataDeCriacaoEPosterior(Date dataDeCriacao) {
-		checkArgument(!dataDeCriacao.after(dataAtual), "Data de criação informada não pode ser posterior.");
+		new Date();
+		checkArgument(!dataDeCriacao.after(Date.from(Instant.now())), "Data de criação informada não pode ser posterior.");
 	}
 
 	/**
@@ -768,10 +786,7 @@ public class Empresa {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((cnpj == null) ? 0 : cnpj.hashCode());
-		return result;
+	return new HashCodeBuilder().append(this.cnpj).toHashCode();
 	}
 
 	/*
@@ -781,19 +796,11 @@ public class Empresa {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
+		if(!(obj instanceof Empresa)){
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Empresa other = (Empresa) obj;
-		if (cnpj == null) {
-			if (other.cnpj != null)
-				return false;
-		} else if (!cnpj.equals(other.cnpj))
-			return false;
-		return true;
+		}
+		Empresa outra = (Empresa) obj;
+		return new EqualsBuilder().append(this.cnpj, outra.cnpj).isEquals();
 	}
 
 	/*
@@ -803,10 +810,16 @@ public class Empresa {
 	 */
 	@Override
 	public String toString() {
-		return "Empresa [razaoSocial=" + razaoSocial + ", \ncnpj=" + cnpj + ", \nproprietario=" + proprietario
-				+ ", \nemail=" + email + ", \nenderecos=" + Arrays.toString(enderecos) + ", \ntelefones="
-				+ Arrays.toString(telefones) + ", \ndataDeCriacao=" + converteDataDeCriacao(dataDeCriacao)
-				+ ", \ndataDeAlteracao=" + converteDataDeAlteracao(dataDeAlteracao) + ", \nsite=" + site + "]";
+		return new ToStringBuilder(this).
+			       append("Razão social: ", this.razaoSocial).
+			       append("\nProprietário: ", this.proprietario).
+			       append("\nCNPJ", this.cnpj).
+			       append("\nEndereço: ", this.enderecos).
+			       append("\nTelefone: ", this.telefones).
+			       append("\nEmail: ", this.telefones).
+			       append("\nSite: ", this.site).
+			       append("\nData de criação: ", (dataDeCriacao != null) ? converteDataDeCriacao(dataDeCriacao):null).
+			       append("Data de alteração: ", (dataDeAlteracao != null) ? converteDataDeAlteracao(dataDeAlteracao):null).build();
 	}
 
 }

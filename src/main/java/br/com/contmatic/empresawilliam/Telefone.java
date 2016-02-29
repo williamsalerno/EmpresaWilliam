@@ -2,6 +2,10 @@ package br.com.contmatic.empresawilliam;
 
 import static com.google.common.base.Preconditions.*;
 
+/**
+ * @author williansalerno
+ *
+ */
 public class Telefone {
 
 	/**
@@ -191,22 +195,20 @@ public class Telefone {
 				"Para telefone fixo, por favor informar 8 dígitos. Para telefone celular, por favor informar 9 dígitos.");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ddd;
 		result = prime * result + ((numeroTelefone == null) ? 0 : numeroTelefone.hashCode());
+		result = prime * result + ((tipoTelefone == null) ? 0 : tipoTelefone.hashCode());
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -218,10 +220,17 @@ public class Telefone {
 		if (getClass() != obj.getClass())
 			return false;
 		Telefone other = (Telefone) obj;
+		if (ddd != other.ddd)
+			return false;
 		if (numeroTelefone == null) {
 			if (other.numeroTelefone != null)
 				return false;
 		} else if (!numeroTelefone.equals(other.numeroTelefone))
+			return false;
+		if (tipoTelefone == null) {
+			if (other.tipoTelefone != null)
+				return false;
+		} else if (!tipoTelefone.equals(other.tipoTelefone))
 			return false;
 		return true;
 	}

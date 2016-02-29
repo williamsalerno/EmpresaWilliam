@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
+import java.time.Instant;
 import java.util.Date;
 
 import org.junit.After;
@@ -51,7 +52,7 @@ public class EmpresaTeste {
 		this.temUmEndereco = new Endereco[1];
 		this.telefoneVazio = new Telefone[1];
 		this.temUmTelefone = new Telefone[1];
-		this.dataTesteAtual = new Date();
+		this.dataTesteAtual = Date.from(Instant.now());
 		this.dataTesteAlteracao = new Date(120, 04, 14);
 		this.dataTesteOntem = new Date(116, 01, 20);
 
@@ -356,22 +357,18 @@ public class EmpresaTeste {
 		empresa.setDataDeCriacao(null);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Test
 	public void nao_deve_ter_dataCriacao_posterior() {
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("Data de criação informada não pode ser posterior.");
-		empresa.setDataDeCriacao(new Date(116, 01, 27));
-		System.out.println(empresa.getDataDeCriacao());
+		empresa.setDataDeCriacao(dataTesteAlteracao);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Test
 	public void nao_deve_ter_dataCriacao_anterior() {
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("Data de criação informada não pode ser anterior.");
-		empresa.setDataDeCriacao(new Date(116, 01, 22));
-		System.out.println(empresa.getDataDeCriacao());
+		empresa.setDataDeCriacao(dataTesteOntem);
 	}
 
 	@Test
@@ -388,25 +385,16 @@ public class EmpresaTeste {
 	}
 
 	@Test
-	public void nao_deve_ter_dataCriacao_posterior_a_alteracao() {
+	public void nao_deve_ter_dataAlteracao_anterior_a_criacao() {
 		thrown.expect(IllegalStateException.class);
 		thrown.expectMessage("A data de alteração não pode ser anterior à data de criação.");
 		empresa.setDataDeAlteracao(dataTesteOntem);
-
-	}
-
-	@SuppressWarnings("deprecation")
-	@Test
-	public void nao_deve_ter_dataAlteracao_anterior_a_criacao() {
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("Data de criação informada não pode ser anterior.");
-		empresa.setDataDeCriacao(new Date(116, 01, 22));
-		System.out.println(empresa.getDataDeCriacao());
 	}
 
 	@Test
-	public void testeMain() {
+	public void deve_imprimir_corretamente() {
 		Empresa empresa = new Empresa();
+		this.dataTesteAtual = Date.from(Instant.now());
 
 		Endereco end1 = new Endereco();
 		end1.setTipoLogradouro("Rua");
@@ -449,11 +437,18 @@ public class EmpresaTeste {
 		empresa.converteDataDeAlteracao(empresa.getDataDeAlteracao());
 
 		System.out.println(empresa);
+		assertTrue(empresa != null);
 	}
 
 	@Ignore
 	@Test
 	public void imprime_empresa_nulo() {
 		System.out.println(empresa);
+	}
+
+	@Test
+	public void nao_deve_ter_empresa_nulo() {
+		Empresa empresa = new Empresa();
+		assertNotNull(empresa.toString());
 	}
 }

@@ -6,10 +6,6 @@ import static com.google.common.base.Preconditions.*;
  * @author William
  *
  */
-/**
- * @author William
- *
- */
 public class Endereco {
 
 	/**
@@ -350,14 +346,21 @@ public class Endereco {
 				"O tipo de endereço deve ser ou residencial, ou comercial.");
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cep == null) ? 0 : cep.hashCode());
+		result = prime * result + numeroEndereco;
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -371,6 +374,8 @@ public class Endereco {
 			if (other.cep != null)
 				return false;
 		} else if (!cep.equals(other.cep))
+			return false;
+		if (numeroEndereco != other.numeroEndereco)
 			return false;
 		return true;
 	}
