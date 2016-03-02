@@ -1,6 +1,5 @@
 package br.com.contmatic.empresawilliam;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
@@ -19,6 +18,9 @@ import org.junit.rules.ExpectedException;
 import org.junit.rules.Timeout;
 import org.junit.runners.MethodSorters;
 
+import br.com.six2six.fixturefactory.Fixture;
+import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EmpresaTeste {
 
@@ -26,11 +28,6 @@ public class EmpresaTeste {
 	private Endereco[] enderecos, enderecoVazio, temUmEndereco;
 	private Telefone[] telefones, telefoneVazio, temUmTelefone;
 	private Date dataTesteAtual, dataTesteAlteracao, dataTesteOntem;
-	private final String TESTE_CNPJ = "12345678912345";
-	private final String TESTE_RAZAO_SOCIAL = "Teste";
-	private final String TESTE_PROPRIETARIO = "Exemplo";
-	private final String TESTE_EMAIL = "a@b.com";
-	private final String TESTE_SITE = "ex.com";
 	private static int contadorTeste = 0;
 
 	@Rule
@@ -40,12 +37,14 @@ public class EmpresaTeste {
 	@BeforeClass
 	public static void beforeClass() {
 		System.out.println("Teste de Empresa realizado.");
+		FixtureFactoryLoader.loadTemplates("br.com.contmatic.empresawilliam.templates");
 	}
 
 	@SuppressWarnings("deprecation")
 	@Before
 	public void gerarEmpresa() {
 		empresa = new Empresa();
+		this.empresa = Fixture.from(Empresa.class).gimme("empresa_valida");
 		this.enderecos = new Endereco[2];
 		this.telefones = new Telefone[2];
 		this.enderecoVazio = new Endereco[1];
@@ -57,29 +56,19 @@ public class EmpresaTeste {
 		this.dataTesteOntem = new Date(116, 01, 20);
 
 		Endereco end1 = new Endereco();
-		end1.setTipoLogradouro("Rua");
-		end1.setNomeLogradouro("Exemplo");
-		end1.setNumeroEndereco(123);
-		end1.setCep("12345678");
+		end1 = Fixture.from(Endereco.class).gimme("valid");
 		this.enderecos[0] = end1;
 
 		Endereco end2 = new Endereco();
-		end2.setTipoLogradouro("Avenida");
-		end2.setNomeLogradouro("Exemplo2");
-		end2.setNumeroEndereco(345);
-		end2.setCep("00012345");
+		end2 = Fixture.from(Endereco.class).gimme("valid");
 		this.enderecos[1] = end2;
 
 		Telefone tel1 = new Telefone();
-		tel1.setTipoTelefone("Fixo");
-		tel1.setDdd(1);
-		tel1.setNumeroTelefone("12345678");
+		tel1 = Fixture.from(Telefone.class).gimme("fixo_valido");
 		this.telefones[0] = tel1;
 
 		Telefone tel2 = new Telefone();
-		tel2.setTipoTelefone("Celular");
-		tel2.setDdd(1);
-		tel2.setNumeroTelefone("123456789");
+		tel2 = Fixture.from(Telefone.class).gimme("celular_valido");
 		this.telefones[1] = tel2;
 
 		this.temUmEndereco[0] = end1;
@@ -95,13 +84,11 @@ public class EmpresaTeste {
 	@AfterClass
 	public static void resultado() {
 		System.out.println("Total de testes: " + contadorTeste);
-
 	}
 
 	@Test
 	public void deve_ter_cnpj_valido() {
-		empresa.setCnpj("12345678912345");
-		assertThat(empresa.getCnpj(), is(TESTE_CNPJ));
+		empresa.validaCnpj(empresa.getCnpj());
 	}
 
 	@Test
@@ -141,8 +128,7 @@ public class EmpresaTeste {
 
 	@Test
 	public void deve_ter_proprietario_valido() {
-		empresa.setProprietario("Exemplo");
-		assertThat(empresa.getProprietario(), is(TESTE_PROPRIETARIO));
+		empresa.verificaTamanhoProprietario(empresa.getProprietario());
 	}
 
 	@Test
@@ -176,8 +162,7 @@ public class EmpresaTeste {
 	// razão social
 	@Test
 	public void deve_ter_razaoSocial_valido() {
-		empresa.setRazaoSocial("Teste");
-		assertThat(empresa.getRazaoSocial(), is(TESTE_RAZAO_SOCIAL));
+		empresa.verificaTamanhoRazaoSocial(empresa.getRazaoSocial());
 	}
 
 	@Test
@@ -210,8 +195,7 @@ public class EmpresaTeste {
 
 	@Test
 	public void deve_ter_email_valido() {
-		empresa.setEmail(TESTE_EMAIL);
-		assertThat(empresa.getEmail(), containsString("@"));
+		empresa.verificaSeEmailValido(empresa.getEmail());
 	}
 
 	@Test
@@ -305,8 +289,7 @@ public class EmpresaTeste {
 
 	@Test
 	public void deve_ter_site_valido() {
-		empresa.setSite("ex.com");
-		assertThat(empresa.getSite(), is(TESTE_SITE));
+		empresa.verificaSeSiteValido(empresa.getSite());
 	}
 
 	@Test
@@ -389,55 +372,6 @@ public class EmpresaTeste {
 		thrown.expect(IllegalStateException.class);
 		thrown.expectMessage("A data de alteração não pode ser anterior à data de criação.");
 		empresa.setDataDeAlteracao(dataTesteOntem);
-	}
-
-	@Test
-	public void deve_imprimir_corretamente() {
-		Empresa empresa = new Empresa();
-		this.dataTesteAtual = Date.from(Instant.now());
-
-		Endereco end1 = new Endereco();
-		end1.setTipoLogradouro("Rua");
-		end1.setNomeLogradouro("Exemplo");
-		end1.setNumeroEndereco(1213);
-		end1.setCep("12345678");
-		end1.setTipoEndereco("Comercial");
-		this.enderecos[0] = end1;
-
-		Endereco end2 = new Endereco();
-		end2.setTipoLogradouro("Rua");
-		end2.setNomeLogradouro("Exemplo");
-		end2.setNumeroEndereco(1213);
-		end2.setCep("12345678");
-		end2.setTipoEndereco("Comercial");
-		this.enderecos[1] = end2;
-
-		Telefone tel1 = new Telefone();
-		tel1.setDdd(11);
-		tel1.setTipoTelefone("Fixo");
-		tel1.setNumeroTelefone("12345678");
-		this.telefones[0] = tel1;
-
-		Telefone tel2 = new Telefone();
-		tel2.setDdd(11);
-		tel2.setTipoTelefone("Fixo");
-		tel2.setNumeroTelefone("12345678");
-		this.telefones[1] = tel2;
-
-		empresa.setRazaoSocial("Teste Exemplo ltda.");
-		empresa.setCnpj("12345678912345");
-		empresa.setProprietario("Eu");
-		empresa.setEnderecos(this.enderecos);
-		empresa.setTelefones(this.telefones);
-		empresa.setEmail("teste@exemplo.com");
-		empresa.setSite("exemplo.teste.com");
-		empresa.setDataDeCriacao(dataTesteAtual);
-		empresa.converteDataDeCriacao(empresa.getDataDeCriacao());
-		empresa.setDataDeAlteracao(dataTesteAlteracao);
-		empresa.converteDataDeAlteracao(empresa.getDataDeAlteracao());
-
-		System.out.println(empresa);
-		assertTrue(empresa != null);
 	}
 
 	@Ignore

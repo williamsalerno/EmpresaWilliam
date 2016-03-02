@@ -2,6 +2,11 @@ package br.com.contmatic.empresawilliam;
 
 import static com.google.common.base.Preconditions.*;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 /**
  * @author williansalerno
  *
@@ -21,7 +26,7 @@ public class Telefone {
 	/**
 	 * Define um tamanho mínimo para ddd.
 	 */
-	private final static int TAMANHO_MINIMO_DDD = 1;
+	private final static int TAMANHO_MINIMO_DDD = 11;
 
 	/**
 	 * Define um tamanho máximo para ddd.
@@ -162,7 +167,7 @@ public class Telefone {
 	 */
 	public void verificaSeDddValido(int ddd) {
 		checkArgument(!(ddd < TAMANHO_MINIMO_DDD || ddd > TAMANHO_MAXIMO_DDD),
-				"O número de DDD informado deve ser entre 1 e 99");
+				"O número de DDD informado deve ser entre 11 e 99");
 	}
 
 	/**
@@ -189,50 +194,36 @@ public class Telefone {
 	 * @param numeroTelefone
 	 */
 	public void verificaSeNumeroTelefoneValido(String numeroTelefone) {
-		checkArgument(
+		checkState(
 				tipoTelefone.equals("Celular") && numeroTelefone.length() == TAMANHO_CELULAR
 						|| (tipoTelefone.equals("Fixo") && numeroTelefone.length() == TAMANHO_FIXO),
 				"Para telefone fixo, por favor informar 8 dígitos. Para telefone celular, por favor informar 9 dígitos.");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ddd;
-		result = prime * result + ((numeroTelefone == null) ? 0 : numeroTelefone.hashCode());
-		result = prime * result + ((tipoTelefone == null) ? 0 : tipoTelefone.hashCode());
-		return result;
+		return new HashCodeBuilder().append(this.ddd).append(this.tipoTelefone).append(this.numeroTelefone)
+				.toHashCode();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
+		if (!(obj instanceof Telefone)) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Telefone other = (Telefone) obj;
-		if (ddd != other.ddd)
-			return false;
-		if (numeroTelefone == null) {
-			if (other.numeroTelefone != null)
-				return false;
-		} else if (!numeroTelefone.equals(other.numeroTelefone))
-			return false;
-		if (tipoTelefone == null) {
-			if (other.tipoTelefone != null)
-				return false;
-		} else if (!tipoTelefone.equals(other.tipoTelefone))
-			return false;
-		return true;
+		}
+		Telefone outro = (Telefone) obj;
+		return new EqualsBuilder().append(this.ddd, outro.ddd).append(this.tipoTelefone, outro.tipoTelefone)
+				.append(this.numeroTelefone, outro.numeroTelefone).isEquals();
 	}
 
 	/*
@@ -242,7 +233,8 @@ public class Telefone {
 	 */
 	@Override
 	public String toString() {
-		return "Telefone [tipoTelefone=" + tipoTelefone + ", ddd=" + ddd + ", numeroTelefone=" + numeroTelefone + "]";
+		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("tipo de telefone: ", this.tipoTelefone)
+				.append("ddd: ", this.ddd).append("numero de telefone: ", this.numeroTelefone).build();
 	}
 
 }

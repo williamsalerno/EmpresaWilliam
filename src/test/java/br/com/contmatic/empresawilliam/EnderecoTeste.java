@@ -1,24 +1,17 @@
 package br.com.contmatic.empresawilliam;
 
-import static org.junit.Assert.*;
-
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.Timeout;
 import org.junit.runners.MethodSorters;
 
+import br.com.six2six.fixturefactory.Fixture;
+import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EnderecoTeste {
 
 	private Endereco endereco;
-	private final String TESTE_TIPO_LOGRADOURO = "Rua";
-	private final String TESTE_NOME_LOGRADOURO = "Exemplo";
-	private final String TESTE_CEP = "12345678";
-	private final int TESTE_NUMERO = 9999;
-	private final String TESTE_ENDERECO_RESIDENCIAL = "Residencial";
-	private final String TESTE_ENDERECO_COMERCIAL = "Comercial";
 	private static int contadorTeste = 0;
 
 	@Rule
@@ -28,11 +21,13 @@ public class EnderecoTeste {
 	@BeforeClass
 	public static void beforeClass() {
 		System.out.println("Teste de Endereco realizado.");
+		FixtureFactoryLoader.loadTemplates("br.com.contmatic.empresawilliam.templates");
 	}
 
 	@Before
 	public void gerarEmpresa() {
-		this.endereco = new Endereco();
+		endereco = new Endereco();
+		this.endereco = Fixture.from(Endereco.class).gimme("valid");
 	}
 
 	@After
@@ -48,8 +43,7 @@ public class EnderecoTeste {
 
 	@Test
 	public void deve_ter_cep_valido() {
-		endereco.setCep("12345678");
-		assertTrue(endereco.getCep().equals(TESTE_CEP));
+		endereco.verificaSeCepValido(endereco.getCep());
 	}
 
 	@Test
@@ -81,16 +75,15 @@ public class EnderecoTeste {
 	}
 
 	@Test
-	public void nao_deve_ter_cep_com_letras() {
+	public void nao_deve_aceitar_cep_com_letras() {
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("O CEP só pode conter números.");
 		endereco.setCep("abc");
 	}
 
 	@Test
-	public void deve_ter_numeroEndereco_valido() {
-		endereco.setNumeroEndereco(9999);
-		assertThat(endereco.getNumeroEndereco(), is(TESTE_NUMERO));
+	public void deve_aceitar_numeroEndereco_valido() {
+		endereco.verificaSeNumeroEnderecoValido(endereco.getNumeroEndereco());
 	}
 
 	@Test
@@ -116,8 +109,7 @@ public class EnderecoTeste {
 
 	@Test
 	public void deve_ter_nomeLogradouro_valido() {
-		endereco.setNomeLogradouro("Exemplo");
-		assertThat(endereco.getNomeLogradouro(), is(TESTE_NOME_LOGRADOURO));
+		endereco.verificaTamanhoNomeLogradouro(endereco.getNomeLogradouro());
 	}
 
 	@Test
@@ -143,8 +135,7 @@ public class EnderecoTeste {
 
 	@Test
 	public void deve_ter_tipoLogradouro_valido() {
-		endereco.setTipoLogradouro("Rua");
-		assertThat(endereco.getTipoLogradouro(), is(TESTE_TIPO_LOGRADOURO));
+		endereco.verificaTamanhoTipoLogradouro(endereco.getTipoLogradouro());
 	}
 
 	@Test
@@ -184,14 +175,12 @@ public class EnderecoTeste {
 
 	@Test
 	public void deve_ter_tipoEndereco_residencial_valido() {
-		endereco.setTipoEndereco("Residencial");
-		assertThat(endereco.getTipoEndereco(), is(TESTE_ENDERECO_RESIDENCIAL));
+		endereco.verificaSeTipoEnderecoValido(endereco.getTipoEndereco());
 	}
 
 	@Test
 	public void deve_ter_tipoEndereco_comercial_valido() {
-		endereco.setTipoEndereco("Comercial");
-		assertThat(endereco.getTipoEndereco(), is(TESTE_ENDERECO_COMERCIAL));
+		endereco.verificaSeTipoEnderecoValido(endereco.getTipoEndereco());
 	}
 
 	@Test

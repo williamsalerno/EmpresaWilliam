@@ -2,6 +2,11 @@ package br.com.contmatic.empresawilliam;
 
 import static com.google.common.base.Preconditions.*;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 /**
  * @author William
  *
@@ -11,32 +16,32 @@ public class Endereco {
 	/**
 	 * Define um tamanho mínimo para número de endereço.
 	 */
-	private final static int TAMANHO_NUMERO_DE_ENDERECO_MINIMO = 1;
+	public final static int TAMANHO_NUMERO_DE_ENDERECO_MINIMO = 1;
 
 	/**
 	 * Define um tamanho máximo para número de endereço.
 	 */
-	private final static int TAMANHO_NUMERO_DE_ENDERECO_MAXIMO = 9999;
+	public final static int TAMANHO_NUMERO_DE_ENDERECO_MAXIMO = 9999;
 
 	/**
 	 * Define um tamanho mínimo para tipo de logradouro.
 	 */
-	private final static int TAMANHO_TIPO_DE_LOGRADOURO_MINIMO = 3;
+	public final static int TAMANHO_TIPO_DE_LOGRADOURO_MINIMO = 3;
 
 	/**
 	 * Define um tamanho máximo para tipo de logradouro.
 	 */
-	private final static int TAMANHO_TIPO_DE_LOGRADOURO_MAXIMO = 10;
+	public final static int TAMANHO_TIPO_DE_LOGRADOURO_MAXIMO = 10;
 
 	/**
 	 * Define um tamanho máximo para nome de logradouro.
 	 */
-	private final static int TAMANHO_NOME_DE_LOGRADOURO_MAXIMO = 30;
+	public final static int TAMANHO_NOME_DE_LOGRADOURO_MAXIMO = 30;
 
 	/**
 	 * Define um tamanho específico para CEP.
 	 */
-	private final static int TAMANHO_CEP = 8;
+	public final static int TAMANHO_CEP = 8;
 
 	/**
 	 * Número de endereço.
@@ -346,44 +351,36 @@ public class Endereco {
 				"O tipo de endereço deve ser ou residencial, ou comercial.");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((cep == null) ? 0 : cep.hashCode());
-		result = prime * result + numeroEndereco;
-		return result;
+		return new HashCodeBuilder().append(this.cep).append(this.numeroEndereco).toHashCode();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
+		if (!(obj instanceof Endereco)) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Endereco other = (Endereco) obj;
-		if (cep == null) {
-			if (other.cep != null)
-				return false;
-		} else if (!cep.equals(other.cep))
-			return false;
-		if (numeroEndereco != other.numeroEndereco)
-			return false;
-		return true;
+		}
+		Endereco outro = (Endereco) obj;
+		return new EqualsBuilder().append(this.cep, outro.cep).append(this.numeroEndereco, outro.numeroEndereco)
+				.isEquals();
 	}
 
 	@Override
 	public String toString() {
-		return "Endereco [numeroEndereco=" + numeroEndereco + ", tipoLogradouro=" + tipoLogradouro + ", nomeLogradouro="
-				+ nomeLogradouro + ", cep=" + cep + ", tipoEndereco=" + tipoEndereco + "]";
+		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("tipo de logradouro: ", this.tipoLogradouro)
+				.append("nome de logradouro: ", this.nomeLogradouro).append("número de endereço: ", this.numeroEndereco)
+				.append("CEP: ", this.cep).append("Tipo de endereço: ", this.tipoEndereco).build();
 	}
 
 }

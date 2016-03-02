@@ -2,7 +2,6 @@ package br.com.contmatic.empresawilliam;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
-import static org.apache.commons.lang3.builder.ToStringStyle.SIMPLE_STYLE;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.text.*;
@@ -12,6 +11,7 @@ import java.util.Date;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * @author williansalerno
@@ -121,13 +121,8 @@ public class Empresa {
 	 */
 	private Date dataDeAlteracao;
 
-	/**
-	 * Data atual.
-	 */
-	private Date dataAtual;
-	
-	public Empresa(){
-		dataAtual = new Date();
+	public Empresa() {
+		new Date();
 	}
 
 	// getters e setters
@@ -299,9 +294,9 @@ public class Empresa {
 	 * método de conversão de leitura da data ao usuário.
 	 * 
 	 * @param dataDeAlteracao
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 */
-	public void setDataDeAlteracao(Date dataDeAlteracao){
+	public void setDataDeAlteracao(Date dataDeAlteracao) {
 		new Date();
 		this.setDataDeCriacao(Date.from(Instant.now()));
 		this.validaDataDeAlteracao(dataDeAlteracao);
@@ -725,7 +720,8 @@ public class Empresa {
 	 * @param dataDeCriacao
 	 */
 	public void verificaSeDataDeCriacaoEAnterior(Date dataDeCriacao) {
-		checkArgument(!dataDeCriacao.before(Date.from(Instant.now())), "Data de criação informada não pode ser anterior.");
+		checkArgument(!dataDeCriacao.before(Date.from(Instant.now())),
+				"Data de criação informada não pode ser anterior.");
 	}
 
 	/**
@@ -735,7 +731,8 @@ public class Empresa {
 	 */
 	public void verificaSeDataDeCriacaoEPosterior(Date dataDeCriacao) {
 		new Date();
-		checkArgument(!dataDeCriacao.after(Date.from(Instant.now())), "Data de criação informada não pode ser posterior.");
+		checkArgument(!dataDeCriacao.after(Date.from(Instant.now())),
+				"Data de criação informada não pode ser posterior.");
 	}
 
 	/**
@@ -786,7 +783,7 @@ public class Empresa {
 	 */
 	@Override
 	public int hashCode() {
-	return new HashCodeBuilder().append(this.cnpj).toHashCode();
+		return new HashCodeBuilder().append(this.cnpj).toHashCode();
 	}
 
 	/*
@@ -796,7 +793,7 @@ public class Empresa {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if(!(obj instanceof Empresa)){
+		if (!(obj instanceof Empresa)) {
 			return false;
 		}
 		Empresa outra = (Empresa) obj;
@@ -810,16 +807,14 @@ public class Empresa {
 	 */
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).
-			       append("Razão social: ", this.razaoSocial).
-			       append("\nProprietário: ", this.proprietario).
-			       append("\nCNPJ", this.cnpj).
-			       append("\nEndereço: ", this.enderecos).
-			       append("\nTelefone: ", this.telefones).
-			       append("\nEmail: ", this.telefones).
-			       append("\nSite: ", this.site).
-			       append("\nData de criação: ", (dataDeCriacao != null) ? converteDataDeCriacao(dataDeCriacao):null).
-			       append("Data de alteração: ", (dataDeAlteracao != null) ? converteDataDeAlteracao(dataDeAlteracao):null).build();
+		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("Razão social: ", razaoSocial)
+				.append("Proprietário: ", proprietario).append("\nCNPJ", cnpj)
+				.append("Endereço: ", enderecos).append("Telefone: ",  telefones)
+				.append("Email: ", this.telefones).append("\nSite: ", this.site)
+				.append("Data de criação: ", (dataDeCriacao != null) ? converteDataDeCriacao(dataDeCriacao) : null)
+				.append("Data de alteração: ",
+						(dataDeAlteracao != null) ? converteDataDeAlteracao(dataDeAlteracao) : null)
+				.build();
 	}
 
 }
