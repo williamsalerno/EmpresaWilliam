@@ -9,22 +9,40 @@ public enum TelefoneType {
     CELULAR("Celular", 9),
     /** The fixo. */
     FIXO("Fixo", 8);
-    
+
+    /** The descricao. */
     private String descricao;
+
+    /** The tamanho. */
     private int tamanho;
-    
-    private TelefoneType (String descricao, int tamanho){
+
+    /**
+     * Instantiates a new telefone type.
+     *
+     * @param descricao the descricao
+     * @param tamanho the tamanho
+     */
+    private TelefoneType(String descricao, int tamanho) {
         this.descricao = descricao;
         this.tamanho = tamanho;
     }
-    
-    public String getDescricao(){
+
+    /**
+     * Gets the descricao.
+     *
+     * @return the descricao
+     */
+    public String getDescricao() {
         return this.descricao;
     }
-    
-    public int getTamanho(){
+
+    /**
+     * Gets the tamanho.
+     *
+     * @return the tamanho
+     */
+    public int getTamanho() {
         return this.tamanho;
     }
-
 
 }

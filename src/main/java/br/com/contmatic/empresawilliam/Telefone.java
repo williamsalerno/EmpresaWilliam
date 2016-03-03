@@ -2,7 +2,9 @@ package br.com.contmatic.empresawilliam;
 
 import static br.com.contmatic.empresawilliam.TelefoneType.CELULAR;
 import static br.com.contmatic.empresawilliam.TelefoneType.FIXO;
-import static com.google.common.base.Preconditions.*;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -171,9 +173,7 @@ public class Telefone {
      * @param numeroTelefone the numero telefone
      */
     public void verificaSeNumeroTelefoneValido(String numeroTelefone) {
-        checkState(
-            this.tipoTelefone.equals(CELULAR.getDescricao()) && numeroTelefone.length() == CELULAR.getTamanho() ||
-                (this.tipoTelefone.equals(FIXO.getDescricao()) && numeroTelefone.length() == FIXO.getTamanho()),
+        checkState((this.tipoTelefone.equals(CELULAR) && numeroTelefone.length() == CELULAR.getTamanho()) || (this.tipoTelefone.equals(FIXO) && numeroTelefone.length() == FIXO.getTamanho()),
             "Para telefone fixo, por favor informar 8 dígitos. Para telefone celular, por favor informar 9 dígitos.");
     }
 

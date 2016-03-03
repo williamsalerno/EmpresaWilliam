@@ -4,7 +4,8 @@ import static br.com.contmatic.empresawilliam.TelefoneType.CELULAR;
 import static br.com.contmatic.empresawilliam.TelefoneType.FIXO;
 
 import br.com.contmatic.empresawilliam.Telefone;
-import br.com.six2six.fixturefactory.*;
+import br.com.six2six.fixturefactory.Fixture;
+import br.com.six2six.fixturefactory.Rule;
 import br.com.six2six.fixturefactory.loader.TemplateLoader;
 
 public class TelefoneTemplate implements TemplateLoader {

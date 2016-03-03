@@ -1,11 +1,11 @@
 package br.com.contmatic.empresawilliam;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
-import java.time.Instant;
-import java.util.Date;
-
+import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -27,7 +27,9 @@ public class EmpresaTeste {
 	private Empresa empresa;
 	private Endereco[] enderecos, enderecoVazio, temUmEndereco;
 	private Telefone[] telefones, telefoneVazio, temUmTelefone;
-	private Date dataTesteAtual, dataTesteAlteracao, dataTesteOntem;
+	private LocalDate dataTesteAtual;
+	private LocalDate dataTesteAlteracao;
+	private LocalDate dataTesteOntem;
 	private static int contadorTeste = 0;
 
 	@Rule
@@ -40,7 +42,6 @@ public class EmpresaTeste {
 		FixtureFactoryLoader.loadTemplates("br.com.contmatic.empresawilliam.templates");
 	}
 
-	@SuppressWarnings("deprecation")
 	@Before
 	public void gerarEmpresa() {
 		empresa = new Empresa();
@@ -51,9 +52,9 @@ public class EmpresaTeste {
 		this.temUmEndereco = new Endereco[1];
 		this.telefoneVazio = new Telefone[1];
 		this.temUmTelefone = new Telefone[1];
-		this.dataTesteAtual = Date.from(Instant.now());
-		this.dataTesteAlteracao = new Date(120, 04, 14);
-		this.dataTesteOntem = new Date(116, 01, 20);
+		this.dataTesteAtual = LocalDate.now();
+		this.dataTesteAlteracao = LocalDate.now().plusDays(300);
+		this.dataTesteOntem = LocalDate.now().minusDays(1);
 
 		Endereco end1 = new Endereco();
 		end1 = Fixture.from(Endereco.class).gimme("valid");
@@ -364,13 +365,13 @@ public class EmpresaTeste {
 	@Test
 	public void deve_ter_dataAlteracao_posterior_a_criacao() {
 		empresa.setDataDeAlteracao(dataTesteAlteracao);
-		assertTrue(empresa.getDataDeAlteracao().after(dataTesteAtual));
+		assertTrue(empresa.getDataDeAlteracao().isAfter(dataTesteAtual));
 	}
 
 	@Test
 	public void nao_deve_ter_dataAlteracao_anterior_a_criacao() {
 		thrown.expect(IllegalStateException.class);
-		thrown.expectMessage("A data de alteração não pode ser anterior à data de criação.");
+		thrown.expectMessage("A data de alteração deve ser posterior à data de criação.");
 		empresa.setDataDeAlteracao(dataTesteOntem);
 	}
 
@@ -383,6 +384,6 @@ public class EmpresaTeste {
 	@Test
 	public void nao_deve_ter_empresa_nulo() {
 		Empresa empresa = new Empresa();
-		assertNotNull(empresa.toString());
+		System.out.println(empresa.toString());
 	}
 }

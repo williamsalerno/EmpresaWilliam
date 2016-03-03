@@ -4,14 +4,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Date;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.joda.time.LocalDate;
 
 /**
  * The Class Empresa.
@@ -113,18 +110,18 @@ public class Empresa {
     /**
      * Data de criação.
      */
-    private Date dataDeCriacao;
+    private LocalDate dataDeCriacao;
 
     /**
      * Data de alteração.
      */
-    private Date dataDeAlteracao;
+    private LocalDate dataDeAlteracao;
 
     /**
      * Instantiates a new empresa.
      */
     public Empresa() {
-        new Date();
+        this.dataDeCriacao = LocalDate.now();
     }
 
     // getters e setters
@@ -266,7 +263,7 @@ public class Empresa {
      *
      * @return the data de criacao
      */
-    public Date getDataDeCriacao() {
+    public LocalDate getDataDeCriacao() {
         return dataDeCriacao;
     }
 
@@ -275,9 +272,9 @@ public class Empresa {
      *
      * @param dataDeCriacao the new data de criacao
      */
-    public void setDataDeCriacao(Date dataDeCriacao) {
+    public void setDataDeCriacao(LocalDate dataDeCriacao) {
         this.validaDataDeCriacao(dataDeCriacao);
-        this.converteDataDeCriacao(dataDeCriacao);
+        //this.converteDataDeCriacao(dataDeCriacao);
         this.dataDeCriacao = dataDeCriacao;
     }
 
@@ -286,21 +283,20 @@ public class Empresa {
      *
      * @return the data de alteracao
      */
-    public Date getDataDeAlteracao() {
+    public LocalDate getDataDeAlteracao() {
         return dataDeAlteracao;
     }
 
     /**
      * Determina um data de alteração, chama um método de validação e depois um método de conversão de leitura da data ao usuário.
      *
-     * @param dataDeAlteracao the new data de alteracao
+     * @param dataTesteAlteracao the new data de alteracao
      */
-    public void setDataDeAlteracao(Date dataDeAlteracao) {
-        new Date();
-        this.setDataDeCriacao(Date.from(Instant.now()));
-        this.validaDataDeAlteracao(dataDeAlteracao);
-        this.converteDataDeAlteracao(dataDeAlteracao);
-        this.dataDeAlteracao = dataDeAlteracao;
+    public void setDataDeAlteracao(LocalDate dataTesteAlteracao) {
+        this.setDataDeCriacao(LocalDate.now());
+        this.validaDataDeAlteracao(dataTesteAlteracao);
+        //this.converteDataDeAlteracao(dataTesteAlteracao);
+        this.dataDeAlteracao = dataTesteAlteracao;
     }
 
     // validações
@@ -389,7 +385,7 @@ public class Empresa {
      *
      * @param dataDeCriacao the data de criacao
      */
-    public void validaDataDeCriacao(Date dataDeCriacao) {
+    public void validaDataDeCriacao(LocalDate dataDeCriacao) {
         this.verificaSeDataDeCriacaoNulo(dataDeCriacao);
         this.verificaSeDataDeCriacaoEAnterior(dataDeCriacao);
         this.verificaSeDataDeCriacaoEPosterior(dataDeCriacao);
@@ -400,10 +396,10 @@ public class Empresa {
      *
      * @param dataDeAlteracao the data de alteracao
      */
-    public void validaDataDeAlteracao(Date dataDeAlteracao) {
+    public void validaDataDeAlteracao(LocalDate dataDeAlteracao) {
         this.verificaSeDataDeAlteracaoNulo(dataDeAlteracao);
         this.verificaSeDataDeAlteracaoEAnteriorACriacao(dataDeAlteracao);
-        this.verificaSeDataDeAlteracaoEPosteriorACriacao(dataDeAlteracao);
+//        this.verificaSeDataDeAlteracaoEPosteriorACriacao(dataDeAlteracao);
     }
 
     /**
@@ -412,12 +408,12 @@ public class Empresa {
      * @param dataDeAlteracao the data de alteracao
      * @return the string
      */
-    public String converteDataDeAlteracao(Date dataDeAlteracao) {
-        this.verificaSeDataDeAlteracaoNulo(dataDeAlteracao);
-        this.capturaDataDeAlteracao(dataDeAlteracao);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        return sdf.format(dataDeAlteracao);
-    }
+//    public String converteDataDeAlteracao(LocalDate dataDeAlteracao) {
+//        this.verificaSeDataDeAlteracaoNulo(dataDeAlteracao);
+//        this.capturaDataDeAlteracao(dataDeAlteracao);
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//        return sdf.format(dataDeAlteracao);
+//    }
 
     /**
      * Converte a data de criação para uma leitura apropriada ao usuário.
@@ -425,12 +421,13 @@ public class Empresa {
      * @param dataDeCriacao the data de criacao
      * @return the string
      */
-    public String converteDataDeCriacao(Date dataDeCriacao) {
-        this.verificaSeDataDeCriacaoNulo(dataDeCriacao);
-        this.capturaDataDeCriacao(dataDeCriacao);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        return sdf.format(dataDeCriacao);
-    }
+//    public String converteDataDeCriacao(LocalDate dataDeCriacao) {
+//        this.verificaSeDataDeCriacaoNulo(dataDeCriacao);
+//        this.capturaDataDeCriacao(dataDeCriacao);
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//        return sdf.format(dataDeCriacao);
+//        DateTimeFormat.
+//    }
 
     /**
      * Determina o dia, mês e ano atuais para a data de criação.
@@ -438,12 +435,11 @@ public class Empresa {
      * @param dataDeCriacao the data de criacao
      * @return the date
      */
-    @SuppressWarnings("deprecation")
-    public Date capturaDataDeCriacao(Date dataDeCriacao) {
-        dataDeCriacao.getDate();
-        dataDeCriacao.getMonth();
+    public LocalDate capturaDataDeCriacao(LocalDate dataDeCriacao) {
+        LocalDate.now();
+        dataDeCriacao.dayOfMonth();
         dataDeCriacao.getYear();
-        Date data = dataDeCriacao;
+        LocalDate data = dataDeCriacao;
         return data;
     }
 
@@ -453,12 +449,11 @@ public class Empresa {
      * @param dataDeAlteracao the data de alteracao
      * @return the date
      */
-    @SuppressWarnings("deprecation")
-    public Date capturaDataDeAlteracao(Date dataDeAlteracao) {
-        dataDeAlteracao.getDate();
-        dataDeAlteracao.getMonth();
+    public LocalDate capturaDataDeAlteracao(LocalDate dataDeAlteracao) {
+        LocalDate.now();
+        dataDeAlteracao.dayOfMonth();
         dataDeAlteracao.getYear();
-        Date data = dataDeAlteracao;
+        LocalDate data = dataDeAlteracao;
         return data;
     }
 
@@ -700,7 +695,7 @@ public class Empresa {
      *
      * @param dataDeCriacao the data de criacao
      */
-    public void verificaSeDataDeCriacaoNulo(Date dataDeCriacao) {
+    public void verificaSeDataDeCriacaoNulo(LocalDate dataDeCriacao) {
         checkNotNull(dataDeCriacao, "Por gentileza informar uma data de criação.");
     }
 
@@ -709,8 +704,8 @@ public class Empresa {
      *
      * @param dataDeCriacao the data de criacao
      */
-    public void verificaSeDataDeCriacaoEAnterior(Date dataDeCriacao) {
-        checkArgument(!dataDeCriacao.before(Date.from(Instant.now())), "Data de criação informada não pode ser anterior.");
+    public void verificaSeDataDeCriacaoEAnterior(LocalDate dataDeCriacao) {
+        checkArgument(!dataDeCriacao.isBefore(LocalDate.now()), "Data de criação informada não pode ser anterior.");
     }
 
     /**
@@ -718,9 +713,9 @@ public class Empresa {
      *
      * @param dataDeCriacao the data de criacao
      */
-    public void verificaSeDataDeCriacaoEPosterior(Date dataDeCriacao) {
-        new Date();
-        checkArgument(!dataDeCriacao.after(Date.from(Instant.now())), "Data de criação informada não pode ser posterior.");
+    public void verificaSeDataDeCriacaoEPosterior(LocalDate dataDeCriacao) {
+        new LocalDate();
+        checkArgument(!dataDeCriacao.isAfter(LocalDate.now()), "Data de criação informada não pode ser posterior.");
     }
 
     /**
@@ -728,7 +723,7 @@ public class Empresa {
      *
      * @param dataDeAlteracao the data de alteracao
      */
-    public void verificaSeDataDeAlteracaoNulo(Date dataDeAlteracao) {
+    public void verificaSeDataDeAlteracaoNulo(LocalDate dataDeAlteracao) {
         checkNotNull(dataDeAlteracao, "A data de alteração deve ser preenchida.");
     }
 
@@ -737,27 +732,18 @@ public class Empresa {
      *
      * @param dataDeAlteracao the data de alteracao
      */
-    public void verificaSeDataDeCriacaoExiste(Date dataDeAlteracao) {
+    public void verificaSeDataDeCriacaoExiste(LocalDate dataDeAlteracao) {
         verificaSeDataDeCriacaoNulo(dataDeCriacao);
     }
 
     /**
-     * Verifica se a data de alteração da empresa é não é anterior à data de criação dela.
+     * Verifica se a data de alteração da empresa não é anterior à data de criação dela.
      *
      * @param dataDeAlteracao the data de alteracao
      */
-    public void verificaSeDataDeAlteracaoEAnteriorACriacao(Date dataDeAlteracao) {
+    public void verificaSeDataDeAlteracaoEAnteriorACriacao(LocalDate dataDeAlteracao) {
         this.verificaSeDataDeCriacaoExiste(getDataDeCriacao());
-        checkState(dataDeAlteracao.after(getDataDeCriacao()), "A data de alteração não pode ser anterior à data de criação.");
-    }
-
-    /**
-     * Verifica se a data de alteração da empresa é posterior à data de criação dela. Precisa ser verdade para validar.
-     *
-     * @param dataDeAlteracao the data de alteracao
-     */
-    public void verificaSeDataDeAlteracaoEPosteriorACriacao(Date dataDeAlteracao) {
-        checkState(dataDeAlteracao.after(getDataDeCriacao()), "A data de alteração deve ser posterior à data de criação.");
+        checkState(dataDeAlteracao.isAfter(getDataDeCriacao()), "A data de alteração deve ser posterior à data de criação.");
     }
 
     /*
@@ -793,8 +779,8 @@ public class Empresa {
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("Razão social: ", razaoSocial).append("Proprietário: ", proprietario).append("\nCNPJ", cnpj)
                 .append("Endereço: ", enderecos).append("Telefone: ", telefones).append("Email: ", this.telefones).append("\nSite: ", this.site)
-                .append("Data de criação: ", (dataDeCriacao != null) ? converteDataDeCriacao(dataDeCriacao) : null)
-                .append("Data de alteração: ", (dataDeAlteracao != null) ? converteDataDeAlteracao(dataDeAlteracao) : null).build();
+                .append("Data de criação: ", (dataDeCriacao != null) ? dataDeCriacao : null)
+                .append("Data de alteração: ", (dataDeAlteracao != null) ? dataDeAlteracao : null).build();
     }
 
 }
