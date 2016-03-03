@@ -174,33 +174,9 @@ public class EnderecoTeste {
 	}
 
 	@Test
-	public void deve_ter_tipoEndereco_residencial_valido() {
-		endereco.verificaSeTipoEnderecoValido(endereco.getTipoEndereco());
-	}
-
-	@Test
-	public void deve_ter_tipoEndereco_comercial_valido() {
-		endereco.verificaSeTipoEnderecoValido(endereco.getTipoEndereco());
-	}
-
-	@Test
 	public void nao_deve_ter_tipoEndereco_nulo() {
 		thrown.expect(NullPointerException.class);
 		thrown.expectMessage("O tipo de endereço deve ser preenchido.");
 		endereco.setTipoEndereco(null);
-	}
-
-	@Test
-	public void nao_deve_ter_tipoEndereco_vazio() {
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("O tipo de endereço não pode ficar vazio.");
-		endereco.setTipoEndereco("");
-	}
-
-	@Test
-	public void nao_deve_ter_tipoEndereco_invalido() {
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("O tipo de endereço deve ser ou residencial, ou comercial.");
-		endereco.setTipoEndereco("exemplo");
 	}
 }

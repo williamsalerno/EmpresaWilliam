@@ -1,5 +1,8 @@
 package br.com.contmatic.empresawilliam;
 
+import static br.com.contmatic.empresawilliam.TelefoneType.CELULAR;
+import static br.com.contmatic.empresawilliam.TelefoneType.FIXO;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -45,45 +48,12 @@ public class TelefoneTeste {
 	public static void resultado() {
 		System.out.println("Total de testes: " + contadorTeste);
 	}
-	
-
-	@Test
-	public void deve_aceitar_tipo_telefoneFixo_valido() {
-		telefone.verificaSeTipoTelefoneValido(telefone.getTipoTelefone());
-	}
-	
-	@Test
-	public void deve_aceitar_tipo_telefoneCelular_valido() {
-		telefoneCelular.verificaSeTipoTelefoneValido(telefoneCelular.getTipoTelefone());
-	}
-
 
 	@Test
 	public void nao_deve_aceitar_tipoTelefoneFixo_nulo() {
 		thrown.expect(NullPointerException.class);
 		thrown.expectMessage("O tipo de telefone deve ser preenchido.");
 		telefone.setTipoTelefone(null);
-	}
-
-	@Test
-	public void nao_deve_aceitar_tipoTelefone_vazio() {
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("O tipo de telefone não pode ficar vazio.");
-		telefoneCelular.setTipoTelefone("");
-	}
-
-	@Test
-	public void nao_deve_aceitar_tipo_celular_valido() {
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("O tipo de telefone precisa ser ou fixo, ou celular.");
-		telefone.setTipoTelefone("exemplo");
-	}
-
-	@Test
-	public void nao_deve_aceitar_tipo_fixo_valido() {
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("O tipo de telefone precisa ser ou fixo, ou celular.");
-		telefone.setTipoTelefone("exemplo");
 	}
 
 	@Test
@@ -136,7 +106,7 @@ public class TelefoneTeste {
 		thrown.expect(IllegalStateException.class);
 		thrown.expectMessage(
 				"Para telefone fixo, por favor informar 8 dígitos. Para telefone celular, por favor informar 9 dígitos.");
-		telefone.setTipoTelefone("Celular");
+		telefone.setTipoTelefone(CELULAR);
 		telefone.setNumeroTelefone("12345678");
 	}
 
@@ -145,7 +115,7 @@ public class TelefoneTeste {
 		thrown.expect(IllegalStateException.class);
 		thrown.expectMessage(
 				"Para telefone fixo, por favor informar 8 dígitos. Para telefone celular, por favor informar 9 dígitos.");
-		telefone.setTipoTelefone("Celular");
+		telefone.setTipoTelefone(CELULAR);
 		telefone.setNumeroTelefone("1234567890");
 	}
 
@@ -154,7 +124,7 @@ public class TelefoneTeste {
 		thrown.expect(IllegalStateException.class);
 		thrown.expectMessage(
 				"Para telefone fixo, por favor informar 8 dígitos. Para telefone celular, por favor informar 9 dígitos.");
-		telefone.setTipoTelefone("Fixo");
+		telefone.setTipoTelefone(FIXO);
 		telefone.setNumeroTelefone("1234567");
 	}
 
@@ -163,7 +133,7 @@ public class TelefoneTeste {
 		thrown.expect(IllegalStateException.class);
 		thrown.expectMessage(
 				"Para telefone fixo, por favor informar 8 dígitos. Para telefone celular, por favor informar 9 dígitos.");
-		telefone.setTipoTelefone("Fixo");
+		telefone.setTipoTelefone(FIXO);
 		telefone.setNumeroTelefone("123456789");
 	}
 
@@ -172,7 +142,7 @@ public class TelefoneTeste {
 		thrown.expect(IllegalStateException.class);
 		thrown.expectMessage(
 				"Para telefone fixo, por favor informar 8 dígitos. Para telefone celular, por favor informar 9 dígitos.");
-		telefone.setTipoTelefone("Fixo");
+		telefone.setTipoTelefone(FIXO);
 		telefone.setNumeroTelefone("123456789");
 	}
 }
