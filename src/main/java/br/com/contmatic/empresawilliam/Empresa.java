@@ -4,11 +4,15 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import java.util.Arrays;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 /**
  * The Class Empresa.
@@ -116,13 +120,6 @@ public class Empresa {
      * Data de alteração.
      */
     private LocalDate dataDeAlteracao;
-
-    /**
-     * Instantiates a new empresa.
-     */
-    public Empresa() {
-        this.dataDeCriacao = LocalDate.now();
-    }
 
     // getters e setters
     /**
@@ -274,8 +271,7 @@ public class Empresa {
      */
     public void setDataDeCriacao(LocalDate dataDeCriacao) {
         this.validaDataDeCriacao(dataDeCriacao);
-        //this.converteDataDeCriacao(dataDeCriacao);
-        this.dataDeCriacao = dataDeCriacao;
+        this.converteDataDeCriacao(dataDeCriacao);
     }
 
     /**
@@ -290,13 +286,12 @@ public class Empresa {
     /**
      * Determina um data de alteração, chama um método de validação e depois um método de conversão de leitura da data ao usuário.
      *
-     * @param dataTesteAlteracao the new data de alteracao
+     * @param dataDeAlteracao the new data de alteracao
      */
-    public void setDataDeAlteracao(LocalDate dataTesteAlteracao) {
-        this.setDataDeCriacao(LocalDate.now());
-        this.validaDataDeAlteracao(dataTesteAlteracao);
-        //this.converteDataDeAlteracao(dataTesteAlteracao);
-        this.dataDeAlteracao = dataTesteAlteracao;
+    public void setDataDeAlteracao(LocalDate dataDeAlteracao) {
+        validaDataDeAlteracao(dataDeAlteracao);
+        converteDataDeAlteracao(dataDeAlteracao);
+        this.dataDeAlteracao = dataDeAlteracao;
     }
 
     // validações
@@ -399,7 +394,17 @@ public class Empresa {
     public void validaDataDeAlteracao(LocalDate dataDeAlteracao) {
         this.verificaSeDataDeAlteracaoNulo(dataDeAlteracao);
         this.verificaSeDataDeAlteracaoEAnteriorACriacao(dataDeAlteracao);
-//        this.verificaSeDataDeAlteracaoEPosteriorACriacao(dataDeAlteracao);
+    }
+
+    /**
+     * Converte a data de criação para uma leitura apropriada ao usuário.
+     *
+     * @param dataDeCriacao the data de criacao
+     * @return the string
+     */
+    public String converteDataDeCriacao(LocalDate dataDeCriacao) {
+        DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+        return dataDeCriacao.toString(dtf);
     }
 
     /**
@@ -408,53 +413,9 @@ public class Empresa {
      * @param dataDeAlteracao the data de alteracao
      * @return the string
      */
-//    public String converteDataDeAlteracao(LocalDate dataDeAlteracao) {
-//        this.verificaSeDataDeAlteracaoNulo(dataDeAlteracao);
-//        this.capturaDataDeAlteracao(dataDeAlteracao);
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-//        return sdf.format(dataDeAlteracao);
-//    }
-
-    /**
-     * Converte a data de criação para uma leitura apropriada ao usuário.
-     *
-     * @param dataDeCriacao the data de criacao
-     * @return the string
-     */
-//    public String converteDataDeCriacao(LocalDate dataDeCriacao) {
-//        this.verificaSeDataDeCriacaoNulo(dataDeCriacao);
-//        this.capturaDataDeCriacao(dataDeCriacao);
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-//        return sdf.format(dataDeCriacao);
-//        DateTimeFormat.
-//    }
-
-    /**
-     * Determina o dia, mês e ano atuais para a data de criação.
-     *
-     * @param dataDeCriacao the data de criacao
-     * @return the date
-     */
-    public LocalDate capturaDataDeCriacao(LocalDate dataDeCriacao) {
-        LocalDate.now();
-        dataDeCriacao.dayOfMonth();
-        dataDeCriacao.getYear();
-        LocalDate data = dataDeCriacao;
-        return data;
-    }
-
-    /**
-     * Determina o dia, mês e ano atuais para a data de alteração.
-     *
-     * @param dataDeAlteracao the data de alteracao
-     * @return the date
-     */
-    public LocalDate capturaDataDeAlteracao(LocalDate dataDeAlteracao) {
-        LocalDate.now();
-        dataDeAlteracao.dayOfMonth();
-        dataDeAlteracao.getYear();
-        LocalDate data = dataDeAlteracao;
-        return data;
+    public String converteDataDeAlteracao(LocalDate dataDeAlteracao) {
+        DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+        return dataDeAlteracao.toString(dtf);
     }
 
     // verificações
@@ -730,9 +691,9 @@ public class Empresa {
     /**
      * Verifica se data de criação existe para uma data de alteração ser gerada.
      *
-     * @param dataDeAlteracao the data de alteracao
+     * @param dataDeCriacao the data de criacao
      */
-    public void verificaSeDataDeCriacaoExiste(LocalDate dataDeAlteracao) {
+    public void verificaSeDataDeCriacaoExiste(LocalDate dataDeCriacao) {
         verificaSeDataDeCriacaoNulo(dataDeCriacao);
     }
 
@@ -777,10 +738,10 @@ public class Empresa {
      */
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("Razão social: ", razaoSocial).append("Proprietário: ", proprietario).append("\nCNPJ", cnpj)
-                .append("Endereço: ", enderecos).append("Telefone: ", telefones).append("Email: ", this.telefones).append("\nSite: ", this.site)
-                .append("Data de criação: ", (dataDeCriacao != null) ? dataDeCriacao : null)
-                .append("Data de alteração: ", (dataDeAlteracao != null) ? dataDeAlteracao : null).build();
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("Razão social: ", razaoSocial).append("Proprietário: ", proprietario).append("CNPJ", cnpj)
+                .append("Endereço: ", Arrays.toString(enderecos)).append("Telefone: ", Arrays.toString(telefones)).append("Email: ", email).append("Site: ", site)
+                .append("Data de criação: ", (converteDataDeCriacao(dataDeCriacao) != null) ? converteDataDeCriacao(dataDeCriacao) : null)
+                .append("Data de alteração: ", (converteDataDeAlteracao(dataDeAlteracao) != null) ? converteDataDeAlteracao(dataDeAlteracao) : null).build();
     }
 
 }

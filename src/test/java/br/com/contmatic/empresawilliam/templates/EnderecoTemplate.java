@@ -20,7 +20,7 @@ public class EnderecoTemplate implements TemplateLoader {
      */
     @Override
     public void load() {
-        Fixture.of(Endereco.class).addTemplate("valid", new Rule() {
+        Fixture.of(Endereco.class).addTemplate("endereco_valido", new Rule() {
             {
                 add("tipoLogradouro", random("Rua", "Avenida", "Praça", "Parque"));
                 add("nomeLogradouro", random("Exemplo", "Teste", "Qualquer Lugar", "Lugar Nenhum"));

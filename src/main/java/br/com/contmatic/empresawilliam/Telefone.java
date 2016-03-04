@@ -6,6 +6,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -31,6 +33,7 @@ public class Telefone {
     /**
      * Tipo de telefone.
      */
+    @NotNull(message= "O tipo de telefone deve ser preenchido.")
     private TelefoneType tipoTelefone;
 
     /**
@@ -58,7 +61,6 @@ public class Telefone {
      * @param tipoTelefone the new tipo telefone
      */
     public void setTipoTelefone(TelefoneType tipoTelefone) {
-        this.validaTipoTelefone(tipoTelefone);
         this.tipoTelefone = tipoTelefone;
     }
 
@@ -101,14 +103,6 @@ public class Telefone {
     }
 
     // validações
-    /**
-     * Verifica se tipo de telefone tem valor válido.
-     *
-     * @param tipoTelefone the tipo telefone
-     */
-    public void validaTipoTelefone(TelefoneType tipoTelefone) {
-        this.verificaSeTipoTelefoneNulo(tipoTelefone);
-    }
 
     /**
      * Verifica se número de telefone tem valor válido.
@@ -122,14 +116,6 @@ public class Telefone {
     }
 
     // verificações
-    /**
-     * Checa se tipo de telefone é nulo.
-     *
-     * @param tipoTelefone the tipo telefone
-     */
-    public void verificaSeTipoTelefoneNulo(TelefoneType tipoTelefone) {
-        checkNotNull(tipoTelefone, "O tipo de telefone deve ser preenchido.");
-    }
 
     /**
      * Checa se tipo de telefone está vazio.

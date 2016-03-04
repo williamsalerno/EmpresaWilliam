@@ -33,7 +33,7 @@ public class EnderecoTeste {
 	@Before
 	public void gerarEmpresa() {
 		endereco = new Endereco();
-		this.endereco = Fixture.from(Endereco.class).gimme("valid");
+		this.endereco = Fixture.from(Endereco.class).gimme("endereco_valido");
 	}
 
 	@After
