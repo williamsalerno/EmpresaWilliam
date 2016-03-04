@@ -2,6 +2,7 @@ package br.com.contmatic.empresawilliam;
 
 import static br.com.contmatic.empresawilliam.TelefoneType.CELULAR;
 import static br.com.contmatic.empresawilliam.TelefoneType.FIXO;
+import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -13,6 +14,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runners.MethodSorters;
 
+import br.com.contmatic.empresawilliam.util.ValidationUtil;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 
@@ -51,9 +53,8 @@ public class TelefoneTeste {
 
 	@Test
 	public void nao_deve_aceitar_tipoTelefoneFixo_nulo() {
-		thrown.expect(NullPointerException.class);
-		thrown.expectMessage("O tipo de telefone deve ser preenchido.");
 		telefone.setTipoTelefone(null);
+		assertTrue(ValidationUtil.valida(telefone, "O tipo de telefone deve ser preenchido."));
 	}
 
 	@Test

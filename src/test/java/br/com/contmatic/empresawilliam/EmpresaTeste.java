@@ -26,8 +26,7 @@ import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 public class EmpresaTeste {
 
     private Empresa empresa;
-    private Endereco[] enderecos;
-    private Endereco[] enderecoVazio, temUmEndereco;
+    private Endereco[] enderecos, enderecoVazio, temUmEndereco;
     private Telefone[] telefones, telefoneVazio, temUmTelefone;
     private LocalDate dataTesteAtual;
     private LocalDate dataTesteAlteracao;
@@ -56,6 +55,7 @@ public class EmpresaTeste {
 
         Endereco end1 = new Endereco();
         end1 = Fixture.from(Endereco.class).gimme("endereco_valido");
+        this.enderecos[0] = end1;
 
         Endereco end2 = new Endereco();
         end2 = Fixture.from(Endereco.class).gimme("endereco_valido");
