@@ -1,5 +1,8 @@
 package br.com.contmatic.empresawilliam;
 
+import static br.com.contmatic.empresawilliam.util.ValidationUtil.validaMensagem;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -53,10 +56,9 @@ public class EnderecoTeste {
 	}
 
 	@Test
-	public void nao_deve_ter_cep_nulo() {
-		thrown.expect(NullPointerException.class);
-		thrown.expectMessage("O CEP deve ser preenchido.");
+	public void nao_deve_aceitar_cep_nulo() {
 		endereco.setCep(null);
+		assertTrue(validaMensagem(endereco, "O CEP deve ser preenchido."));
 	}
 
 	@Test
@@ -120,9 +122,10 @@ public class EnderecoTeste {
 
 	@Test
 	public void nao_deve_ter_nomeLogradouro_nulo() {
-		thrown.expect(NullPointerException.class);
-		thrown.expectMessage("O nome de logradouro deve ser preenchido.");
+//		thrown.expect(NullPointerException.class);
+//		thrown.expectMessage("O nome de logradouro deve ser preenchido.");
 		endereco.setNomeLogradouro(null);
+		assertTrue(validaMensagem(endereco, "O nome de logradouro deve ser preenchido."));
 	}
 
 	@Test
@@ -146,9 +149,10 @@ public class EnderecoTeste {
 
 	@Test
 	public void nao_deve_ter_tipoLogradouro_nulo() {
-		thrown.expect(NullPointerException.class);
-		thrown.expectMessage("O tipo de logradouro deve ser preenchido.");
+//		thrown.expect(NullPointerException.class);
+//		thrown.expectMessage("O tipo de logradouro deve ser preenchido.");
 		endereco.setTipoLogradouro(null);
+		assertTrue(validaMensagem(endereco, "O tipo de logradouro deve ser preenchido."));
 	}
 
 	@Test
@@ -181,8 +185,9 @@ public class EnderecoTeste {
 
 	@Test
 	public void nao_deve_ter_tipoEndereco_nulo() {
-		thrown.expect(NullPointerException.class);
-		thrown.expectMessage("O tipo de endereço deve ser preenchido.");
+//		thrown.expect(NullPointerException.class);
+//		thrown.expectMessage("O tipo de endereço deve ser preenchido.");
 		endereco.setTipoEndereco(null);
+		assertTrue(validaMensagem(endereco, "O tipo de endereço deve ser preenchido."));
 	}
 }

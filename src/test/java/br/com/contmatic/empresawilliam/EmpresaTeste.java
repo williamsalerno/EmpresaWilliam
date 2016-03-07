@@ -1,10 +1,9 @@
 package br.com.contmatic.empresawilliam;
 
+import static br.com.contmatic.empresawilliam.util.ValidationUtil.validaMensagem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-
-import java.util.*;
 
 import org.joda.time.LocalDate;
 import org.junit.After;
@@ -28,8 +27,6 @@ public class EmpresaTeste {
     private Empresa empresa;
     private Endereco[] enderecos, enderecoVazio, temUmEndereco;
     private Telefone[] telefones, telefoneVazio, temUmTelefone;
-    private LocalDate dataTesteAtual;
-    private LocalDate dataTesteAlteracao;
     private LocalDate dataTesteOntem;
     private static int contadorTeste = 0;
 
@@ -48,6 +45,7 @@ public class EmpresaTeste {
         empresa = new Empresa();
         this.empresa = Fixture.from(Empresa.class).gimme("empresa_valida");
         this.telefones = new Telefone[2];
+        this.enderecos = new Endereco[2];
         this.enderecoVazio = new Endereco[1];
         this.temUmEndereco = new Endereco[1];
         this.telefoneVazio = new Telefone[1];
@@ -93,9 +91,10 @@ public class EmpresaTeste {
 
     @Test
     public void nao_deve_ter_cnpj_nulo() {
-        thrown.expect(NullPointerException.class);
-        thrown.expectMessage("O cnpj deve ser preenchido.");
+//        thrown.expect(NullPointerException.class);
+//        thrown.expectMessage("O cnpj deve ser preenchido.");
         empresa.setCnpj(null);
+        assertTrue(validaMensagem(empresa, "O cnpj deve ser preenchido."));
     }
 
     @Test
@@ -133,9 +132,10 @@ public class EmpresaTeste {
 
     @Test
     public void nao_deve_ter_proprietario_nulo() {
-        thrown.expect(NullPointerException.class);
-        thrown.expectMessage("O nome de proprietário deve ser preenchido.");
+//        thrown.expect(NullPointerException.class);
+//        thrown.expectMessage("O nome de proprietário deve ser preenchido.");
         empresa.setProprietario(null);
+        assertTrue(validaMensagem(empresa, "O nome de proprietário deve ser preenchido."));
     }
 
     @Test
@@ -167,9 +167,10 @@ public class EmpresaTeste {
 
     @Test
     public void nao_deve_ter_razaoSocial_nulo() {
-        thrown.expect(NullPointerException.class);
-        thrown.expectMessage("A razão social deve ser preenchida.");
+//        thrown.expect(NullPointerException.class);
+//        thrown.expectMessage("A razão social deve ser preenchida.");
         empresa.setRazaoSocial(null);
+        assertTrue(validaMensagem(empresa, "A razão social deve ser preenchida."));
     }
 
     @Test
@@ -200,9 +201,10 @@ public class EmpresaTeste {
 
     @Test
     public void nao_deve_ter_email_nulo() {
-        thrown.expect(NullPointerException.class);
-        thrown.expectMessage("O email deve ser preenchido.");
+//        thrown.expect(NullPointerException.class);
+//        thrown.expectMessage("O email deve ser preenchido.");
         empresa.setEmail(null);
+        assertTrue(validaMensagem(empresa, "O email deve ser preenchido."));
     }
 
     @Test
@@ -241,9 +243,10 @@ public class EmpresaTeste {
 
     @Test
     public void nao_deve_ter_endereco_nulo() {
-        thrown.expect(NullPointerException.class);
-        thrown.expectMessage("O endereço deve ser preenchido.");
+//        thrown.expect(NullPointerException.class);
+//        thrown.expectMessage("O endereço deve ser preenchido.");
         empresa.setEnderecos(null);
+        assertTrue(validaMensagem(empresa, "O endereço deve ser preenchido."));
     }
 
     @Test
@@ -268,9 +271,10 @@ public class EmpresaTeste {
 
     @Test
     public void nao_deve_ter_telefone_nulo() {
-        thrown.expect(NullPointerException.class);
-        thrown.expectMessage("O telefone deve ser preenchido.");
+//        thrown.expect(NullPointerException.class);
+//        thrown.expectMessage("O telefone deve ser preenchido.");
         empresa.setTelefones(null);
+        assertTrue(validaMensagem(empresa, "O telefone deve ser preenchido."));
     }
 
     @Test
@@ -294,9 +298,10 @@ public class EmpresaTeste {
 
     @Test
     public void nao_deve_ter_site_nulo() {
-        thrown.expect(NullPointerException.class);
-        thrown.expectMessage("O site deve ser preenchido.");
+//        thrown.expect(NullPointerException.class);
+//        thrown.expectMessage("O site deve ser preenchido.");
         empresa.setSite(null);
+        assertTrue(validaMensagem(empresa, "O site deve ser preenchido."));
     }
 
     @Test
@@ -329,8 +334,7 @@ public class EmpresaTeste {
 
     @Test
     public void deve_ter_dataCriacao_valido() {
-        empresa.setDataDeCriacao(dataTesteAtual);
-        assertThat(empresa.getDataDeCriacao(), is(dataTesteAtual));
+        empresa.verificaSeDataDeCriacaoExiste(empresa.getDataDeCriacao());
     }
 
     @Test
@@ -344,14 +348,14 @@ public class EmpresaTeste {
     public void nao_deve_ter_dataCriacao_posterior() {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Data de criação informada não pode ser posterior.");
-        empresa.setDataDeCriacao(dataTesteAlteracao);
+        empresa.verificaSeDataDeCriacaoEPosterior(empresa.getDataDeAlteracao());
     }
 
     @Test
     public void nao_deve_ter_dataCriacao_anterior() {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Data de criação informada não pode ser anterior.");
-        empresa.setDataDeCriacao(dataTesteOntem);
+        empresa.verificaSeDataDeCriacaoEAnterior(dataTesteOntem);
     }
 
     @Test
@@ -363,8 +367,7 @@ public class EmpresaTeste {
 
     @Test
     public void deve_ter_dataAlteracao_posterior_a_criacao() {
-        empresa.setDataDeAlteracao(dataTesteAlteracao);
-        assertTrue(empresa.getDataDeAlteracao().isAfter(dataTesteAtual));
+        empresa.verificaSeDataDeAlteracaoEAnteriorACriacao(empresa.getDataDeAlteracao());
     }
 
     @Test

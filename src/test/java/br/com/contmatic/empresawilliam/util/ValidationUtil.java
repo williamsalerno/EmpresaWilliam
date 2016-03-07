@@ -4,20 +4,18 @@ import java.util.Set;
 
 import javax.validation.*;
 
-import br.com.contmatic.empresawilliam.Telefone;
-
 public final class ValidationUtil {
     
     private ValidationUtil(){
         
     }
     
-    public static boolean valida(Object obj, String message){
+    public static boolean validaMensagem(Object obj, String mensagem){
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<Object>> errors = validator.validate(obj);
         for(ConstraintViolation<Object> constraintViolation : errors) {
-           if(message.equals(constraintViolation.getMessage())){
+           if(mensagem.equals(constraintViolation.getMessage())){
                return true;
            }
         }

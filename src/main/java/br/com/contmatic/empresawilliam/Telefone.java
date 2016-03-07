@@ -3,7 +3,6 @@ package br.com.contmatic.empresawilliam;
 import static br.com.contmatic.empresawilliam.TelefoneType.CELULAR;
 import static br.com.contmatic.empresawilliam.TelefoneType.FIXO;
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import javax.validation.constraints.NotNull;
@@ -44,6 +43,7 @@ public class Telefone {
     /**
      * Número de telefone.
      */
+    @NotNull(message= "O número de telefone deve ser informado.")
     private String numeroTelefone;
 
     /**
@@ -98,7 +98,6 @@ public class Telefone {
      * @param numeroTelefone the new numero telefone
      */
     public void setNumeroTelefone(String numeroTelefone) {
-        this.validaNumeroTelefone(numeroTelefone);
         this.numeroTelefone = numeroTelefone;
     }
 
@@ -110,7 +109,7 @@ public class Telefone {
      * @param numeroTelefone the numero telefone
      */
     public void validaNumeroTelefone(String numeroTelefone) {
-        this.verificaSeNumeroTelefoneNulo(numeroTelefone);
+//        this.verificaSeNumeroTelefoneNulo(numeroTelefone);
         this.verificaSeNumeroTelefoneVazio(numeroTelefone);
         this.verificaSeNumeroTelefoneValido(numeroTelefone);
     }
@@ -136,16 +135,7 @@ public class Telefone {
     }
 
     /**
-     * Checa se número de telefone é nulo.
-     *
-     * @param numeroTelefone the numero telefone
-     */
-    public void verificaSeNumeroTelefoneNulo(String numeroTelefone) {
-        checkNotNull(numeroTelefone, "O número de telefone deve ser informado");
-    }
-
-    /**
-     * Checa se número de telefone está nulo.
+     * Checa se número de telefone está vazio.
      *
      * @param numeroTelefone the numero telefone
      */
