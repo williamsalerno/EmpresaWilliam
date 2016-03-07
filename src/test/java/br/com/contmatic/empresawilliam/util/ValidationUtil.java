@@ -10,14 +10,16 @@ public final class ValidationUtil {
         
     }
     
-    public static boolean validaMensagem(Object obj, String mensagem){
+    public static boolean hasErrors(Object obj, String message){
+        if(message != null){
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<Object>> errors = validator.validate(obj);
         for(ConstraintViolation<Object> constraintViolation : errors) {
-           if(mensagem.equals(constraintViolation.getMessage())){
+           if(message.equals(constraintViolation.getMessage())){
                return true;
            }
+        }
         }
         return false;
         

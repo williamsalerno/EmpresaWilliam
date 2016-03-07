@@ -55,25 +55,25 @@ public class Endereco {
     /**
      * Tipo de logradouro.
      */
-    @NotNull (message= "O tipo de logradouro deve ser preenchido.")
+    @NotNull(message = "O tipo de logradouro deve ser preenchido.")
     private String tipoLogradouro;
 
     /**
      * Nome de logradouro.
      */
-    @NotNull(message= "O nome de logradouro deve ser preenchido.")
+    @NotNull(message = "O nome de logradouro deve ser preenchido.")
     private String nomeLogradouro;
 
     /**
      * CEP.
      */
-    @NotNull(message= "O CEP deve ser preenchido.")
+    @NotNull(message = "O CEP deve ser preenchido.")
     private String cep;
 
     /**
      * Tipo de endereço.
      */
-    @NotNull(message= "O tipo de endereço deve ser preenchido.")
+    @NotNull(message = "O tipo de endereço deve ser preenchido.")
     private EnderecoType tipoEndereco;
 
     // getters e setters
@@ -92,7 +92,7 @@ public class Endereco {
      * @param tipoLogradouro the new tipo logradouro
      */
     public void setTipoLogradouro(String tipoLogradouro) {
-        //this.validaTipoLogradouro(tipoLogradouro);
+        // this.validaTipoLogradouro(tipoLogradouro);
         this.tipoLogradouro = tipoLogradouro;
     }
 
@@ -111,7 +111,7 @@ public class Endereco {
      * @param nomeLogradouro the new nome logradouro
      */
     public void setNomeLogradouro(String nomeLogradouro) {
-//        this.validaNomeLogradouro(nomeLogradouro);
+        // this.validaNomeLogradouro(nomeLogradouro);
         this.nomeLogradouro = nomeLogradouro;
     }
 
@@ -149,7 +149,7 @@ public class Endereco {
      * @param cep the new cep
      */
     public void setCep(String cep) {
-        //this.validaCep(cep);
+        // this.validaCep(cep);
         this.cep = cep;
     }
 
@@ -168,7 +168,7 @@ public class Endereco {
      * @param tipoEndereco the new tipo endereco
      */
     public void setTipoEndereco(EnderecoType tipoEndereco) {
-//        this.validaTipoEndereco(tipoEndereco);
+        // this.validaTipoEndereco(tipoEndereco);
         this.tipoEndereco = tipoEndereco;
     }
 
@@ -262,7 +262,7 @@ public class Endereco {
      * @param nomeLogradouro the nome logradouro
      */
     public void verificaSeNomeLogradouroNulo(String nomeLogradouro) {
-        //checkNotNull(nomeLogradouro, "O nome de logradouro deve ser preenchido.");
+        // checkNotNull(nomeLogradouro, "O nome de logradouro deve ser preenchido.");
     }
 
     /**

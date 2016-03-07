@@ -11,6 +11,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 
 /**
  * The Class Telefone.
@@ -32,18 +34,20 @@ public class Telefone {
     /**
      * Tipo de telefone.
      */
-    @NotNull(message= "O tipo de telefone deve ser preenchido.")
+    @NotNull(message = "O tipo de telefone deve ser preenchido.")
     private TelefoneType tipoTelefone;
 
     /**
      * DDD.
      */
+    @Range(min = TAMANHO_MINIMO_DDD, max = TAMANHO_MAXIMO_DDD, message = "O número de DDD informado deve ser entre {min} e {max}.")
     private int ddd;
 
     /**
      * Número de telefone.
      */
-    @NotNull(message= "O número de telefone deve ser informado.")
+    @NotNull(message = "O número de telefone deve ser informado.")
+    @NotEmpty(message = "O número de telefone deve ser informado.")
     private String numeroTelefone;
 
     /**
@@ -79,7 +83,6 @@ public class Telefone {
      * @param ddd the new ddd
      */
     public void setDdd(int ddd) {
-        this.verificaSeDddValido(ddd);
         this.ddd = ddd;
     }
 
@@ -109,7 +112,7 @@ public class Telefone {
      * @param numeroTelefone the numero telefone
      */
     public void validaNumeroTelefone(String numeroTelefone) {
-//        this.verificaSeNumeroTelefoneNulo(numeroTelefone);
+        // this.verificaSeNumeroTelefoneNulo(numeroTelefone);
         this.verificaSeNumeroTelefoneVazio(numeroTelefone);
         this.verificaSeNumeroTelefoneValido(numeroTelefone);
     }
