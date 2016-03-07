@@ -1,16 +1,9 @@
 package br.com.contmatic.empresawilliam;
 
-import static br.com.contmatic.empresawilliam.TelefoneType.CELULAR;
-import static br.com.contmatic.empresawilliam.TelefoneType.FIXO;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
-
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import org.apache.commons.lang3.builder.*;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 
@@ -105,56 +98,6 @@ public class Telefone {
     }
 
     // validações
-
-    /**
-     * Verifica se número de telefone tem valor válido.
-     *
-     * @param numeroTelefone the numero telefone
-     */
-    public void validaNumeroTelefone(String numeroTelefone) {
-        // this.verificaSeNumeroTelefoneNulo(numeroTelefone);
-        this.verificaSeNumeroTelefoneVazio(numeroTelefone);
-        this.verificaSeNumeroTelefoneValido(numeroTelefone);
-    }
-
-    // verificações
-
-    /**
-     * Checa se tipo de telefone está vazio.
-     *
-     * @param tipoTelefone the tipo telefone
-     */
-    public void verificaSeTipoTelefoneVazio(TelefoneType tipoTelefone) {
-        checkArgument(!tipoTelefone.equals(""), "O tipo de telefone não pode ficar vazio.");
-    }
-
-    /**
-     * Checa se DDD está dentro dos limites de valores para ser validado.
-     *
-     * @param ddd the ddd
-     */
-    public void verificaSeDddValido(int ddd) {
-        checkArgument(!(ddd < TAMANHO_MINIMO_DDD || ddd > TAMANHO_MAXIMO_DDD), "O número de DDD informado deve ser entre 11 e 99");
-    }
-
-    /**
-     * Checa se número de telefone está vazio.
-     *
-     * @param numeroTelefone the numero telefone
-     */
-    public void verificaSeNumeroTelefoneVazio(String numeroTelefone) {
-        checkArgument(!numeroTelefone.equals(""), "O número de telefone deve ser informado.");
-    }
-
-    /**
-     * Checa se tipo "Fixo" tem 8 dígitos ou tipo "Celular" tem 9 dígitos.
-     *
-     * @param numeroTelefone the numero telefone
-     */
-    public void verificaSeNumeroTelefoneValido(String numeroTelefone) {
-        checkState((this.tipoTelefone.equals(CELULAR) && numeroTelefone.length() == CELULAR.getTamanho()) || (this.tipoTelefone.equals(FIXO) && numeroTelefone.length() == FIXO.getTamanho()),
-            "Para telefone fixo, por favor informar 8 dígitos. Para telefone celular, por favor informar 9 dígitos.");
-    }
 
     /*
      * (non-Javadoc)
