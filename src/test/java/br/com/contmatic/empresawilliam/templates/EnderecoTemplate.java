@@ -29,6 +29,16 @@ public class EnderecoTemplate implements TemplateLoader {
                 add("cep", random("12345000", "54321000", "12345123", "54321321"));
             }
         });
+        
+        Fixture.of(Endereco.class).addTemplate("endereco_invalido", new Rule() {
+            {
+                add("tipoLogradouro", random("R", "Av", "Pr", "b"));
+                add("nomeLogradouro", random("a", "b", "c", "d"));
+                add("numeroEndereco", random(Integer.class, range(10000, 11000)));
+                add("tipoEndereco", random(COMERCIAL, RESIDENCIAL));
+                add("cep", random("abc", "5432100087", "ab123456", "2"));
+            }
+        });
 
     }
 

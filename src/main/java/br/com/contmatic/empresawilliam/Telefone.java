@@ -1,12 +1,16 @@
 package br.com.contmatic.empresawilliam;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-import org.apache.commons.lang3.builder.*;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Telefone.
  *
@@ -14,33 +18,24 @@ import org.hibernate.validator.constraints.Range;
  */
 public class Telefone {
 
-    /**
-     * Define um tamanho mínimo para ddd.
-     */
+    /** The Constant TAMANHO_MINIMO_DDD. */
     private final static int TAMANHO_MINIMO_DDD = 11;
 
-    /**
-     * Define um tamanho máximo para ddd.
-     */
+    /** The Constant TAMANHO_MAXIMO_DDD. */
     private final static int TAMANHO_MAXIMO_DDD = 99;
 
-    /**
-     * Tipo de telefone.
-     */
+    /** The tipo telefone. */
     @NotNull(message = "O tipo de telefone deve ser preenchido.")
     private TelefoneType tipoTelefone;
 
-    /**
-     * DDD.
-     */
+    /** The ddd. */
     @Range(min = TAMANHO_MINIMO_DDD, max = TAMANHO_MAXIMO_DDD, message = "O número de DDD informado deve ser entre {min} e {max}.")
     private int ddd;
 
-    /**
-     * Número de telefone.
-     */
+    /** The numero telefone. */
     @NotNull(message = "O número de telefone deve ser informado.")
     @NotEmpty(message = "O número de telefone deve ser informado.")
+    @Size
     private String numeroTelefone;
 
     /**

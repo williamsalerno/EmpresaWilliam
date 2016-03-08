@@ -21,6 +21,14 @@ public class TelefoneTemplate implements TemplateLoader {
             }
         });
 
+        Fixture.of(Telefone.class).addTemplate("celular_valido", new Rule() {
+            {
+                add("tipoTelefone", random(CELULAR));
+                add("ddd", random(Integer.class, range(11, 99)));
+                add("numeroTelefone", random("123456789", "987654321", "123454321", "999999999"));
+            }
+        });
+
         Fixture.of(Telefone.class).addTemplate("fixo_invalido", new Rule() {
             {
                 add("tipoTelefone", TelefoneType.FIXO);
@@ -32,14 +40,6 @@ public class TelefoneTemplate implements TemplateLoader {
         Fixture.of(Telefone.class).addTemplate("ddd_menor_que_limite").inherits("fixo_invalido", new Rule() {
             {
                 add("ddd", random(Integer.class, range(-10, 10)));
-            }
-        });
-
-        Fixture.of(Telefone.class).addTemplate("celular_valido", new Rule() {
-            {
-                add("tipoTelefone", random(CELULAR));
-                add("ddd", random(Integer.class, range(11, 99)));
-                add("numeroTelefone", random("123456789", "987654321", "123454321", "999999999"));
             }
         });
 

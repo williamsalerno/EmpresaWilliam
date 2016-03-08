@@ -21,6 +21,9 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import br.com.caelum.stella.bean.validation.CNPJ;
+
+// TODO: Auto-generated Javadoc
 /**
  * The Class Empresa.
  *
@@ -29,9 +32,6 @@ import org.joda.time.format.DateTimeFormatter;
 public class Empresa {
 
     // Constantes
-
-    /** The Constant TAMANHO_CNPJ. */
-    private final static int TAMANHO_CNPJ = 14;
 
     /** The Constant TAMANHO_MINIMO_RAZAOSOCIAL. */
     private final static int TAMANHO_MINIMO_RAZAOSOCIAL = 4;
@@ -68,8 +68,8 @@ public class Empresa {
     /** The cnpj. */
     @NotNull(message = "O cnpj deve ser preenchido.")
     @NotEmpty(message = "O cnpj não pode ficar vazio.")
-    @Size(min = TAMANHO_CNPJ, max = TAMANHO_CNPJ, message = "CNPJ inválido. Deve conter {min} dígitos.")
-    @Pattern(regexp = "\\d{14}", message = "CNPJ inválido. Só pode conter números.")
+    @Pattern(regexp = "\\d{14}", message = "CNPJ inválido. Deve conter 14 dígitos numéricos.")
+    @CNPJ(message = "CNPJ inválido.")
     private String cnpj;
 
     /** The razao social. */
@@ -109,7 +109,7 @@ public class Empresa {
     @NotNull(message = "O site deve ser preenchido.")
     @NotEmpty(message = "O site não pode ficar vazio.")
     @Size(min = TAMANHO_MINIMO_SITE, max = TAMANHO_MAXIMO_SITE, message = "O site deve conter entre {min} e {max} caracteres.")
-    @Pattern(regexp = ".", message = "Site inválido.")
+    @Pattern(regexp = "[a-z]+(\\.com)*\\.br{1}", message = "Site inválido.")
     private String site;
 
     /** The data de criacao. */

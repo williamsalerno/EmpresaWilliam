@@ -10,6 +10,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Endereco.
  *
@@ -17,62 +18,40 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class Endereco {
 
-    /**
-     * Define um tamanho mínimo para número de endereço.
-     */
+    /** The Constant TAMANHO_NUMERO_DE_ENDERECO_MINIMO. */
     public final static int TAMANHO_NUMERO_DE_ENDERECO_MINIMO = 1;
 
-    /**
-     * Define um tamanho máximo para número de endereço.
-     */
+    /** The Constant TAMANHO_NUMERO_DE_ENDERECO_MAXIMO. */
     public final static int TAMANHO_NUMERO_DE_ENDERECO_MAXIMO = 9999;
 
-    /**
-     * Define um tamanho mínimo para tipo de logradouro.
-     */
+    /** The Constant TAMANHO_TIPO_DE_LOGRADOURO_MINIMO. */
     public final static int TAMANHO_TIPO_DE_LOGRADOURO_MINIMO = 3;
 
-    /**
-     * Define um tamanho máximo para tipo de logradouro.
-     */
+    /** The Constant TAMANHO_TIPO_DE_LOGRADOURO_MAXIMO. */
     public final static int TAMANHO_TIPO_DE_LOGRADOURO_MAXIMO = 10;
 
-    /**
-     * Define um tamanho máximo para nome de logradouro.
-     */
+    /** The Constant TAMANHO_NOME_DE_LOGRADOURO_MAXIMO. */
     public final static int TAMANHO_NOME_DE_LOGRADOURO_MAXIMO = 30;
 
-    /**
-     * Define um tamanho específico para CEP.
-     */
+    /** The Constant TAMANHO_CEP. */
     public final static int TAMANHO_CEP = 8;
 
-    /**
-     * Número de endereço.
-     */
+    /** The numero endereco. */
     private int numeroEndereco;
 
-    /**
-     * Tipo de logradouro.
-     */
+    /** The tipo logradouro. */
     @NotNull(message = "O tipo de logradouro deve ser preenchido.")
     private String tipoLogradouro;
 
-    /**
-     * Nome de logradouro.
-     */
+    /** The nome logradouro. */
     @NotNull(message = "O nome de logradouro deve ser preenchido.")
     private String nomeLogradouro;
 
-    /**
-     * CEP.
-     */
+    /** The cep. */
     @NotNull(message = "O CEP deve ser preenchido.")
     private String cep;
 
-    /**
-     * Tipo de endereço.
-     */
+    /** The tipo endereco. */
     @NotNull(message = "O tipo de endereço deve ser preenchido.")
     private EnderecoType tipoEndereco;
 
