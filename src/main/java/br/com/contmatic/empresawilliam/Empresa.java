@@ -17,7 +17,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.br.CNPJ;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -70,7 +69,7 @@ public class Empresa {
     @NotNull(message = "O cnpj deve ser preenchido.")
     @NotEmpty(message = "O cnpj não pode ficar vazio.")
     @Size(min = TAMANHO_CNPJ, max = TAMANHO_CNPJ, message = "CNPJ inválido. Deve conter {min} dígitos.")
-    @CNPJ(message = "CNPJ inválido. Só pode conter números.")
+    @Pattern(regexp = "\\d{14}", message = "CNPJ inválido. Só pode conter números.")
     private String cnpj;
 
     /** The razao social. */
@@ -89,7 +88,7 @@ public class Empresa {
     @NotNull(message = "O email deve ser preenchido.")
     @NotEmpty(message = "O email não pode ficar vazio.")
     @Size(min = TAMANHO_MINIMO_EMAIL, max = TAMANHO_MAXIMO_EMAIL, message = "O email deve conter entre {min} e {max} caracteres.")
-    @Email(regexp = "@", message = "O email informado é inválido.")
+    @Email(regexp = "[a-z]+@{1}\\w+\\.com{1}(\\.br)*", message = "O email informado é inválido.")
     private String email;
 
     /** The enderecos. */

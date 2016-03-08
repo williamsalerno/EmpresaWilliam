@@ -185,8 +185,6 @@ public class EnderecoTeste {
 
     @Test
     public void nao_deve_ter_tipoEndereco_nulo() {
-        // thrown.expect(NullPointerException.class);
-        // thrown.expectMessage("O tipo de endereço deve ser preenchido.");
         endereco.setTipoEndereco(null);
         assertTrue(hasErrors(endereco, "O tipo de endereço deve ser preenchido."));
     }

@@ -207,14 +207,14 @@ public class EmpresaTeste {
     }
 
     @Test
-    public void nao_deve_ter_email_maior_que_limite() {
+    public void nao_deve_aceitar_email_maior_que_limite() {
         empresa.setEmail("123456789112345678921234567893123456789412345678951@");
         assertTrue(hasErrors(empresa, "O email deve conter entre 7 e 50 caracteres."));
     }
 
     @Test
-    public void nao_deve_ter_email_invalido() {
-        empresa.setEmail("abcdefgh");
+    public void nao_deve_aceitar_email_invalido() {
+        empresa.setEmail("_teste@teste.com.br");
         assertTrue(hasErrors(empresa, "O email informado é inválido."));
     }
 
