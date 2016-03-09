@@ -1,14 +1,17 @@
 package br.com.contmatic.empresawilliam;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * The Class Endereco.
@@ -21,31 +24,34 @@ public class Endereco {
     /** The Constant TAMANHO_NUMERO_DE_ENDERECO_MAXIMO. */
     public final static int TAMANHO_NUMERO_DE_ENDERECO_MAXIMO = 9999;
 
-    /** The Constant TAMANHO_TIPO_DE_LOGRADOURO_MINIMO. */
-    public final static int TAMANHO_TIPO_DE_LOGRADOURO_MINIMO = 3;
-
-    /** The Constant TAMANHO_TIPO_DE_LOGRADOURO_MAXIMO. */
-    public final static int TAMANHO_TIPO_DE_LOGRADOURO_MAXIMO = 10;
-
     /** The Constant TAMANHO_NOME_DE_LOGRADOURO_MAXIMO. */
     public final static int TAMANHO_NOME_DE_LOGRADOURO_MAXIMO = 30;
 
-    /** The Constant TAMANHO_CEP. */
-    public final static int TAMANHO_CEP = 8;
-
     /** The numero endereco. */
+    @Min(value = TAMANHO_NUMERO_DE_ENDERECO_MINIMO, message = "O número de endereço deve ser, no mínimo, {value}.")
+    @Max(value = TAMANHO_NUMERO_DE_ENDERECO_MAXIMO, message = "O número de endereço deve ser, no máximo, {value}.")
     private int numeroEndereco;
 
     /** The tipo logradouro. */
     @NotNull(message = "O tipo de logradouro deve ser preenchido.")
+    @NotEmpty(message = "O tipo de logradouro não pode ficar vazio.")
+    @NotBlank(message = "O tipo de logradouro não pode ficar vazio.")
+    @Pattern(regexp = "[a-zA-Z]{3,10}", message = "O tipo de logradouro deve conter entre 3 e 10 caracteres, sem números.")
     private String tipoLogradouro;
 
     /** The nome logradouro. */
     @NotNull(message = "O nome de logradouro deve ser preenchido.")
+    @NotEmpty(message = "O nome de logradouro não pode ficar vazio.")
+    @NotBlank(message = "O nome de logradouro não pode ficar vazio.")
+    @Length(max = TAMANHO_NOME_DE_LOGRADOURO_MAXIMO, message = "O nome de logradouro deve conter entre 1 e 30 caracteres.")
+    @Pattern(regexp = "[a-zA-Z0-9]+", message = "O nome de logradouro deve conter apenas caracteres alfanuméricos.")
     private String nomeLogradouro;
 
     /** The cep. */
     @NotNull(message = "O CEP deve ser preenchido.")
+    @NotEmpty(message = "O CEP não pode ficar vazio.")
+    @NotBlank(message = "O CEP não pode ficar vazio.")
+    @Pattern(regexp = "\\d{8}", message = "O CEP deve conter 8 dígitos.")
     private String cep;
 
     /** The tipo endereco. */
@@ -68,7 +74,6 @@ public class Endereco {
      * @param tipoLogradouro the new tipo logradouro
      */
     public void setTipoLogradouro(String tipoLogradouro) {
-        // this.validaTipoLogradouro(tipoLogradouro);
         this.tipoLogradouro = tipoLogradouro;
     }
 
@@ -87,7 +92,6 @@ public class Endereco {
      * @param nomeLogradouro the new nome logradouro
      */
     public void setNomeLogradouro(String nomeLogradouro) {
-        // this.validaNomeLogradouro(nomeLogradouro);
         this.nomeLogradouro = nomeLogradouro;
     }
 
@@ -106,7 +110,6 @@ public class Endereco {
      * @param numeroEndereco the new numero endereco
      */
     public void setNumeroEndereco(int numeroEndereco) {
-        this.verificaSeNumeroEnderecoValido(numeroEndereco);
         this.numeroEndereco = numeroEndereco;
     }
 
@@ -125,7 +128,6 @@ public class Endereco {
      * @param cep the new cep
      */
     public void setCep(String cep) {
-        // this.validaCep(cep);
         this.cep = cep;
     }
 
@@ -144,166 +146,7 @@ public class Endereco {
      * @param tipoEndereco the new tipo endereco
      */
     public void setTipoEndereco(EnderecoType tipoEndereco) {
-        // this.validaTipoEndereco(tipoEndereco);
         this.tipoEndereco = tipoEndereco;
-    }
-
-    // validações
-    /**
-     * Verifica se tipo de logradouro possui um valor válido.
-     *
-     * @param tipoLogradouro the tipo logradouro
-     */
-    public void validaTipoLogradouro(String tipoLogradouro) {
-        this.verificaSeTipoLogradouroNulo(tipoLogradouro);
-        this.verificaSeTipoLogradouroVazio(tipoLogradouro);
-        this.verificaSeTipoLogradouroValido(tipoLogradouro);
-        this.verificaTamanhoTipoLogradouro(tipoLogradouro);
-    }
-
-    /**
-     * Verifica se nome de logradouro possui um valor válido.
-     *
-     * @param nomeLogradouro the nome logradouro
-     */
-    public void validaNomeLogradouro(String nomeLogradouro) {
-        this.verificaSeNomeLogradouroNulo(nomeLogradouro);
-        this.verificaTamanhoNomeLogradouro(nomeLogradouro);
-    }
-
-    /**
-     * Verifica se CEP possui um valor válido.
-     *
-     * @param cep the cep
-     */
-    public void validaCep(String cep) {
-        this.verificaSeCepNulo(cep);
-        this.verificaSeCepVazio(cep);
-        this.verificaSeCepValido(cep);
-        this.verificaCepTamanho(cep);
-    }
-
-    /**
-     * Verifica se tipo de endereço possui um valor válido.
-     *
-     * @param tipoEndereco the tipo endereco
-     */
-    public void validaTipoEndereco(EnderecoType tipoEndereco) {
-        this.verificaSeTipoEnderecoNulo(tipoEndereco);
-    }
-
-    // verificações
-    /**
-     * Checa se tipo de logradouro é nulo.
-     *
-     * @param tipoLogradouro the tipo logradouro
-     */
-    public void verificaSeTipoLogradouroNulo(String tipoLogradouro) {
-        checkNotNull(tipoLogradouro, "O tipo de logradouro deve ser preenchido.");
-    }
-
-    /**
-     * Checa se tipo de logradouro está vazio.
-     *
-     * @param tipoLogradouro the tipo logradouro
-     */
-    public void verificaSeTipoLogradouroVazio(String tipoLogradouro) {
-        checkArgument(!tipoLogradouro.equals(""), "O tipo de logradouro não pode ficar vazio.");
-    }
-
-    /**
-     * Checa se tipo de logradouro está dentro dos limites de caracteres.
-     *
-     * @param tipoLogradouro the tipo logradouro
-     */
-    public void verificaTamanhoTipoLogradouro(String tipoLogradouro) {
-        checkArgument(!(tipoLogradouro.length() < TAMANHO_TIPO_DE_LOGRADOURO_MINIMO || tipoLogradouro.length() > TAMANHO_TIPO_DE_LOGRADOURO_MAXIMO),
-            "O tipo de logradouro deve ter no mínimo 3 caracteres e no máximo 10 caracteres.");
-    }
-
-    /**
-     * Checa se tipo de logradouro só possui letras.
-     *
-     * @param tipoLogradouro the tipo logradouro
-     */
-    public void verificaSeTipoLogradouroValido(String tipoLogradouro) {
-        for(int i = 0 ; i < tipoLogradouro.length() ; i++) {
-            checkArgument(!Character.isDigit(tipoLogradouro.charAt(i)), "O tipo de logradouro deve ser válido.");
-        }
-    }
-
-    /**
-     * Checa se nome de logradouro é nulo.
-     *
-     * @param nomeLogradouro the nome logradouro
-     */
-    public void verificaSeNomeLogradouroNulo(String nomeLogradouro) {
-        // checkNotNull(nomeLogradouro, "O nome de logradouro deve ser preenchido.");
-    }
-
-    /**
-     * Checa se nome de logradouro está dentro dos limites de caracteres.
-     *
-     * @param nomeLogradouro the nome logradouro
-     */
-    public void verificaTamanhoNomeLogradouro(String nomeLogradouro) {
-        checkArgument(!(nomeLogradouro.equals("") || nomeLogradouro.length() > TAMANHO_NOME_DE_LOGRADOURO_MAXIMO), "O nome de logradouro deve ter no mínimo 1 caracter e no máximo 30 caracteres.");
-    }
-
-    /**
-     * Checa se número de endereço tem o valor dentro dos limites.
-     *
-     * @param numeroEndereco the numero endereco
-     */
-    public void verificaSeNumeroEnderecoValido(int numeroEndereco) {
-        checkArgument(!(numeroEndereco < TAMANHO_NUMERO_DE_ENDERECO_MINIMO || numeroEndereco > TAMANHO_NUMERO_DE_ENDERECO_MAXIMO), "O número de endereço é inválido.");
-    }
-
-    /**
-     * Checa se CEP é nulo.
-     *
-     * @param cep the cep
-     */
-    public void verificaSeCepNulo(String cep) {
-        checkNotNull(cep, "O CEP deve ser preenchido.");
-    }
-
-    /**
-     * Checa se CEP está vazio.
-     *
-     * @param cep the cep
-     */
-    public void verificaSeCepVazio(String cep) {
-        checkArgument(!cep.equals(""), "O CEP não pode ficar vazio.");
-    }
-
-    /**
-     * Checa se CEP tem o tamanho de caracteres de acordo com o especificado.
-     *
-     * @param cep the cep
-     */
-    public void verificaCepTamanho(String cep) {
-        checkArgument(cep.length() == TAMANHO_CEP, "O CEP deve ter 8 dígitos.");
-    }
-
-    /**
-     * Checa se CEP só contém números.
-     *
-     * @param cep the cep
-     */
-    public void verificaSeCepValido(String cep) {
-        for(int i = 0 ; i < cep.length() ; i++) {
-            checkArgument(!Character.isLetter(cep.charAt(i)), "O CEP só pode conter números.");
-        }
-    }
-
-    /**
-     * Checa se tipo de endereço é nulo.
-     *
-     * @param tipoEndereco the tipo endereco
-     */
-    public void verificaSeTipoEnderecoNulo(EnderecoType tipoEndereco) {
-        checkNotNull(tipoEndereco, "O tipo de endereço deve ser preenchido.");
     }
 
     /*

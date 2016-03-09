@@ -1,6 +1,8 @@
 package br.com.contmatic.empresawilliam;
 
 import static br.com.contmatic.empresawilliam.util.ValidationUtil.hasErrors;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -21,38 +23,34 @@ import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 public class EnderecoTeste {
 
     private Endereco endereco;
-    private static int contadorTeste = 0;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
     public Timeout globalTimeout = Timeout.seconds(1);
 
     @BeforeClass
-    public static void beforeClass() {
-        System.out.println("Teste de Endereco realizado.");
+    public static void setUpBeforeClass() {
         FixtureFactoryLoader.loadTemplates("br.com.contmatic.empresawilliam.templates");
     }
 
     @Before
-    public void gerarEmpresa() {
-        endereco = new Endereco();
+    public void setUp() {
         this.endereco = Fixture.from(Endereco.class).gimme("endereco_valido");
     }
 
     @After
-    public void proximoTeste() {
+    public void tearDown() {
         endereco = null;
-        contadorTeste += 1;
     }
 
     @AfterClass
-    public static void resultado() {
-        System.out.println("Total de testes: " + contadorTeste);
+    public static void tearDownAfterClass() {
+        System.out.println("Teste finalizado");
     }
 
     @Test
-    public void deve_ter_cep_valido() {
-        endereco.verificaSeCepValido(endereco.getCep());
+    public void deve_aceitar_cep_valido() {
+        assertThat(hasErrors(endereco, null), is(false));
     }
 
     @Test
@@ -62,129 +60,136 @@ public class EnderecoTeste {
     }
 
     @Test
-    public void nao_deve_ter_cep_vazio() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("O CEP não pode ficar vazio.");
+    public void nao_deve_aceitar_cep_vazio() {
         endereco.setCep("");
+        assertTrue(hasErrors(endereco, "O CEP não pode ficar vazio."));
     }
 
     @Test
-    public void nao_deve_ter_cep_menor_que_limite() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("O CEP deve ter 8 dígitos.");
+    public void nao_deve_aceitar_cep_em_branco() {
+        endereco.setCep(" ");
+        assertTrue(hasErrors(endereco, "O CEP não pode ficar vazio."));
+    }
+
+    @Test
+    public void nao_deve_aceitar_cep_menor_que_limite() {
         endereco.setCep("1234567");
+        assertTrue(hasErrors(endereco, "O CEP deve conter 8 dígitos."));
     }
 
     @Test
-    public void nao_deve_ter_cep_maior_que_limite() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("O CEP deve ter 8 dígitos.");
+    public void nao_deve_aceitar_cep_maior_que_limite() {
         endereco.setCep("123456789");
+        assertTrue(hasErrors(endereco, "O CEP deve conter 8 dígitos."));
     }
 
     @Test
     public void nao_deve_aceitar_cep_com_letras() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("O CEP só pode conter números.");
-        endereco.setCep("abc");
+        endereco.setCep("abcdefgh");
+        assertTrue(hasErrors(endereco, "O CEP deve conter 8 dígitos."));
     }
 
     @Test
     public void deve_aceitar_numeroEndereco_valido() {
-        endereco.verificaSeNumeroEnderecoValido(endereco.getNumeroEndereco());
+        assertThat(hasErrors(endereco, null), is(false));
     }
 
     @Test
-    public void nao_deve_ter_numeroEndereco_menor_que_limite() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("O número de endereço é inválido.");
+    public void nao_deve_aceitar_numeroEndereco_menor_que_limite() {
         endereco.setNumeroEndereco(0);
+        assertTrue(hasErrors(endereco, "O número de endereço deve ser, no mínimo, 1."));
     }
 
     @Test
-    public void nao_deve_ter_numeroEndereco_maior_que_limite() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("O número de endereço é inválido.");
+    public void nao_deve_aceitar_numeroEndereco_maior_que_limite() {
         endereco.setNumeroEndereco(10000);
+        assertTrue(hasErrors(endereco, "O número de endereço deve ser, no máximo, 9999."));
     }
 
     @Test
-    public void nao_deve_ter_numeroEndereco_negativo() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("O número de endereço é inválido.");
+    public void nao_deve_aceitar_numeroEndereco_negativo() {
         endereco.setNumeroEndereco(-1);
+        assertTrue(hasErrors(endereco, "O número de endereço deve ser, no mínimo, 1."));
     }
 
     @Test
-    public void deve_ter_nomeLogradouro_valido() {
-        endereco.verificaTamanhoNomeLogradouro(endereco.getNomeLogradouro());
+    public void deve_aceitar_nomeLogradouro_valido() {
+        assertThat(hasErrors(endereco, null), is(false));
     }
 
     @Test
-    public void nao_deve_ter_nomeLogradouro_nulo() {
-        // thrown.expect(NullPointerException.class);
-        // thrown.expectMessage("O nome de logradouro deve ser preenchido.");
+    public void nao_deve_aceitar_nomeLogradouro_nulo() {
         endereco.setNomeLogradouro(null);
         assertTrue(hasErrors(endereco, "O nome de logradouro deve ser preenchido."));
     }
 
     @Test
-    public void nao_deve_ter_nomeLogradouro_vazio() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("O nome de logradouro deve ter no mínimo 1 caracter e no máximo 30 caracteres.");
+    public void nao_deve_aceitar_nomeLogradouro_vazio() {
         endereco.setNomeLogradouro("");
+        assertTrue(hasErrors(endereco, "O nome de logradouro não pode ficar vazio."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_nomeLogradouro_em_branco() {
+        endereco.setNomeLogradouro(" ");
+        assertTrue(hasErrors(endereco, "O nome de logradouro não pode ficar vazio."));
     }
 
     @Test
-    public void nao_deve_ter_nomeLogradouro_maior_que_limite() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("O nome de logradouro deve ter no mínimo 1 caracter e no máximo 30 caracteres.");
+    public void nao_deve_aceitar_nomeLogradouro_maior_que_limite() {
         endereco.setNomeLogradouro("1234567891123456789212345678931");
+        assertTrue(hasErrors(endereco, "O nome de logradouro deve conter entre 1 e 30 caracteres."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_nomeLogradouro_com_caracter_especial() {
+        endereco.setNomeLogradouro("teste_exemplo");
+        assertTrue(hasErrors(endereco, "O nome de logradouro deve conter apenas caracteres alfanuméricos."));
     }
 
     @Test
-    public void deve_ter_tipoLogradouro_valido() {
-        endereco.verificaTamanhoTipoLogradouro(endereco.getTipoLogradouro());
+    public void deve_aceitar_tipoLogradouro_valido() {
+        assertThat(hasErrors(endereco, null), is(false));
     }
 
     @Test
-    public void nao_deve_ter_tipoLogradouro_nulo() {
-        // thrown.expect(NullPointerException.class);
-        // thrown.expectMessage("O tipo de logradouro deve ser preenchido.");
+    public void nao_deve_aceitar_tipoLogradouro_nulo() {
         endereco.setTipoLogradouro(null);
         assertTrue(hasErrors(endereco, "O tipo de logradouro deve ser preenchido."));
     }
 
     @Test
-    public void nao_deve_ter_tipoLogradouro_vazio() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("O tipo de logradouro não pode ficar vazio.");
+    public void nao_deve_aceitar_tipoLogradouro_vazio() {
         endereco.setTipoLogradouro("");
+        assertTrue(hasErrors(endereco, "O tipo de logradouro não pode ficar vazio."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_tipoLogradouro_em_branco() {
+        endereco.setTipoLogradouro(" ");
+        assertTrue(hasErrors(endereco, "O tipo de logradouro não pode ficar vazio."));
     }
 
     @Test
-    public void nao_deve_ter_tipoLogradouro_menor_que_minimo() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("O tipo de logradouro deve ter no mínimo 3 caracteres e no máximo 10 caracteres.");
+    public void nao_deve_aceitar_tipoLogradouro_menor_que_minimo() {
         endereco.setTipoLogradouro("ex");
+        assertTrue(hasErrors(endereco, "O tipo de logradouro deve conter entre 3 e 10 caracteres, sem números."));
     }
 
     @Test
-    public void nao_deve_ter_tipoLogradouro_maior_que_maximo() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("O tipo de logradouro deve ter no mínimo 3 caracteres e no máximo 10 caracteres.");
+    public void nao_deve_aceitar_tipoLogradouro_maior_que_maximo() {
         endereco.setTipoLogradouro("exemploexemplo");
+        assertTrue(hasErrors(endereco, "O tipo de logradouro deve conter entre 3 e 10 caracteres, sem números."));
     }
 
     @Test
-    public void nao_deve_ter_tipoLogradouro_invalido() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("O tipo de logradouro deve ser válido.");
+    public void nao_deve_aceitar_tipoLogradouro_invalido() {
         endereco.setTipoLogradouro("Ru12");
+        assertTrue(hasErrors(endereco, "O tipo de logradouro deve conter entre 3 e 10 caracteres, sem números."));
     }
 
     @Test
-    public void nao_deve_ter_tipoEndereco_nulo() {
+    public void nao_deve_aceitar_tipoEndereco_nulo() {
         endereco.setTipoEndereco(null);
         assertTrue(hasErrors(endereco, "O tipo de endereço deve ser preenchido."));
     }
