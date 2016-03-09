@@ -26,7 +26,6 @@ public class EmpresaTeste {
     private Empresa empresa, empresaInvalida;
     private LocalDate dataTesteOntem;
 
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
     public Timeout globalTimeout = Timeout.seconds(1);
@@ -50,7 +49,7 @@ public class EmpresaTeste {
 
     @AfterClass
     public static void tearDownAfterClass() {
-       System.out.println("Teste terminado.");
+        System.out.println("Teste terminado.");
     }
 
     @Test
@@ -61,22 +60,22 @@ public class EmpresaTeste {
     @Test
     public void nao_deve_aceitar_cnpj_nulo() {
         empresa.setCnpj(null);
-        assertTrue(hasErrors(empresa, "O cnpj deve ser preenchido."));
+        assertTrue(hasErrors(empresa, "O CNPJ deve ser preenchido."));
     }
 
     @Test
     public void nao_deve_aceitar_cnpj_vazio() {
         empresa.setCnpj("");
-        assertTrue(hasErrors(empresa, "O cnpj não pode ficar vazio."));
-    }
-
-    @Test
-    public void nao_deve_aceitar_cnpj_maior_que_limite() {
-        assertTrue(hasErrors(empresaInvalida, "CNPJ inválido. Deve conter 14 dígitos numéricos."));
+        assertTrue(hasErrors(empresa, "O CNPJ não pode ficar vazio."));
     }
 
     @Test
     public void nao_deve_aceitar_cnpj_menor_que_limite() {
+        assertTrue(hasErrors(empresaInvalida, "CNPJ inválido. Deve conter 14 dígitos numéricos."));
+    }
+
+    @Test
+    public void nao_deve_aceitar_cnpj_maior_que_limite() {
         assertTrue(hasErrors(empresaInvalida, "CNPJ inválido. Deve conter 14 dígitos numéricos."));
     }
 
@@ -103,6 +102,12 @@ public class EmpresaTeste {
     }
 
     @Test
+    public void nao_deve_aceitar_proprietario_em_branco() {
+        empresa.setProprietario(" ");
+        assertTrue(hasErrors(empresa, "O nome de proprietário não pode ficar vazio."));
+    }
+
+    @Test
     public void nao_deve_aceitar_proprietario_menor_que_limite() {
         empresa.setProprietario("a");
         assertTrue(hasErrors(empresa, "O nome de proprietário deve conter entre 2 e 50 caracteres."));
@@ -112,6 +117,12 @@ public class EmpresaTeste {
     public void nao_deve_aceitar_proprietario_maior_que_limite() {
         empresa.setProprietario("123456789112345678921234567893123456789412345678951");
         assertTrue(hasErrors(empresa, "O nome de proprietário deve conter entre 2 e 50 caracteres."));
+    }
+    
+    @Test
+    public void deve_aceitar_proprietario_apenas_com_letras() {
+        empresa.setProprietario("123");
+        assertTrue(hasErrors(empresa, "O nome de proprietário só pode conter letras."));
     }
 
     @Test
@@ -132,8 +143,14 @@ public class EmpresaTeste {
     }
 
     @Test
+    public void nao_deve_aceitar_razaoSocial_em_branco() {
+        empresa.setRazaoSocial(" ");
+        assertTrue(hasErrors(empresa, "A razão social não pode ficar vazia."));
+    }
+
+    @Test
     public void nao_deve_aceitar_razaoSocial_menor_que_limite() {
-        empresa.setRazaoSocial("ex");
+        empresa.setRazaoSocial("exe");
         assertTrue(hasErrors(empresa, "A razão social deve conter entre 4 e 40 caracteres."));
     }
 
@@ -161,6 +178,12 @@ public class EmpresaTeste {
     }
 
     @Test
+    public void nao_deve_aceitar_email_em_branco() {
+        empresa.setEmail(" ");
+        assertTrue(hasErrors(empresa, "O email não pode ficar vazio."));
+    }
+
+    @Test
     public void nao_deve_aceitar_email_email_menor_que_limite() {
         empresa.setEmail("a@a.co");
         assertTrue(hasErrors(empresa, "O email deve conter entre 7 e 50 caracteres."));
@@ -178,46 +201,46 @@ public class EmpresaTeste {
     }
 
     @Test
-    public void deve_aceitar_endereco_valido() {
+    public void deve_aceitar_lista_de_enderecos_valida() {
         assertThat(hasErrors(empresa, null), is(false));
     }
 
     @Test
-    public void nao_deve_aceitar_endereco_nulo() {
+    public void nao_deve_aceitar_lista_de_enderecos_nula() {
         empresa.setEnderecos(null);
         assertTrue(hasErrors(empresa, "O endereço deve ser preenchido."));
     }
 
     @Test
-    public void nao_deve_aceitar_endereco_vazio() {
+    public void nao_deve_aceitar_lista_de_enderecos_vazia() {
         empresaInvalida.setEnderecos(null);
         assertTrue(hasErrors(empresaInvalida, "A empresa deve conter no mínimo 2 endereços."));
     }
 
     @Test
-    public void nao_deve_aceitar_endereco_invalido() {
+    public void nao_deve_aceitar_lista_de_enderecos_invalida() {
         assertTrue(hasErrors(empresaInvalida, "A empresa deve conter no mínimo 2 endereços."));
     }
 
     @Test
-    public void deve_aceitar_telefone_valido() {
+    public void deve_aceitar_lista_de_telefones_valida() {
         assertThat(hasErrors(empresa, null), is(false));
     }
 
     @Test
-    public void nao_deve_aceitar_telefone_nulo() {
+    public void nao_deve_aceitar_lista_de_telefones_nula() {
         empresa.setTelefones(null);
         assertTrue(hasErrors(empresa, "O telefone deve ser preenchido."));
     }
 
     @Test
-    public void nao_deve_aceitar_telefone_vazio() {
+    public void nao_deve_aceitar_lista_de_telefones_vazia() {
         empresa.setTelefones(null);
         assertTrue(hasErrors(empresaInvalida, "A empresa deve conter no mínimo 2 telefones."));
     }
 
     @Test
-    public void nao_deve_aceitar_telefone_invalido() {
+    public void nao_deve_aceitar_lista_de_telefones_invalida() {
         assertTrue(hasErrors(empresaInvalida, "A empresa deve conter no mínimo 2 telefones."));
     }
 
@@ -235,6 +258,12 @@ public class EmpresaTeste {
     @Test
     public void nao_deve_aceitar_site_vazio() {
         empresa.setSite("");
+        assertTrue(hasErrors(empresa, "O site não pode ficar vazio."));
+    }
+
+    @Test
+    public void nao_deve_aceitar_site_em_branco() {
+        empresa.setSite(" ");
         assertTrue(hasErrors(empresa, "O site não pode ficar vazio."));
     }
 
@@ -262,25 +291,30 @@ public class EmpresaTeste {
 
     @Test
     public void nao_deve_aceitar_dataCriacao_nulo() {
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("A data de criação deve ser preenchida.");
         empresa.setDataDeCriacao(null);
-        assertTrue(hasErrors(empresa, "A data de criação deve ser preenchida."));
     }
 
     @Test
     public void nao_deve_aceitar_dataCriacao_posterior() {
-        assertTrue(hasErrors(empresa, "Data de criação informada não pode ser posterior."));
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Data de criação informada não pode ser posterior à data atual.");
+        empresa.setDataDeCriacao(LocalDate.now().plusDays(1));
     }
 
     @Test
     public void nao_deve_aceitar_dataCriacao_anterior() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Data de criação informada não pode ser anterior à data atual.");
         empresa.setDataDeCriacao(dataTesteOntem);
-        assertThat(hasErrors(empresa, "Data de criação informada não pode ser anterior."), is(false));
     }
 
     @Test
     public void nao_deve_aceitar_dataAlteracao_nulo() {
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("A data de alteração deve ser preenchida.");
         empresa.setDataDeAlteracao(null);
-        assertTrue(hasErrors(empresa, "A data de alteração deve ser preenchida."));
     }
 
     @Test
@@ -290,8 +324,9 @@ public class EmpresaTeste {
 
     @Test
     public void nao_deve_aceitar_dataAlteracao_anterior_a_criacao() {
+        thrown.expect(IllegalStateException.class);
+        thrown.expectMessage("A data de alteração deve ser posterior à data de criação.");
         empresa.setDataDeAlteracao(dataTesteOntem);
-        assertThat(hasErrors(empresa, "A data de alteração deve ser posterior à data de criação."), is(false));
     }
 
     @Test

@@ -1,21 +1,16 @@
 package br.com.contmatic.empresawilliam;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.*;
 
 import java.util.List;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import org.apache.commons.lang3.builder.*;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -23,7 +18,6 @@ import org.joda.time.format.DateTimeFormatter;
 
 import br.com.caelum.stella.bean.validation.CNPJ;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Empresa.
  *
@@ -66,8 +60,8 @@ public class Empresa {
     // Variáveis
 
     /** The cnpj. */
-    @NotNull(message = "O cnpj deve ser preenchido.")
-    @NotEmpty(message = "O cnpj não pode ficar vazio.")
+    @NotNull(message = "O CNPJ deve ser preenchido.")
+    @NotEmpty(message = "O CNPJ não pode ficar vazio.")
     @Pattern(regexp = "\\d{14}", message = "CNPJ inválido. Deve conter 14 dígitos numéricos.")
     @CNPJ(message = "CNPJ inválido.")
     private String cnpj;
@@ -75,19 +69,23 @@ public class Empresa {
     /** The razao social. */
     @NotNull(message = "A razão social deve ser preenchida.")
     @NotEmpty(message = "A razão social não pode ficar vazia.")
-    @Size(min = TAMANHO_MINIMO_RAZAOSOCIAL, max = TAMANHO_MAXIMO_RAZAOSOCIAL, message = "A razão social deve conter entre {min} e {max} caracteres.")
+    @NotBlank(message = "A razão social não pode ficar vazia.")
+    @Length(min = TAMANHO_MINIMO_RAZAOSOCIAL, max = TAMANHO_MAXIMO_RAZAOSOCIAL, message = "A razão social deve conter entre {min} e {max} caracteres.")
     private String razaoSocial;
 
     /** The proprietario. */
     @NotNull(message = "O nome de proprietário deve ser preenchido.")
     @NotEmpty(message = "O nome de proprietário não pode ficar vazio.")
-    @Size(min = TAMANHO_MINIMO_PROPRIETARIO, max = TAMANHO_MAXIMO_PROPRIETARIO, message = "O nome de proprietário deve conter entre {min} e {max} caracteres.")
+    @NotBlank(message = "O nome de proprietário não pode ficar vazio.")
+    @Pattern(regexp = "[a-zA-Z]", message = "O nome de proprietário só pode conter letras.")
+    @Length(min = TAMANHO_MINIMO_PROPRIETARIO, max = TAMANHO_MAXIMO_PROPRIETARIO, message = "O nome de proprietário deve conter entre {min} e {max} caracteres.")
     private String proprietario;
 
     /** The email. */
     @NotNull(message = "O email deve ser preenchido.")
     @NotEmpty(message = "O email não pode ficar vazio.")
-    @Size(min = TAMANHO_MINIMO_EMAIL, max = TAMANHO_MAXIMO_EMAIL, message = "O email deve conter entre {min} e {max} caracteres.")
+    @NotBlank(message = "O email não pode ficar vazio.")
+    @Length(min = TAMANHO_MINIMO_EMAIL, max = TAMANHO_MAXIMO_EMAIL, message = "O email deve conter entre {min} e {max} caracteres.")
     @Email(regexp = "[a-z]+@{1}\\w+\\.com{1}(\\.br)*", message = "O email informado é inválido.")
     private String email;
 
@@ -108,19 +106,18 @@ public class Empresa {
     /** The site. */
     @NotNull(message = "O site deve ser preenchido.")
     @NotEmpty(message = "O site não pode ficar vazio.")
-    @Size(min = TAMANHO_MINIMO_SITE, max = TAMANHO_MAXIMO_SITE, message = "O site deve conter entre {min} e {max} caracteres.")
+    @NotBlank(message = "O site não pode ficar vazio.")
+    @Length(min = TAMANHO_MINIMO_SITE, max = TAMANHO_MAXIMO_SITE, message = "O site deve conter entre {min} e {max} caracteres.")
     @Pattern(regexp = "[a-z]+(\\.com)*\\.br{1}", message = "Site inválido.")
     private String site;
 
     /** The data de criacao. */
     @NotNull(message = "A data de criação deve ser preenchida.")
-    @Past(message = "Data de criação informada não pode ser anterior.")
-    @Future(message = "Data de criação informada não pode ser posterior.")
     private LocalDate dataDeCriacao;
 
     /** The data de alteracao. */
     @NotNull(message = "A data de alteração deve ser preenchida.")
-    @Past(message = "Data de alteração informada não pode ser anterior.")
+    @Future(message = "A data de alteração deve ser posterior à data de criação.")
     private LocalDate dataDeAlteracao;
 
     // getters e setters
@@ -265,6 +262,9 @@ public class Empresa {
      * @param dataDeCriacao the new data de criacao
      */
     public void setDataDeCriacao(LocalDate dataDeCriacao) {
+        checkNotNull(dataDeCriacao, "A data de criação deve ser preenchida.");
+        verificaSeDataDeCriacaoEAnterior(dataDeCriacao);
+        verificaSeDataDeCriacaoEPosterior(dataDeCriacao);
         this.dataDeCriacao = dataDeCriacao;
     }
 
@@ -283,6 +283,9 @@ public class Empresa {
      * @param dataDeAlteracao the new data de alteracao
      */
     public void setDataDeAlteracao(LocalDate dataDeAlteracao) {
+        checkNotNull(dataDeAlteracao, "A data de alteração deve ser preenchida.");
+        verificaSeDataDeAlteracaoEAnteriorACriacao(dataDeAlteracao);
+        verificaSeDataDeAlteracaoEPosteriorACriacao(dataDeAlteracao);
         this.dataDeAlteracao = dataDeAlteracao;
     }
 
@@ -310,11 +313,43 @@ public class Empresa {
         return dataDeAlteracao.toString(dtf);
     }
 
+    // verificação das datas
     /**
-     * Hash code.
+     * Verifica se data de criacao é anterior à data atual.
      *
-     * @return the int
+     * @param dataDeCriacao the data de criacao
      */
+    public void verificaSeDataDeCriacaoEAnterior(LocalDate dataDeCriacao) {
+        checkArgument(!dataDeCriacao.isBefore(LocalDate.now()), "Data de criação informada não pode ser anterior à data atual.");
+    }
+
+    /**
+     * Verifica se data de criacao é posterior à data atual.
+     *
+     * @param dataDeCriacao the data de criacao
+     */
+    public void verificaSeDataDeCriacaoEPosterior(LocalDate dataDeCriacao) {
+        checkArgument(!dataDeCriacao.isAfter(LocalDate.now()), "Data de criação informada não pode ser posterior à data atual.");
+    }
+
+    /**
+     * Verifica se data de alteracao é anterior à criação.
+     *
+     * @param dataDeAlteracao the data de alteracao
+     */
+    public void verificaSeDataDeAlteracaoEAnteriorACriacao(LocalDate dataDeAlteracao) {
+        checkState(dataDeAlteracao.isAfter(getDataDeCriacao()), "A data de alteração deve ser posterior à data de criação.");
+    }
+
+    /**
+     * Verifica se data de alteracao é posterior à criação.
+     *
+     * @param dataDeAlteracao the data de alteracao
+     */
+    public void verificaSeDataDeAlteracaoEPosteriorACriacao(LocalDate dataDeAlteracao) {
+        checkState(dataDeAlteracao.isBefore(getDataDeCriacao()), "A data de alteração deve ser posterior à data de criação.");
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -325,12 +360,6 @@ public class Empresa {
         return new HashCodeBuilder().append(this.cnpj).toHashCode();
     }
 
-    /**
-     * Equals.
-     *
-     * @param obj the obj
-     * @return true, if successful
-     */
     /*
      * (non-Javadoc)
      * 
@@ -345,11 +374,6 @@ public class Empresa {
         return new EqualsBuilder().append(this.cnpj, outra.cnpj).isEquals();
     }
 
-    /**
-     * To string.
-     *
-     * @return the string
-     */
     /*
      * (non-Javadoc)
      * 

@@ -1,19 +1,16 @@
 package br.com.contmatic.empresawilliam;
 
-import static br.com.contmatic.empresawilliam.TelefoneType.CELULAR;
-import static br.com.contmatic.empresawilliam.TelefoneType.FIXO;
 import static br.com.contmatic.empresawilliam.util.ValidationUtil.hasErrors;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -25,47 +22,46 @@ import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TelefoneTeste {
 
-    private Telefone telefone, telefoneCelular, telefoneInvalido, telefoneDDDMenor;
-    private static int contadorTeste = 0;
+    private Telefone telefoneFixo, telefoneCelular, telefoneInvalido, telefoneDDDMenor;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     @BeforeClass
-    public static void beforeClass() {
-        System.out.println("Teste de Telefone realizado.");
+    public static void setUpBeforeClass() {
         FixtureFactoryLoader.loadTemplates("br.com.contmatic.empresawilliam.templates");
     }
 
     @Before
-    public void gerarTelefone() {
-        this.telefone = Fixture.from(Telefone.class).gimme("fixo_valido");
+    public void setUp() {
+        this.telefoneFixo = Fixture.from(Telefone.class).gimme("fixo_valido");
         this.telefoneCelular = Fixture.from(Telefone.class).gimme("celular_valido");
         this.telefoneInvalido = Fixture.from(Telefone.class).gimme("fixo_invalido");
         this.telefoneDDDMenor = Fixture.from(Telefone.class).gimme("ddd_menor_que_limite");
     }
 
     @After
-    public void proximoTeste() {
-        System.out.println(telefone);
-        System.out.println(telefoneCelular);
-        contadorTeste += 1;
+    public void tearDown() {
+        telefoneFixo = null;
+        telefoneCelular = null;
     }
 
     @AfterClass
-    public static void resultado() {
-        System.out.println("Total de testes: " + contadorTeste);
+    public static void tearDownAfterClass() {
+        System.out.println("Teste terminado");
     }
 
+    
+    // Testes
     @Test
     public void nao_deve_aceitar_tipoTelefone_nulo() {
-        telefone.setTipoTelefone(null);
-        assertTrue(hasErrors(telefone, "O tipo de telefone deve ser preenchido."));
+        telefoneFixo.setTipoTelefone(null);
+        assertTrue(hasErrors(telefoneFixo, "O tipo de telefone deve ser preenchido."));
     }
 
     @Test
     public void deve_aceitar_ddd_valido() {
-        assertThat(hasErrors(telefone, null), is(false));
+        assertThat(hasErrors(telefoneFixo, null), is(false));
     }
 
     @Test
@@ -84,59 +80,72 @@ public class TelefoneTeste {
     }
 
     @Test
-    public void deve_aceitar_numeroTelefone_valido() {
-       assertThat(hasErrors(telefone, null), is(false));
+    public void deve_aceitar_telefoneFixo_valido() {
+       assertThat(hasErrors(telefoneFixo, null), is(false));
     }
 
     @Test
-    public void nao_deve_aceitar_numeroTelefone_nulo() {
-        telefone.setNumeroTelefone(null);
-        assertTrue(hasErrors(telefone, "O número de telefone deve ser informado."));
+    public void nao_deve_aceitar_telefoneFixo_nulo() {
+        telefoneFixo.setTelefoneFixo(null);
+        assertTrue(hasErrors(telefoneFixo, "O número de telefone não pode ser nulo."));
     }
 
     @Test
-    public void nao_deve_aceitar_numeroTelefone_vazio() {
-        telefone.setNumeroTelefone("");
-        assertTrue(hasErrors(telefone, "O número de telefone deve ser informado."));
+    public void nao_deve_aceitar_telefoneFixo_vazio() {
+        telefoneFixo.setTelefoneFixo("");
+        assertTrue(hasErrors(telefoneFixo, "O número de telefone não pode ficar vazio."));
     }
-
-    @Ignore
+    
     @Test
-    public void nao_deve_aceitar_numeroTelefone_menor_que_limite_para_celular() {
-        telefone.setTipoTelefone(CELULAR);
-        telefone.setNumeroTelefone("12345678");
-        assertTrue(hasErrors(telefone, "Para telefone fixo, por favor informar 8 dígitos. Para telefone celular, por favor informar 9 dígitos."));
-    }
-
-    @Test
-    public void nao_deve_aceitar_numeroTelefone_maior_que_limite_para_celular() {
-        thrown.expect(IllegalStateException.class);
-        thrown.expectMessage("Para telefone fixo, por favor informar 8 dígitos. Para telefone celular, por favor informar 9 dígitos.");
-        telefone.setTipoTelefone(CELULAR);
-        telefone.setNumeroTelefone("1234567890");
+    public void nao_deve_aceitar_telefoneFixo_em_branco() {
+        telefoneFixo.setTelefoneFixo(" ");
+        assertTrue(hasErrors(telefoneFixo, "O número de telefone não pode ficar vazio."));
     }
 
     @Test
-    public void nao_deve_aceitar_numeroTelefone_menor_que_limite_para_fixo() {
-        thrown.expect(IllegalStateException.class);
-        thrown.expectMessage("Para telefone fixo, por favor informar 8 dígitos. Para telefone celular, por favor informar 9 dígitos.");
-        telefone.setTipoTelefone(FIXO);
-        telefone.setNumeroTelefone("1234567");
+    public void nao_deve_aceitar_telefoneFixo_menor_que_limite() {
+        telefoneFixo.setTelefoneFixo("1234567");
+        assertTrue(hasErrors(telefoneFixo, "Para telefone fixo, por favor informar 8 dígitos."));
     }
 
     @Test
-    public void nao_deve_aceitar_numeroTelefone_maior_que_limite_para_fixo() {
-        thrown.expect(IllegalStateException.class);
-        thrown.expectMessage("Para telefone fixo, por favor informar 8 dígitos. Para telefone celular, por favor informar 9 dígitos.");
-        telefone.setTipoTelefone(FIXO);
-        telefone.setNumeroTelefone("123456789");
+    public void nao_deve_aceitar_telefoneFixo_maior_que_limite() {
+        telefoneFixo.setTelefoneFixo("123456789");
+        assertTrue(hasErrors(telefoneFixo, "Para telefone fixo, por favor informar 8 dígitos."));
+    }
+    
+    @Test
+    public void deve_aceitar_telefoneCelular_valido() {
+       assertThat(hasErrors(telefoneCelular, null), is(false));
     }
 
     @Test
-    public void nao_deve_aceitar_numeroTelefone_celular_diferente_de_tipo_celular() {
-        thrown.expect(IllegalStateException.class);
-        thrown.expectMessage("Para telefone fixo, por favor informar 8 dígitos. Para telefone celular, por favor informar 9 dígitos.");
-        telefone.setTipoTelefone(FIXO);
-        telefone.setNumeroTelefone("123456789");
+    public void nao_deve_aceitar_telefoneCelular_nulo() {
+        telefoneCelular.setTelefoneCelular(null);
+        assertTrue(hasErrors(telefoneCelular, "O número de telefone não pode ser nulo."));
+    }
+
+    @Test
+    public void nao_deve_aceitar_telefoneCelular_vazio() {
+        telefoneCelular.setTelefoneCelular("");
+        assertTrue(hasErrors(telefoneCelular, "O número de telefone não pode ficar vazio."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_telefoneCelular_em_branco() {
+        telefoneCelular.setTelefoneCelular(" ");
+        assertTrue(hasErrors(telefoneCelular, "O número de telefone não pode ficar vazio."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_telefoneCelular_menor_que_limite() {
+        telefoneCelular.setTelefoneCelular("12345678");
+        assertTrue(hasErrors(telefoneCelular, "Para telefone celular, por favor informar 9 dígitos."));
+    }
+
+    @Test
+    public void nao_deve_aceitar_telefoneCelular_maior_que_limite() {
+        telefoneCelular.setTelefoneCelular("1234567890");
+        assertTrue(hasErrors(telefoneCelular, "Para telefone celular, por favor informar 9 dígitos."));
     }
 }

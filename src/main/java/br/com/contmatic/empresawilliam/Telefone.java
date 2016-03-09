@@ -1,20 +1,20 @@
 package br.com.contmatic.empresawilliam;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Telefone.
  *
- * @author williansalerno
+ * @author williamsalerno
  */
 public class Telefone {
 
@@ -33,10 +33,18 @@ public class Telefone {
     private int ddd;
 
     /** The numero telefone. */
-    @NotNull(message = "O número de telefone deve ser informado.")
-    @NotEmpty(message = "O número de telefone deve ser informado.")
-    @Size
-    private String numeroTelefone;
+    @NotNull(message = "O número de telefone não pode ser nulo.")
+    @NotEmpty(message = "O número de telefone não pode ficar vazio.")
+    @NotBlank(message = "O número de telefone não pode ficar vazio.")
+    @Pattern(regexp = "\\d{8}", message = "Para telefone fixo, por favor informar 8 dígitos.")
+    private String telefoneFixo;
+
+    /** The telefone celular. */
+    @NotNull(message = "O número de telefone não pode ser nulo.")
+    @NotEmpty(message = "O número de telefone não pode ficar vazio.")
+    @NotBlank(message = "O número de telefone não pode ficar vazio.")
+    @Pattern(regexp = "\\d{9}", message = "Para telefone celular, por favor informar 9 dígitos.")
+    private String telefoneCelular;
 
     /**
      * Obtém tipo de telefone.
@@ -79,17 +87,35 @@ public class Telefone {
      *
      * @return the numero telefone
      */
-    public String getNumeroTelefone() {
-        return numeroTelefone;
+    public String getTelefoneFixo() {
+        return telefoneFixo;
     }
 
     /**
      * Determina um valor para número de telefone e chama um método de verificação.
      *
-     * @param numeroTelefone the new numero telefone
+     * @param telefoneFixo the new telefone fixo
      */
-    public void setNumeroTelefone(String numeroTelefone) {
-        this.numeroTelefone = numeroTelefone;
+    public void setTelefoneFixo(String telefoneFixo) {
+        this.telefoneFixo = telefoneFixo;
+    }
+
+    /**
+     * Gets the telefone celular.
+     *
+     * @return the telefone celular
+     */
+    public String getTelefoneCelular() {
+        return telefoneCelular;
+    }
+
+    /**
+     * Sets the telefone celular.
+     *
+     * @param telefoneCelular the new telefone celular
+     */
+    public void setTelefoneCelular(String telefoneCelular) {
+        this.telefoneCelular = telefoneCelular;
     }
 
     // validações
@@ -101,7 +127,7 @@ public class Telefone {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.ddd).append(this.tipoTelefone).append(this.numeroTelefone).toHashCode();
+        return new HashCodeBuilder().append(this.ddd).append(this.tipoTelefone).append(this.telefoneFixo).append(this.telefoneCelular).toHashCode();
     }
 
     /*
@@ -115,7 +141,8 @@ public class Telefone {
             return false;
         }
         Telefone outro = (Telefone) obj;
-        return new EqualsBuilder().append(this.ddd, outro.ddd).append(this.tipoTelefone, outro.tipoTelefone).append(this.numeroTelefone, outro.numeroTelefone).isEquals();
+        return new EqualsBuilder().append(this.ddd, outro.ddd).append(this.tipoTelefone, outro.tipoTelefone).append(this.telefoneFixo, outro.telefoneFixo)
+                .append(this.telefoneCelular, outro.telefoneCelular).isEquals();
     }
 
     /*
@@ -125,8 +152,8 @@ public class Telefone {
      */
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("tipo de telefone: ", this.tipoTelefone).append("ddd: ", this.ddd).append("numero de telefone: ", this.numeroTelefone)
-                .build();
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("tipo de telefone: ", this.tipoTelefone).append("ddd: ", this.ddd).append("telefone: ", this.telefoneFixo)
+                .append("celular: ", this.telefoneCelular).build();
     }
 
 }
