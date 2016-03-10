@@ -45,7 +45,7 @@ public class EnderecoTeste {
 
     @AfterClass
     public static void tearDownAfterClass() {
-        System.out.println("Teste finalizado");
+        System.out.println("Teste finalizado.");
     }
 
     @Test
@@ -128,7 +128,7 @@ public class EnderecoTeste {
         endereco.setNomeLogradouro("");
         assertTrue(hasErrors(endereco, "O nome de logradouro não pode ficar vazio."));
     }
-    
+
     @Test
     public void nao_deve_aceitar_nomeLogradouro_em_branco() {
         endereco.setNomeLogradouro(" ");
@@ -140,7 +140,7 @@ public class EnderecoTeste {
         endereco.setNomeLogradouro("1234567891123456789212345678931");
         assertTrue(hasErrors(endereco, "O nome de logradouro deve conter entre 1 e 30 caracteres."));
     }
-    
+
     @Test
     public void nao_deve_aceitar_nomeLogradouro_com_caracter_especial() {
         endereco.setNomeLogradouro("teste_exemplo");
@@ -163,7 +163,7 @@ public class EnderecoTeste {
         endereco.setTipoLogradouro("");
         assertTrue(hasErrors(endereco, "O tipo de logradouro não pode ficar vazio."));
     }
-    
+
     @Test
     public void nao_deve_aceitar_tipoLogradouro_em_branco() {
         endereco.setTipoLogradouro(" ");

@@ -1,5 +1,7 @@
 package br.com.contmatic.empresawilliam;
 
+import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -180,7 +182,7 @@ public class Endereco {
      */
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("tipo de logradouro: ", this.tipoLogradouro).append("nome de logradouro: ", this.nomeLogradouro)
+        return new ToStringBuilder(this, MULTI_LINE_STYLE).append("tipo de logradouro: ", this.tipoLogradouro).append("nome de logradouro: ", this.nomeLogradouro)
                 .append("número de endereço: ", this.numeroEndereco).append("CEP: ", this.cep).append("Tipo de endereço: ", this.tipoEndereco).build();
     }
 

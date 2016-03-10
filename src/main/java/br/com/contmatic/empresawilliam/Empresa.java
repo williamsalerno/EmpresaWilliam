@@ -1,13 +1,22 @@
 package br.com.contmatic.empresawilliam;
 
-import static com.google.common.base.Preconditions.*;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-import org.apache.commons.lang3.builder.*;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -94,14 +103,14 @@ public class Empresa {
     @NotEmpty(message = "A empresa deve conter no mínimo 2 endereços.")
     @Size(min = TAMANHO_MINIMO_ENDERECOS, message = "A empresa deve conter no mínimo {min} endereços.")
     @Valid
-    private List<Endereco> enderecos;
+    private Set<Endereco> enderecos;
 
     /** The telefones. */
     @NotNull(message = "O telefone deve ser preenchido.")
     @NotEmpty(message = "A empresa deve conter no mínimo 2 telefones.")
     @Size(min = TAMANHO_MINIMO_TELEFONE, message = "A empresa deve conter no mínimo {min} telefones.")
     @Valid
-    private List<Telefone> telefones;
+    private Set<Telefone> telefones;
 
     /** The site. */
     @NotNull(message = "O site deve ser preenchido.")
@@ -194,11 +203,11 @@ public class Empresa {
     }
 
     /**
-     * Obtém uma lista de endereços.
+     * Obtém uma Seta de endereços.
      *
      * @return the enderecos
      */
-    public List<Endereco> getEnderecos() {
+    public Set<Endereco> getEnderecos() {
         return enderecos;
     }
 
@@ -207,16 +216,16 @@ public class Empresa {
      *
      * @param enderecos the new enderecos
      */
-    public void setEnderecos(List<Endereco> enderecos) {
+    public void setEnderecos(Set<Endereco> enderecos) {
         this.enderecos = enderecos;
     }
 
     /**
-     * Obtém uma lista de telefones.
+     * Obtém uma Seta de telefones.
      *
      * @return the telefones
      */
-    public List<Telefone> getTelefones() {
+    public Set<Telefone> getTelefones() {
         return telefones;
     }
 
@@ -225,7 +234,7 @@ public class Empresa {
      *
      * @param telefones the new telefones
      */
-    public void setTelefones(List<Telefone> telefones) {
+    public void setTelefones(Set<Telefone> telefones) {
         this.telefones = telefones;
     }
 
@@ -381,7 +390,7 @@ public class Empresa {
      */
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("Razão social: ", razaoSocial).append("Proprietário: ", proprietario).append("CNPJ", cnpj)
+        return new ToStringBuilder(this, MULTI_LINE_STYLE).append("Razão social: ", razaoSocial).append("Proprietário: ", proprietario).append("CNPJ", cnpj)
                 .append("Endereço: ", enderecos.toArray()).append("Telefone: ", telefones.toArray()).append("Email: ", email).append("Site: ", site)
                 .append("Data de criação: ", (converteDataDeCriacao(dataDeCriacao) != null) ? converteDataDeCriacao(dataDeCriacao) : null)
                 .append("Data de alteração: ", (converteDataDeAlteracao(dataDeAlteracao) != null) ? converteDataDeAlteracao(dataDeAlteracao) : null).build();

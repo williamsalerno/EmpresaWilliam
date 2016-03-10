@@ -21,8 +21,7 @@ public class EmpresaTemplate implements TemplateLoader {
                 add("email", random("fulano@exemplo.com", "ciclano@teste.com", "eu@teste.com.br"));
                 add("site", random("teste.com.br", "exemplo.com"));
                 add("enderecos", has(2).of(Endereco.class, "endereco_valido"));
-                add("telefones", has(1).of(Telefone.class, "fixo_valido"));
-                add("telefones", has(1).of(Telefone.class, "celular_valido"));
+                add("telefones", has(2).of(Telefone.class, "fixo_valido", "celular_valido"));
                 add("dataDeCriacao", random(LocalDate.now()));
                 add("dataDeAlteracao", random(LocalDate.now().plusDays(300)));
             }

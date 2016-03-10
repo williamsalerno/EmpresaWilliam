@@ -118,7 +118,7 @@ public class EmpresaTeste {
         empresa.setProprietario("123456789112345678921234567893123456789412345678951");
         assertTrue(hasErrors(empresa, "O nome de proprietário deve conter entre 2 e 50 caracteres."));
     }
-    
+
     @Test
     public void deve_aceitar_proprietario_apenas_com_letras() {
         empresa.setProprietario("123");

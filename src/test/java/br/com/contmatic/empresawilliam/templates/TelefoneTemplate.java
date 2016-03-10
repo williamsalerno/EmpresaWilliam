@@ -16,15 +16,15 @@ public class TelefoneTemplate implements TemplateLoader {
             {
                 add("tipoTelefone", random(FIXO));
                 add("ddd", random(Integer.class, range(11, 99)));
-                add("telefoneFixo", random("12345678", "87654321", "12344321", "88888888"));
+                add("telefone", regex("[0-9]{8}"));
             }
         });
-
+        
         Fixture.of(Telefone.class).addTemplate("celular_valido", new Rule() {
             {
                 add("tipoTelefone", random(CELULAR));
                 add("ddd", random(Integer.class, range(11, 99)));
-                add("telefoneCelular", random("123456789", "987654321", "123454321", "999999999"));
+                add("telefone", regex("[9][0-9]{8}"));
             }
         });
 
@@ -32,7 +32,7 @@ public class TelefoneTemplate implements TemplateLoader {
             {
                 add("tipoTelefone", FIXO);
                 add("ddd", random(Integer.class, range(100, 500)));
-                add("telefoneFixo", random("1234567", "987654321", "123454321", "7777777"));
+                add("telefone", regex("[0-9]{7}+|[0-9]{9}+"));
             }
         });
         
@@ -40,7 +40,7 @@ public class TelefoneTemplate implements TemplateLoader {
             {
                 add("tipoTelefone", random(CELULAR));
                 add("ddd", random(Integer.class, range(11, 99)));
-                add("telefoneCelular", random("12345678", "0987654321", "1234554321", "1010101010"));
+                add("telefone", regex("[0-9]{8}+|[0-9]{10}+"));
             }
         });
 
