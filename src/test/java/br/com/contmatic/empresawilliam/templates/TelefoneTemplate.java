@@ -8,8 +8,16 @@ import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.Rule;
 import br.com.six2six.fixturefactory.loader.TemplateLoader;
 
+/**
+ * The Class TelefoneTemplate.
+ */
 public class TelefoneTemplate implements TemplateLoader {
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see br.com.six2six.fixturefactory.loader.TemplateLoader#load()
+     */
     @Override
     public void load() {
         Fixture.of(Telefone.class).addTemplate("fixo_valido", new Rule() {
@@ -19,7 +27,7 @@ public class TelefoneTemplate implements TemplateLoader {
                 add("telefone", regex("[0-9]{8}"));
             }
         });
-        
+
         Fixture.of(Telefone.class).addTemplate("celular_valido", new Rule() {
             {
                 add("tipoTelefone", random(CELULAR));
@@ -35,7 +43,7 @@ public class TelefoneTemplate implements TemplateLoader {
                 add("telefone", regex("[0-9]{7}+|[0-9]{9}+"));
             }
         });
-        
+
         Fixture.of(Telefone.class).addTemplate("celular_invalido", new Rule() {
             {
                 add("tipoTelefone", random(CELULAR));

@@ -55,10 +55,11 @@ public class TelefoneTeste {
 
     @AfterClass
     public static void tearDownAfterClass() {
-        System.out.println("Teste terminado.");
+        System.out.println("Teste de Telefone terminado.");
     }
 
     // Testes
+
     @Test
     public void nao_deve_aceitar_tipoTelefone_nulo() {
         fixoValido.setTipoTelefone(null);
@@ -150,11 +151,5 @@ public class TelefoneTeste {
     @Test
     public void nao_deve_aceitar_telefoneCelular_maior_que_limite() {
         assertTrue(hasErrors(celularInvalido, "Para telefone celular, por favor informar 9 dígitos.", Celular.class));
-    }
-    
-    @Test
-    public void jaVouApagar(){
-        System.out.println(fixoValido);
-        System.out.println(celularValido);
     }
 }

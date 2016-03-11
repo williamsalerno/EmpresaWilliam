@@ -16,7 +16,6 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -130,6 +129,7 @@ public class Empresa {
     private LocalDate dataDeAlteracao;
 
     // getters e setters
+
     /**
      * Obtém a razão social.
      *
@@ -298,6 +298,8 @@ public class Empresa {
         this.dataDeAlteracao = dataDeAlteracao;
     }
 
+    // Formatação das datas
+
     /**
      * Converte a data de criação para uma leitura apropriada ao usuário.
      *
@@ -359,6 +361,8 @@ public class Empresa {
         checkState(dataDeAlteracao.isBefore(getDataDeCriacao()), "A data de alteração deve ser posterior à data de criação.");
     }
 
+    // Equals, HashCode e toString
+
     /*
      * (non-Javadoc)
      * 
@@ -390,8 +394,8 @@ public class Empresa {
      */
     @Override
     public String toString() {
-        return new ToStringBuilder(this, MULTI_LINE_STYLE).append("Razão social: ", razaoSocial).append("Proprietário: ", proprietario).append("CNPJ", cnpj)
-                .append("Endereço: ", enderecos.toArray()).append("Telefone: ", telefones.toArray()).append("Email: ", email).append("Site: ", site)
+        return new ToStringBuilder(this, MULTI_LINE_STYLE).append("Razão social: ", razaoSocial).append("Proprietário: ", proprietario).append("CNPJ", cnpj).append("Endereço: ", enderecos.toArray())
+                .append("Telefone: ", telefones.toArray()).append("Email: ", email).append("Site: ", site)
                 .append("Data de criação: ", (converteDataDeCriacao(dataDeCriacao) != null) ? converteDataDeCriacao(dataDeCriacao) : null)
                 .append("Data de alteração: ", (converteDataDeAlteracao(dataDeAlteracao) != null) ? converteDataDeAlteracao(dataDeAlteracao) : null).build();
     }

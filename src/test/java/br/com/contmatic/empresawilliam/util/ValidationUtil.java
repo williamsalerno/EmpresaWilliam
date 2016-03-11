@@ -4,12 +4,25 @@ import java.util.Set;
 
 import javax.validation.*;
 
+/**
+ * The Class ValidationUtil.
+ */
 public final class ValidationUtil {
 
+    /**
+     * Instantiates a new validation util.
+     */
     private ValidationUtil() {
 
     }
 
+    /**
+     * Has errors.
+     *
+     * @param obj the obj
+     * @param message the message
+     * @return true, if successful
+     */
     public static boolean hasErrors(Object obj, String message) {
         if (message != null) {
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -24,7 +37,15 @@ public final class ValidationUtil {
         return false;
 
     }
-    
+
+    /**
+     * Has errors.
+     *
+     * @param obj the obj
+     * @param message the message
+     * @param groups the groups
+     * @return true, if successful
+     */
     public static boolean hasErrors(Object obj, String message, Class<?>... groups) {
         if (message != null) {
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();

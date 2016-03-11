@@ -23,7 +23,8 @@ import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EmpresaTeste {
 
-    private Empresa empresa, empresaInvalida;
+    private Empresa empresa;
+    private Empresa empresaInvalida;
     private LocalDate dataTesteOntem;
 
     @Rule
@@ -49,8 +50,10 @@ public class EmpresaTeste {
 
     @AfterClass
     public static void tearDownAfterClass() {
-        System.out.println("Teste terminado.");
+        System.out.println("Teste de Empresa terminado.");
     }
+
+    // Testes
 
     @Test
     public void deve_aceitar_cnpj_valido() {

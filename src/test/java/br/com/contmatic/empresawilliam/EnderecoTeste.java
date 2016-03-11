@@ -45,8 +45,10 @@ public class EnderecoTeste {
 
     @AfterClass
     public static void tearDownAfterClass() {
-        System.out.println("Teste finalizado.");
+        System.out.println("Teste de Endereco terminado.");
     }
+
+    // Testes
 
     @Test
     public void deve_aceitar_cep_valido() {

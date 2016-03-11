@@ -8,7 +8,6 @@ import javax.validation.constraints.Pattern;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
@@ -20,11 +19,15 @@ import org.hibernate.validator.constraints.Range;
  */
 public class Telefone {
 
+    // Constantes
+
     /** The Constant TAMANHO_MINIMO_DDD. */
     private final static int TAMANHO_MINIMO_DDD = 11;
 
     /** The Constant TAMANHO_MAXIMO_DDD. */
     private final static int TAMANHO_MAXIMO_DDD = 99;
+
+    // Variáveis
 
     /** The tipo telefone. */
     @NotNull(message = "O tipo de telefone deve ser preenchido.")
@@ -38,8 +41,11 @@ public class Telefone {
     @NotNull(message = "O número de telefone não pode ser nulo.")
     @NotEmpty(message = "O número de telefone não pode ficar vazio.")
     @NotBlank(message = "O número de telefone não pode ficar vazio.")
-    @Pattern.List({ @Pattern(regexp = "\\d{8}", groups = Fixo.class, message = "Para telefone fixo, por favor informar 8 dígitos."), @Pattern(regexp = "\\d{9}", groups = Celular.class, message = "Para telefone celular, por favor informar 9 dígitos.")})
+    @Pattern.List({ @Pattern(regexp = "\\d{8}", groups = Fixo.class, message = "Para telefone fixo, por favor informar 8 dígitos."),
+        @Pattern(regexp = "\\d{9}", groups = Celular.class, message = "Para telefone celular, por favor informar 9 dígitos.") })
     private String telefone;
+
+    // Getters e setters
 
     /**
      * Obtém tipo de telefone.
@@ -112,6 +118,8 @@ public class Telefone {
     public void setTelefoneCelular(String telefoneCelular) {
         this.telefone = telefoneCelular;
     }
+
+    // Equals, HashCode e toString
 
     /*
      * (non-Javadoc)

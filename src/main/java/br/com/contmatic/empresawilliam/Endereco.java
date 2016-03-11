@@ -10,7 +10,6 @@ import javax.validation.constraints.Pattern;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -20,6 +19,8 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class Endereco {
 
+    // Constantes
+
     /** The Constant TAMANHO_NUMERO_DE_ENDERECO_MINIMO. */
     public final static int TAMANHO_NUMERO_DE_ENDERECO_MINIMO = 1;
 
@@ -28,6 +29,8 @@ public class Endereco {
 
     /** The Constant TAMANHO_NOME_DE_LOGRADOURO_MAXIMO. */
     public final static int TAMANHO_NOME_DE_LOGRADOURO_MAXIMO = 30;
+
+    // Variáveis
 
     /** The numero endereco. */
     @Min(value = TAMANHO_NUMERO_DE_ENDERECO_MINIMO, message = "O número de endereço deve ser, no mínimo, {value}.")
@@ -45,7 +48,7 @@ public class Endereco {
     @NotNull(message = "O nome de logradouro deve ser preenchido.")
     @NotEmpty(message = "O nome de logradouro não pode ficar vazio.")
     @NotBlank(message = "O nome de logradouro não pode ficar vazio.")
-    @Length(max = TAMANHO_NOME_DE_LOGRADOURO_MAXIMO, message = "O nome de logradouro deve conter entre 1 e 30 caracteres.")
+    @Length(max = TAMANHO_NOME_DE_LOGRADOURO_MAXIMO, message = "O nome de logradouro deve conter entre 1 e {max} caracteres.")
     @Pattern(regexp = "[a-zA-Z0-9]+", message = "O nome de logradouro deve conter apenas caracteres alfanuméricos.")
     private String nomeLogradouro;
 
@@ -61,6 +64,7 @@ public class Endereco {
     private EnderecoType tipoEndereco;
 
     // getters e setters
+
     /**
      * Obtém tipo de logradouro.
      *
@@ -150,6 +154,8 @@ public class Endereco {
     public void setTipoEndereco(EnderecoType tipoEndereco) {
         this.tipoEndereco = tipoEndereco;
     }
+
+    // Equals, HashCode e toString
 
     /*
      * (non-Javadoc)
